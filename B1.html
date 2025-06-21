@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>German B1 Vocabulary List (DE-EN-ES-FR-MY)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #005f73;
+            --background-color: #f8f9fa;
+            --entry-bg: #ffffff;
+            --text-color: #212529;
+            --muted-text-color: #6c757d;
+            --border-color: #dee2e6;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-right: auto;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            padding: 10px 18px;
+            border-radius: 22px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            white-space: nowrap;
+            color: white;
+            background: linear-gradient(135deg, rgba(0, 95, 115, 0.85) 0%, rgba(0, 75, 95, 0.85) 100%);
+            border: 1px solid rgba(0, 95, 115, 0.9);
+            transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn i {
+            transition: transform 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, rgba(0, 95, 115, 1) 0%, rgba(0, 75, 95, 1) 100%);
+            border-color: rgba(0, 95, 115, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .nav-btn:hover i {
+            transform: scale(1.1);
+        }
+
+        #category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            background-color: #f0f2f5;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .category-box {
+            color: white; padding: 15px; border-radius: 8px; text-align: center;
+            font-weight: 600; font-size: 0.95rem; cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; gap: 10px; height: 140px; overflow: hidden;
+        }
+        .category-box i { font-size: 2rem; margin-bottom: 5px; }
+        .category-box:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+        .show-all-tip { background-color: var(--muted-text-color) !important; }
+
+        body.list-view #category-grid { display: none; }
+        body.grid-view #vocabulary-section { display: none; }
+        body.grid-view #home-btn { display: none; }
+
+        .search-container { margin-bottom: 20px; }
+        #search-input { width: 100%; padding: 12px 15px; font-size: 1rem; border: 1px solid var(--border-color); border-radius: 8px; }
+        .controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin: 30px 0; padding: 15px; background-color: var(--entry-bg); border: 1px solid var(--border-color); border-radius: 12px; }
+        .controls label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 500; }
+        #vocabulary-list { display: flex; flex-direction: column; gap: 12px; }
+
+        .vocab-entry {
+            background-color: var(--entry-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+        }
+        .vocab-entry.is-favorite {
+            border-left: 4px solid #ffc107;
+            padding-left: 11px;
+        }
+
+        .vocab-main {
+            flex-grow: 1;
+        }
+
+        .lang-row { display: flex; align-items: center; justify-content: space-between; padding: 5px 0; }
+        .lang-row:not(:last-child) { border-bottom: 1px solid #f0f0f0; }
+        .lang-label { font-weight: 700; color: var(--primary-color); min-width: 30px; }
+        .word {
+            font-size: 1.1rem;
+            text-align: left;
+            margin: 0 10px;
+            flex-grow: 1;
+            color: var(--text-color);
+        }
+        .lang-my .word { font-family: "Padauk", sans-serif; font-size: 1.2rem; }
+        .lang-es .word { font-style: italic; }
+        .de .word { font-weight: 600; }
+        .speak-btn { background: none; border: none; cursor: pointer; color: var(--muted-text-color); font-size: 1.1rem; }
+        .hide-en .lang-row.en, .hide-my .lang-row.my, .hide-es .lang-row.es, .hide-fr .lang-row.fr { display: none; }
+
+        .vocab-meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .favorite-toggle {
+            font-size: 1.5rem;
+            color: var(--muted-text-color);
+            cursor: pointer;
+            padding-right: 8px;
+            flex-shrink: 0;
+        }
+        .vocab-entry.is-favorite .favorite-toggle { color: #ffc107; }
+
+        .vocab-category-display {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            flex-grow: 1;
+            min-width: auto;
+        }
+
+        .vocab-category-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: white;
+            border-radius: 12px;
+            background-color: var(--muted-text-color);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+            max-width: 180px;
+            min-width: 70px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+            .header-nav {
+                width: 100%;
+                justify-content: center;
+            }
+            .nav-btn {
+                font-size: 0.85rem;
+                padding: 8px 15px;
+            }
+            #category-grid {
+                padding: 15px;
+            }
+            .vocab-entry {
+                padding: 12px;
+            }
+            .vocab-entry.is-favorite {
+                 padding-left: 8px;
+            }
+            .favorite-toggle {
+                font-size: 1.3rem;
+                padding-right: 5px;
+            }
+            .vocab-meta-row {
+                margin-top: 8px;
+                padding-top: 6px;
+            }
+            .vocab-category-badge {
+                font-size: 0.75rem;
+                padding: 3px 8px;
+                max-width: 180px;
+                min-width: 60px;
+            }
+        }
+         @media (max-width: 480px) {
+             #category-grid {
+                padding: 10px;
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .vocab-category-badge {
+                max-width: 200px;
+                min-width: 100px;
+                font-size: 0.7rem;
+                padding: 3px 6px;
+            }
+         }
+    </style>
+</head>
+<body class="grid-view">
+
+<div class="container">
+    <header>
+        <h1 id="main-title">A1 German Vocabulary</h1>
+        <div class="header-nav">
+            <a href="index.html" id="back-to-levels-btn" class="nav-btn">
+                <i class="fas fa-layer-group"></i> Back to Levels
+            </a>
+            <button id="home-btn" class="nav-btn">
+                <i class="fas fa-home"></i> Back to Categories
+            </button>
+        </div>
+    </header>
+
+    <div id="category-grid"></div>
+    <div id="vocabulary-section">
+        <div class="search-container">
+            <input type="search" id="search-input" placeholder="Search vocabulary...">
+        </div>
+        <div class="controls">
+            <label><input type="checkbox" id="toggle-en" checked> Show English</label>
+            <label><input type="checkbox" id="toggle-es" checked> Show Español</label>
+            <label><input type="checkbox" id="toggle-fr" checked> Show Français</label>
+            <label><input type="checkbox" id="toggle-my" checked> Show မြန်မာ</label>
+            <label><input type="checkbox" id="toggle-favorites"> Show Favorites Only</label>
+        </div>
+        <div id="vocabulary-list"></div>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    const rawVocabularyData = [
+        // 1. Abstract Concepts
+        { de: 'die Freiheit', en: 'freedom', es: 'libertad', fr: 'liberté', my: 'လွတ်လပ်မှု', category: 'Abstract Concepts' },
+        { de: 'die Gerechtigkeit', en: 'justice', es: 'justicia', fr: 'justice', my: 'တရားမျှတမှု', category: 'Abstract Concepts' },
+        { de: 'die Verantwortung', en: 'responsibility', es: 'responsabilidad', fr: 'responsabilité', my: 'တာဝန်', category: 'Abstract Concepts' },
+        { de: 'die Möglichkeit', en: 'possibility', es: 'posibilidad', fr: 'possibilité', my: 'ဖြစ်နိုင်ခြေ', category: 'Abstract Concepts' },
+        { de: 'der Vorteil', en: 'advantage', es: 'ventaja', fr: 'avantage', my: 'အကျိုးကျေးဇူး', category: 'Abstract Concepts' },
+        { de: 'der Nachteil', en: 'disadvantage', es: 'desventaja', fr: 'désavantage', my: 'အခက်အခဲ', category: 'Abstract Concepts' },
+        { de: 'die Entwicklung', en: 'development', es: 'desarrollo', fr: 'développement', my: 'ဖွံ့ဖြိုးမှု', category: 'Abstract Concepts' },
+        { de: 'die Veränderung', en: 'change', es: 'cambio', fr: 'changement', my: 'ပြောင်းလဲမှု', category: 'Abstract Concepts' },
+        { de: 'die Entscheidung', en: 'decision', es: 'decisión', fr: 'décision', my: 'ဆုံးဖြတ်ချက်', category: 'Abstract Concepts' },
+        { de: 'die Erfahrung', en: 'experience', es: 'experiencia', fr: 'expérience', my: 'အတွေ့အကြုံ', category: 'Abstract Concepts' },
+
+        // 2. Work & Career
+        { de: 'die Karriere', en: 'career', es: 'carrera', fr: 'carrière', my: 'အလုပ်အကိုင်', category: 'Work & Career' },
+        { de: 'die Bewerbung', en: 'application', es: 'solicitud', fr: 'candidature', my: 'လျှောက်လွှာ', category: 'Work & Career' },
+        { de: 'das Vorstellungsgespräch', en: 'job interview', es: 'entrevista de trabajo', fr: 'entretien d\'embauche', my: 'အလုပ် အင်တာဗျူး', category: 'Work & Career' },
+        { de: 'die Beförderung', en: 'promotion', es: 'promoción', fr: 'promotion', my: 'ရာထူးတိုးမြှင့်ခြင်း', category: 'Work & Career' },
+        { de: 'die Kündigung', en: 'termination', es: 'despido', fr: 'licenciement', my: 'အလုပ်ထုတ်ခြင်း', category: 'Work & Career' },
+        { de: 'die Arbeitslosigkeit', en: 'unemployment', es: 'desempleo', fr: 'chômage', my: 'အလုပ်လက်မဲ့', category: 'Work & Career' },
+        { de: 'die Weiterbildung', en: 'further education', es: 'formación adicional', fr: 'formation continue', my: 'အဆင့်မြင့်ပညာရေး', category: 'Work & Career' },
+        { de: 'die Selbstständigkeit', en: 'self-employment', es: 'autonomía', fr: 'indépendance', my: 'ကိုယ်ပိုင်လုပ်ငန်း', category: 'Work & Career' },
+        { de: 'die Teamarbeit', en: 'teamwork', es: 'trabajo en equipo', fr: 'travail d\'équipe', my: 'အဖွဲ့လိုက်လုပ်ဆောင်ခြင်း', category: 'Work & Career' },
+        { de: 'die Arbeitsbelastung', en: 'workload', es: 'carga de trabajo', fr: 'charge de travail', my: 'အလုပ်ဝန်', category: 'Work & Career' },
+
+        // 3. Media & Communication
+        { de: 'die Nachrichten', en: 'news', es: 'noticias', fr: 'nouvelles', my: 'သတင်း', category: 'Media & Communication' },
+        { de: 'die Zeitung', en: 'newspaper', es: 'periódico', fr: 'journal', my: 'သတင်းစာ', category: 'Media & Communication' },
+        { de: 'die Zeitschrift', en: 'magazine', es: 'revista', fr: 'magazine', my: 'မဂ္ဂဇင်း', category: 'Media & Communication' },
+        { de: 'die Reportage', en: 'report', es: 'reportaje', fr: 'reportage', my: 'သတင်းဆောင်းပါး', category: 'Media & Communication' },
+        { de: 'das Interview', en: 'interview', es: 'entrevista', fr: 'interview', my: 'တွေ့ဆုံမေးမြန်းခြင်း', category: 'Media & Communication' },
+        { de: 'die Werbung', en: 'advertisement', es: 'publicidad', fr: 'publicité', my: 'ကြော်ငြာ', category: 'Media & Communication' },
+        { de: 'die Soziale Medien', en: 'social media', es: 'redes sociales', fr: 'médias sociaux', my: 'လူမှုမီဒီယာ', category: 'Media & Communication' },
+        { de: 'der Blog', en: 'blog', es: 'blog', fr: 'blog', my: 'ဘလော့ဂ်', category: 'Media & Communication' },
+        { de: 'der Influencer', en: 'influencer', es: 'influencer', fr: 'influenceur', my: 'ဩဇာလွှမ်းမိုးသူ', category: 'Media & Communication' },
+        { de: 'die Meinungsfreiheit', en: 'freedom of speech', es: 'libertad de expresión', fr: 'liberté d\'expression', my: 'လွတ်လပ်စွာပြောဆိုခွင့်', category: 'Media & Communication' },
+
+        // 4. Politics & Society
+        { de: 'die Demokratie', en: 'democracy', es: 'democracia', fr: 'démocratie', my: 'ဒီမိုကရေစီ', category: 'Politics & Society' },
+        { de: 'die Wahl', en: 'election', es: 'elección', fr: 'élection', my: 'ရွေးကောက်ပွဲ', category: 'Politics & Society' },
+        { de: 'die Regierung', en: 'government', es: 'gobierno', fr: 'gouvernement', my: 'အစိုးရ', category: 'Politics & Society' },
+        { de: 'die Opposition', en: 'opposition', es: 'oposición', fr: 'opposition', my: 'အတိုက်အခံ', category: 'Politics & Society' },
+        { de: 'die Steuer', en: 'tax', es: 'impuesto', fr: 'taxe', my: 'အခွန်', category: 'Politics & Society' },
+        { de: 'die Gesellschaft', en: 'society', es: 'sociedad', fr: 'société', my: 'လူ့အဖွဲ့အစည်း', category: 'Politics & Society' },
+        { de: 'die Integration', en: 'integration', es: 'integración', fr: 'intégration', my: 'ပေါင်းစည်းခြင်း', category: 'Politics & Society' },
+        { de: 'die Migration', en: 'migration', es: 'migración', fr: 'migration', my: 'ရွှေ့ပြောင်းနေထိုင်ခြင်း', category: 'Politics & Society' },
+        { de: 'die Globalisierung', en: 'globalization', es: 'globalización', fr: 'mondialisation', my: 'ကမ္ဘာလုံးဆိုင်ရာဖြစ်စဉ်', category: 'Politics & Society' },
+        { de: 'die Menschenrechte', en: 'human rights', es: 'derechos humanos', fr: 'droits de l\'homme', my: 'လူ့အခွင့်အရေး', category: 'Politics & Society' },
+
+        // 5. Education & Learning
+        { de: 'die Hochschule', en: 'college', es: 'universidad', fr: 'université', my: 'ကောလိပ်', category: 'Education & Learning' },
+        { de: 'der Abschluss', en: 'degree', es: 'título', fr: 'diplôme', my: 'ဘွဲ့', category: 'Education & Learning' },
+        { de: 'die Vorlesung', en: 'lecture', es: 'conferencia', fr: 'conférence', my: 'ဟောပြောပွဲ', category: 'Education & Learning' },
+        { de: 'das Seminar', en: 'seminar', es: 'seminario', fr: 'séminaire', my: 'ဆွေးနွေးပွဲ', category: 'Education & Learning' },
+        { de: 'die Forschung', en: 'research', es: 'investigación', fr: 'recherche', my: 'သုတေသန', category: 'Education & Learning' },
+        { de: 'die Theorie', en: 'theory', es: 'teoría', fr: 'théorie', my: 'သီအိုရီ', category: 'Education & Learning' },
+        { de: 'die Praxis', en: 'practice', es: 'práctica', fr: 'pratique', my: 'လက်တွေ့', category: 'Education & Learning' },
+        { de: 'die Prüfungsvorbereitung', en: 'exam preparation', es: 'preparación de exámenes', fr: 'préparation aux examens', my: 'စာမေးပွဲအတွက်ပြင်ဆင်ခြင်း', category: 'Education & Learning' },
+        { de: 'die Weiterbildung', en: 'continuing education', es: 'formación continua', fr: 'formation continue', my: 'ဆက်လက်ပညာရေး', category: 'Education & Learning' },
+        { de: 'die Sprachkenntnisse', en: 'language skills', es: 'conocimientos de idiomas', fr: 'compétences linguistiques', my: 'ဘာသာစကားကျွမ်းကျင်မှု', category: 'Education & Learning' },
+
+        // 6. Health & Wellness
+        { de: 'die Gesundheit', en: 'health', es: 'salud', fr: 'santé', my: 'ကျန်းမာရေး', category: 'Health & Wellness' },
+        { de: 'die Prävention', en: 'prevention', es: 'prevención', fr: 'prévention', my: 'ကာကွယ်ခြင်း', category: 'Health & Wellness' },
+        { de: 'die Behandlung', en: 'treatment', es: 'tratamiento', fr: 'traitement', my: 'ကုသမှု', category: 'Health & Wellness' },
+        { de: 'die Versicherung', en: 'insurance', es: 'seguro', fr: 'assurance', my: 'အာမခံ', category: 'Health & Wellness' },
+        { de: 'die Ernährung', en: 'nutrition', es: 'nutrición', fr: 'nutrition', my: 'အာဟာရ', category: 'Health & Wellness' },
+        { de: 'der Stress', en: 'stress', es: 'estrés', fr: 'stress', my: 'စိတ်ဖိစီးမှု', category: 'Health & Wellness' },
+        { de: 'die Entspannung', en: 'relaxation', es: 'relajación', fr: 'détente', my: '�နားယူခြင်း', category: 'Health & Wellness' },
+        { de: 'die Fitness', en: 'fitness', es: 'aptitud física', fr: 'fitness', my: 'ကျန်းမာရေးနှင့်ညီညွတ်မှု', category: 'Health & Wellness' },
+        { de: 'die Sucht', en: 'addiction', es: 'adicción', fr: 'dépendance', my: 'စွဲလမ်းမှု', category: 'Health & Wellness' },
+        { de: 'die Rehabilitation', en: 'rehabilitation', es: 'rehabilitación', fr: 'réhabilitation', my: 'ပြန်လည်ထူထောင်ခြင်း', category: 'Health & Wellness' },
+
+        // 7. Technology & Innovation
+        { de: 'die Digitalisierung', en: 'digitalization', es: 'digitalización', fr: 'numérisation', my: 'ဒစ်ဂျစ်တယ်ဖြစ်စဉ်', category: 'Technology & Innovation' },
+        { de: 'die Künstliche Intelligenz', en: 'artificial intelligence', es: 'inteligencia artificial', fr: 'intelligence artificielle', my: 'ဉာဏ်ရည်တု', category: 'Technology & Innovation' },
+        { de: 'die Programmierung', en: 'programming', es: 'programación', fr: 'programmation', my: 'ပရိုဂရမ်ရေးသားခြင်း', category: 'Technology & Innovation' },
+        { de: 'die Daten', en: 'data', es: 'datos', fr: 'données', my: 'ဒေတာ', category: 'Technology & Innovation' },
+        { de: 'die Sicherheit', en: 'security', es: 'seguridad', fr: 'sécurité', my: 'လုံခြုံရေး', category: 'Technology & Innovation' },
+        { de: 'die Cloud', en: 'cloud', es: 'nube', fr: 'cloud', my: 'ကလောင်', category: 'Technology & Innovation' },
+        { de: 'die Blockchain', en: 'blockchain', es: 'cadena de bloques', fr: 'chaîne de blocs', my: 'ဘလော့ခ်ချိန်း', category: 'Technology & Innovation' },
+        { de: 'das Startup', en: 'startup', es: 'startup', fr: 'startup', my: 'စတင်လုပ်ငန်း', category: 'Technology & Innovation' },
+        { de: 'die Innovation', en: 'innovation', es: 'innovación', fr: 'innovation', my: 'ဆန်းသစ်တီထွင်မှု', category: 'Technology & Innovation' },
+        { de: 'die Automatisierung', en: 'automation', es: 'automatización', fr: 'automatisation', my: 'အလိုအလျောက်လုပ်ဆောင်ခြင်း', category: 'Technology & Innovation' },
+
+        // 8. Environment & Sustainability
+        { de: 'der Klimawandel', en: 'climate change', es: 'cambio climático', fr: 'changement climatique', my: 'ရာသီဥတုပြောင်းလဲမှု', category: 'Environment & Sustainability' },
+        { de: 'die Nachhaltigkeit', en: 'sustainability', es: 'sostenibilidad', fr: 'durabilité', my: 'တည်တံ့ခိုင်မြဲမှု', category: 'Environment & Sustainability' },
+        { de: 'die erneuerbare Energie', en: 'renewable energy', es: 'energía renovable', fr: 'énergie renouvelable', my: 'အသစ်ပြန်လည်ဖြည့်တင်းနိုင်သောစွမ်းအင်', category: 'Environment & Sustainability' },
+        { de: 'die Mülltrennung', en: 'waste separation', es: 'separación de residuos', fr: 'tri des déchets', my: 'အမှိုက်ခွဲခြားခြင်း', category: 'Environment & Sustainability' },
+        { de: 'der ökologische Fußabdruck', en: 'ecological footprint', es: 'huella ecológica', fr: 'empreinte écologique', my: 'ဂေဟဗေဒခြေရာ', category: 'Environment & Sustainability' },
+        { de: 'die Biodiversität', en: 'biodiversity', es: 'biodiversidad', fr: 'biodiversité', my: 'ဇီဝမျိုးစုံမျိုးကွဲများ', category: 'Environment & Sustainability' },
+        { de: 'die Umweltschutz', en: 'environmental protection', es: 'protección ambiental', fr: 'protection de l\'environnement', my: 'ပတ်ဝန်းကျင်ကာကွယ်ရေး', category: 'Environment & Sustainability' },
+        { de: 'die CO2-Emissionen', en: 'CO2 emissions', es: 'emisiones de CO2', fr: 'émissions de CO2', my: 'ကာဗွန်ဒိုင်အောက်ဆိုဒ်ထုတ်လွှတ်မှု', category: 'Environment & Sustainability' },
+        { de: 'die Wasserknappheit', en: 'water scarcity', es: 'escasez de agua', fr: 'pénurie d\'eau', my: 'ရေရှားပါးမှု', category: 'Environment & Sustainability' },
+        { de: 'die erneuerbaren Ressourcen', en: 'renewable resources', es: 'recursos renovables', fr: 'ressources renouvelables', my: 'အသစ်ပြန်လည်ဖြည့်တင်းနိုင်သောအရင်းအမြစ်များ', category: 'Environment & Sustainability' },
+
+        // 9. Culture & Arts
+        { de: 'die Literatur', en: 'literature', es: 'literatura', fr: 'littérature', my: 'စာပေ', category: 'Culture & Arts' },
+        { de: 'die Malerei', en: 'painting', es: 'pintura', fr: 'peinture', my: 'ပန်းချီ', category: 'Culture & Arts' },
+        { de: 'die Bildhauerei', en: 'sculpture', es: 'escultura', fr: 'sculpture', my: 'ပန်းပု', category: 'Culture & Arts' },
+        { de: 'die Architektur', en: 'architecture', es: 'arquitectura', fr: 'architecture', my: 'ဗိသုကာ', category: 'Culture & Arts' },
+        { de: 'die Fotografie', en: 'photography', es: 'fotografía', fr: 'photographie', my: 'ဓာတ်ပုံ', category: 'Culture & Arts' },
+        { de: 'das Theater', en: 'theater', es: 'teatro', fr: 'théâtre', my: 'ပြဇာတ်', category: 'Culture & Arts' },
+        { de: 'die Oper', en: 'opera', es: 'ópera', fr: 'opéra', my: 'အော်ပရာ', category: 'Culture & Arts' },
+        { de: 'das Museum', en: 'museum', es: 'museo', fr: 'musée', my: 'ပြတိုက်', category: 'Culture & Arts' },
+        { de: 'die Ausstellung', en: 'exhibition', es: 'exposición', fr: 'exposition', my: 'ပြပွဲ', category: 'Culture & Arts' },
+        { de: 'das Festival', en: 'festival', es: 'festival', fr: 'festival', my: 'ပွဲတော်', category: 'Culture & Arts' },
+
+        // 10. Personal Development
+        { de: 'die Motivation', en: 'motivation', es: 'motivación', fr: 'motivation', my: 'စိတ်အားထက်သန်မှု', category: 'Personal Development' },
+        { de: 'das Selbstbewusstsein', en: 'self-confidence', es: 'autoconfianza', fr: 'confiance en soi', my: 'ကိုယ့်ကိုယ်ကိုယ်ယုံကြည်မှု', category: 'Personal Development' },
+        { de: 'die Zielsetzung', en: 'goal setting', es: 'establecimiento de objetivos', fr: 'fixation d\'objectifs', my: 'ရည်မှန်းချက်သတ်မှတ်ခြင်း', category: 'Personal Development' },
+        { de: 'die Zeitmanagement', en: 'time management', es: 'gestión del tiempo', fr: 'gestion du temps', my: 'အချိန်စီမံခန့်ခွဲမှု', category: 'Personal Development' },
+        { de: 'die Entscheidungsfindung', en: 'decision making', es: 'toma de decisiones', fr: 'prise de décision', my: 'ဆုံးဖြတ်ချက်ချမှတ်ခြင်း', category: 'Personal Development' },
+        { de: 'die Problemlösung', en: 'problem solving', es: 'resolución de problemas', fr: 'résolution de problèmes', my: 'ပြဿနာဖြေရှင်းခြင်း', category: 'Personal Development' },
+        { de: 'die Kreativität', en: 'creativity', es: 'creatividad', fr: 'créativité', my: 'ဖန်တီးနိုင်စွမ်း', category: 'Personal Development' },
+        { de: 'die Kommunikationsfähigkeit', en: 'communication skills', es: 'habilidades de comunicación', fr: 'compétences en communication', my: 'ဆက်သွယ်ပြောဆိုနိုင်စွမ်း', category: 'Personal Development' },
+        { de: 'die Teamfähigkeit', en: 'teamwork skills', es: 'habilidades de trabajo en equipo', fr: 'compétences de travail d\'équipe', my: 'အဖွဲ့လိုက်လုပ်ဆောင်နိုင်စွမ်း', category: 'Personal Development' },
+        { de: 'die Anpassungsfähigkeit', en: 'adaptability', es: 'adaptabilidad', fr: 'adaptabilité', my: 'လိုက်လျောညီထွေဖြစ်နိုင်စွမ်း', category: 'Personal Development' }
+    ];
+
+    // Category colors and icons for B1 level
+    const categoryColors = {
+        'Abstract Concepts': '#2563eb',
+        'Work & Career': '#7c3aed',
+        'Media & Communication': '#0d9488',
+        'Politics & Society': '#16a34a',
+        'Education & Learning': '#ea580c',
+        'Health & Wellness': '#dc2626',
+        'Technology & Innovation': '#4f46e5',
+        'Environment & Sustainability': '#0891b2',
+        'Culture & Arts': '#e11d48',
+        'Personal Development': '#4b5563',
+        'Default': '#52525b'
+    };
+
+    const categoryIcons = {
+        'Abstract Concepts': 'fa-solid fa-brain',
+        'Work & Career': 'fa-solid fa-briefcase',
+        'Media & Communication': 'fa-solid fa-newspaper',
+        'Politics & Society': 'fa-solid fa-landmark',
+        'Education & Learning': 'fa-solid fa-graduation-cap',
+        'Health & Wellness': 'fa-solid fa-heart-pulse',
+        'Technology & Innovation': 'fa-solid fa-microchip',
+        'Environment & Sustainability': 'fa-solid fa-leaf',
+        'Culture & Arts': 'fa-solid fa-palette',
+        'Personal Development': 'fa-solid fa-user-plus'
+    };
+
+    const vocabularyWithIds = rawVocabularyData.map((item, index) => ({ ...item, id: index }));
+    const body = document.body, mainTitle = document.getElementById('main-title'), homeBtn = document.getElementById('home-btn'), categoryGrid = document.getElementById('category-grid'), vocabList = document.getElementById('vocabulary-list'), searchInput = document.getElementById('search-input'), toggleEn = document.getElementById('toggle-en'), toggleEs = document.getElementById('toggle-es'), toggleFr = document.getElementById('toggle-fr'), toggleMy = document.getElementById('toggle-my'), toggleFavorites = document.getElementById('toggle-favorites');
+
+    let favorites = [], currentListData = [];
+
+    function saveFavorites() { localStorage.setItem('germanA1FavoritesList', JSON.stringify(favorites)); }
+    function loadFavorites() { const stored = JSON.parse(localStorage.getItem('germanA1FavoritesList')); if (stored) favorites = stored; }
+
+    function renderCategoryGrid() {
+        categoryGrid.innerHTML = '';
+        const showAllBox = document.createElement('div');
+        showAllBox.className = 'category-box show-all-tip';
+        showAllBox.dataset.category = 'All';
+        showAllBox.innerHTML = `<i class="fas fa-list-ul"></i><span>Show All Vocabulary</span>`;
+        categoryGrid.appendChild(showAllBox);
+        Object.keys(categoryColors).forEach(category => {
+            if (category === 'Default') return;
+            const hasVocabForCategory = vocabularyWithIds.some(item => item.category === category);
+            if (rawVocabularyData.some(v => v.category === category) || categoryIcons[category]) {
+                 const box = document.createElement('div');
+                box.className = 'category-box';
+                box.style.backgroundColor = categoryColors[category] || categoryColors['Default'];
+                box.dataset.category = category;
+                box.innerHTML = `<i class="${categoryIcons[category] || 'fa-solid fa-question'}"></i><span>${category}</span>`;
+                categoryGrid.appendChild(box);
+            }
+        });
+    }
+
+    function displayItemsOnPage(itemsToDisplay) {
+        vocabList.innerHTML = '';
+        itemsToDisplay.forEach(item => {
+            const isFavorited = favorites.includes(item.id);
+            const entry = document.createElement('div');
+            entry.className = `vocab-entry ${isFavorited ? 'is-favorite' : ''}`;
+            entry.dataset.id = item.id;
+
+            const categoryColor = categoryColors[item.category] || categoryColors['Default'];
+
+            entry.innerHTML = `
+                <div class="vocab-main">
+                    <div class="lang-row de">
+                        <span class="lang-label">DE</span><span class="word">${item.de}</span>
+                        <button class="speak-btn" data-lang="de-DE" data-text="${item.de}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div class="lang-row en">
+                        <span class="lang-label">EN</span><span class="word">${item.en}</span>
+                        <button class="speak-btn" data-lang="en-US" data-text="${item.en}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div class="lang-row es">
+                        <span class="lang-label">ES</span><span class="word">${item.es}</span>
+                        <button class="speak-btn" data-lang="es-ES" data-text="${item.es}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div class="lang-row fr">
+                        <span class="lang-label">FR</span><span class="word">${item.fr}</span>
+                        <button class="speak-btn" data-lang="fr-FR" data-text="${item.fr}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div lang="my" class="lang-row my">
+                        <span class="lang-label">MY</span><span class="word">${item.my}</span>
+                        <button class="speak-btn" data-lang="my-MM" data-text="${item.my}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div class="vocab-meta-row">
+                        <i class="favorite-toggle fas fa-star" title="Toggle Favorite"></i>
+                        <div class="vocab-category-display">
+                            <span class="vocab-category-badge" style="background-color: ${categoryColor};" title="${item.category}">${item.category}</span>
+                        </div>
+                    </div>
+                </div>`;
+            vocabList.appendChild(entry);
+        });
+        updateLanguageColumnVisibility();
+    }
+
+    function filterAndDisplayVocabulary() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const showFavoritesOnly = toggleFavorites.checked;
+        let filteredItems = currentListData;
+        if (showFavoritesOnly) {
+            filteredItems = filteredItems.filter(item => favorites.includes(item.id));
+        }
+        if (searchTerm) {
+            filteredItems = filteredItems.filter(item =>
+                item.de.toLowerCase().includes(searchTerm) ||
+                item.en.toLowerCase().includes(searchTerm) ||
+                item.es.toLowerCase().includes(searchTerm) ||
+                item.fr.toLowerCase().includes(searchTerm) ||
+                item.my.toLowerCase().includes(searchTerm) ||
+                item.category.toLowerCase().includes(searchTerm)
+            );
+        }
+        displayItemsOnPage(filteredItems);
+    }
+
+    function updateLanguageColumnVisibility() {
+        vocabList.classList.toggle('hide-en', !toggleEn.checked);
+        vocabList.classList.toggle('hide-es', !toggleEs.checked);
+        vocabList.classList.toggle('hide-fr', !toggleFr.checked);
+        vocabList.classList.toggle('hide-my', !toggleMy.checked);
+    }
+
+    function switchToListView(category) {
+        if (category === 'All') {
+            currentListData = vocabularyWithIds;
+            mainTitle.textContent = 'All Vocabulary';
+        } else {
+            currentListData = vocabularyWithIds.filter(item => item.category === category);
+            mainTitle.textContent = category;
+        }
+        searchInput.value = '';
+        toggleFavorites.checked = false;
+        filterAndDisplayVocabulary();
+        body.classList.remove('grid-view');
+        body.classList.add('list-view');
+    }
+
+    function switchToGridView() {
+        mainTitle.textContent = 'A1 German Vocabulary';
+        body.classList.remove('list-view');
+        body.classList.add('grid-view');
+    }
+
+    function init() {
+        loadFavorites();
+        renderCategoryGrid();
+
+        categoryGrid.addEventListener('click', e => {
+            const categoryBox = e.target.closest('.category-box');
+            if (categoryBox) { switchToListView(categoryBox.dataset.category); }
+        });
+
+        homeBtn.addEventListener('click', switchToGridView);
+        searchInput.addEventListener('input', filterAndDisplayVocabulary);
+        toggleEn.addEventListener('change', updateLanguageColumnVisibility);
+        toggleEs.addEventListener('change', updateLanguageColumnVisibility);
+        toggleFr.addEventListener('change', updateLanguageColumnVisibility);
+        toggleMy.addEventListener('change', updateLanguageColumnVisibility);
+        toggleFavorites.addEventListener('change', filterAndDisplayVocabulary);
+
+        vocabList.addEventListener('click', e => {
+            const entryElement = e.target.closest('.vocab-entry');
+            if (!entryElement) return;
+
+            if (e.target.closest('.speak-btn')) {
+                const button = e.target.closest('.speak-btn');
+                const textToSpeak = button.dataset.text.split('/')[0].trim();
+                const lang = button.dataset.lang;
+                const synth = window.speechSynthesis;
+                if (synth.speaking) { synth.cancel(); }
+                const utterance = new SpeechSynthesisUtterance(textToSpeak);
+                utterance.lang = lang;
+                synth.speak(utterance);
+                return;
+            }
+
+            if (e.target.closest('.favorite-toggle')) {
+                const entryId = parseInt(entryElement.dataset.id, 10);
+
+                if (favorites.includes(entryId)) {
+                    favorites = favorites.filter(id => id !== entryId);
+                    entryElement.classList.remove('is-favorite');
+                } else {
+                    favorites.push(entryId);
+                    entryElement.classList.add('is-favorite');
+                }
+                saveFavorites();
+                if (toggleFavorites.checked) {
+                    filterAndDisplayVocabulary();
+                }
+                return;
+            }
+        });
+    }
+
+    init();
+});
+</script>
+
+</body>
+</html>

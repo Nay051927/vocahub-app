@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>German C1 Vocabulary List (DE-EN-MY)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #005f73;
+            --background-color: #f8f9fa;
+            --entry-bg: #ffffff;
+            --text-color: #212529;
+            --muted-text-color: #6c757d;
+            --border-color: #dee2e6;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-right: auto;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            padding: 10px 18px;
+            border-radius: 22px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            white-space: nowrap;
+            color: white;
+            background: linear-gradient(135deg, rgba(0, 95, 115, 0.85) 0%, rgba(0, 75, 95, 0.85) 100%);
+            border: 1px solid rgba(0, 95, 115, 0.9);
+            transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn i {
+            transition: transform 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, rgba(0, 95, 115, 1) 0%, rgba(0, 75, 95, 1) 100%);
+            border-color: rgba(0, 95, 115, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .nav-btn:hover i {
+            transform: scale(1.1);
+        }
+
+        #category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            /* --- MODIFIED for category container styling --- */
+            background-color: #f0f2f5;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .category-box {
+            color: white; padding: 15px; border-radius: 8px; text-align: center;
+            font-weight: 600; font-size: 0.95rem; cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; gap: 10px; height: 140px; overflow: hidden;
+        }
+        .category-box i { font-size: 2rem; margin-bottom: 5px; }
+        .category-box:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+        .show-all-tip { background-color: var(--muted-text-color) !important; }
+
+        body.list-view #category-grid { display: none; }
+        body.grid-view #vocabulary-section { display: none; }
+        body.grid-view #home-btn { display: none; }
+
+        .search-container { margin-bottom: 20px; }
+        #search-input { width: 100%; padding: 12px 15px; font-size: 1rem; border: 1px solid var(--border-color); border-radius: 8px; }
+        .controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin: 30px 0; padding: 15px; background-color: var(--entry-bg); border: 1px solid var(--border-color); border-radius: 12px; }
+        .controls label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 500; }
+        #vocabulary-list { display: flex; flex-direction: column; gap: 12px; }
+
+        .vocab-entry {
+            background-color: var(--entry-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+        }
+        .vocab-entry.is-favorite {
+            border-left: 4px solid #ffc107;
+            padding-left: 11px;
+        }
+
+        .vocab-main {
+            flex-grow: 1;
+        }
+
+        .lang-row { display: flex; align-items: center; justify-content: space-between; padding: 5px 0; }
+        .lang-row:not(:last-child) { border-bottom: 1px solid #f0f0f0; }
+        .lang-label { font-weight: 700; color: var(--primary-color); min-width: 30px; }
+        .word {
+            font-size: 1.1rem;
+            text-align: left;
+            margin: 0 10px;
+            flex-grow: 1;
+            color: var(--text-color);
+        }
+        .lang-my .word { font-family: "Padauk", sans-serif; font-size: 1.2rem; }
+        .de .word { font-weight: 600; }
+        .speak-btn { background: none; border: none; cursor: pointer; color: var(--muted-text-color); font-size: 1.1rem; }
+        .hide-en .lang-row.en, .hide-my .lang-row.my { display: none; }
+
+        .vocab-meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .favorite-toggle {
+            font-size: 1.5rem;
+            color: var(--muted-text-color);
+            cursor: pointer;
+            padding-right: 8px;
+            flex-shrink: 0;
+        }
+        .vocab-entry.is-favorite .favorite-toggle { color: #ffc107; }
+
+        .vocab-category-display {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            flex-grow: 1;
+            min-width: auto;
+        }
+
+        .vocab-category-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: white;
+            border-radius: 12px;
+            background-color: var(--muted-text-color);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+            max-width: 180px;
+            min-width: 70px;
+        }
+
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+            .header-nav {
+                width: 100%;
+                justify-content: center;
+            }
+            .nav-btn {
+                font-size: 0.85rem;
+                padding: 8px 15px;
+            }
+            #category-grid {
+                padding: 15px;
+            }
+            .vocab-entry {
+                padding: 12px;
+            }
+            .vocab-entry.is-favorite {
+                 padding-left: 8px;
+            }
+            .favorite-toggle {
+                font-size: 1.3rem;
+                padding-right: 5px;
+            }
+            .vocab-meta-row {
+                margin-top: 8px;
+                padding-top: 6px;
+            }
+            .vocab-category-badge {
+                font-size: 0.75rem;
+                padding: 3px 8px;
+                max-width: 180px;
+                min-width: 60px;
+            }
+        }
+         @media (max-width: 480px) {
+             #category-grid {
+                padding: 10px;
+                /* --- MODIFIED for 2-column layout on small mobile --- */
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .vocab-category-badge {
+                max-width: 200px;
+                min-width: 100px;
+                font-size: 0.7rem;
+                padding: 3px 6px;
+            }
+         }
+    </style>
+</head>
+<body class="grid-view">
+
+<div class="container">
+    <header>
+        <h1 id="main-title">C1 German Vocabulary</h1>
+        <div class="header-nav">
+            <a href="index.html" id="back-to-levels-btn" class="nav-btn">
+                <i class="fas fa-layer-group"></i> Back to Levels
+            </a>
+            <button id="home-btn" class="nav-btn">
+                <i class="fas fa-home"></i> Back to Categories
+            </button>
+        </div>
+    </header>
+
+    <div id="category-grid"></div>
+    <div id="vocabulary-section">
+        <div class="search-container">
+            <input type="search" id="search-input" placeholder="Search vocabulary...">
+        </div>
+        <div class="controls">
+            <label><input type="checkbox" id="toggle-en" checked> Show English</label>
+            <label><input type="checkbox" id="toggle-my" checked> Show မြန်မာ</label>
+            <label><input type="checkbox" id="toggle-favorites"> Show Favorites Only</label>
+        </div>
+        <div id="vocabulary-list"></div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    const rawVocabularyData = [
+    // 1. Formal Language for Argumentation & Structuring Text
+    { de: 'die Auffassung', en: 'view, opinion (formal)', my: 'အမြင်၊ သဘောထား (တရားဝင်)', category: 'Formal Language for Argumentation & Structuring Text' },
+    { de: 'der Aspekt', en: 'aspect', my: 'ရှုထောင့်', category: 'Formal Language for Argumentation & Structuring Text' },
+    { de: 'die Annahme', en: 'assumption', my: 'ယူဆချက်', category: 'Formal Language for Argumentation & Structuring Text' },
+    { de: 'die Schlussfolgerung', en: 'conclusion', my: 'ကောက်ချက်', category: 'Formal Language for Argumentation & Structuring Text' },
+    { de: 'die These', en: 'thesis, proposition', my: 'အဆိုပြုချက်၊ ကျမ်း', category: 'Formal Language for Argumentation & Structuring Text' },
+    { de: 'in diesem Zusammenhang', en: 'in this context', my: 'ဤအကြောင်းအရာနှင့်စပ်လျဉ်း၍', category: 'Formal Language for Argumentation & Structuring Text' },
+    { de: 'angesichts (+Gen)', en: 'in view of, considering', my: '...ကို ထောက်ရှု၍', category: 'Formal Language for Argumentation & Structuring Text' },
+    { de: 'hinsichtlich (+Gen)', en: 'with regard to, regarding', my: '...နှင့်ပတ်သက်၍', category: 'Formal Language for Argumentation & Structuring Text' },
+    { de: 'folglich', en: 'consequently, therefore', my: 'ထို့ကြောင့်', category: 'Formal Language for Argumentation & Structuring Text' },
+    { de: 'demzufolge', en: 'accordingly, as a result', my: 'ထိုအရ', category: 'Formal Language for Argumentation & Structuring Text' },
+    { de: 'einerseits ..., andererseits ...', en: 'on the one hand ..., on the other hand ...', my: 'တစ်ဖက်တွင်...၊ အခြားတစ်ဖက်တွင်...', category: 'Formal Language for Argumentation & Structuring Text' },
+    { de: 'zwar ..., aber ...', en: 'it is true that ..., but ...', my: '...မှန်သော်လည်း ...', category: 'Formal Language for Argumentation & Structuring Text' },
+
+    // 2. Academic & Professional Language
+    { de: 'die Abhandlung', en: 'treatise, paper', my: 'ကျမ်း၊ စာတမ်း', category: 'Academic & Professional Language' },
+    { de: 'der Akademiker / die Akademikerin', en: 'academic, university graduate', my: 'ပညာရှင်၊ ဘွဲ့ရ', category: 'Academic & Professional Language' },
+    { de: 'die Fachliteratur', en: 'specialist literature', my: ' chuyên ngành စာပေ', category: 'Academic & Professional Language' }, // Note: Myanmar text contains Vietnamese - "chuyên ngành"
+    { de: 'die Quelle', en: 'source', my: 'ရင်းမြစ်', category: 'Academic & Professional Language' },
+    { de: 'die Voraussetzung', en: 'prerequisite, condition', my: 'ကြိုတင်လိုအပ်ချက်', category: 'Academic & Professional Language' },
+    { de: 'analysieren', en: 'to analyze', my: 'ခွဲခြမ်းစိတ်ဖြာသည်', category: 'Academic & Professional Language' },
+    { de: 'definieren', en: 'to define', my: 'အဓိပ္ပာယ်ဖွင့်ဆိုသည်', category: 'Academic & Professional Language' },
+    { de: 'interpretieren', en: 'to interpret', my: 'အနက်ပြန်ဆိုသည်', category: 'Academic & Professional Language' },
+    { de: 'recherchieren', en: 'to research', my: 'သုတေသနပြုသည်', category: 'Academic & Professional Language' },
+    { de: 'zitieren', en: 'to quote, cite', my: 'ကိုးကားသည်', category: 'Academic & Professional Language' },
+    { de: 'umfassend', en: 'comprehensive', my: 'ပြည့်စုံသော', category: 'Academic & Professional Language' },
+    { de: 'relevant', en: 'relevant', my: 'သက်ဆိုင်သော', category: 'Academic & Professional Language' },
+
+    // 3. Society, Politics & Environment (Advanced)
+    { de: 'der demografische Wandel', en: 'demographic change', my: 'လူဦးရေဆိုင်ရာပြောင်းလဲမှု', category: 'Society, Politics & Environment (Advanced)' },
+    { de: 'die Globalisierung', en: 'globalization', my: 'ဂလိုဘယ်လိုက်ဇေးရှင်း', category: 'Society, Politics & Environment (Advanced)' },
+    { de: 'die Nachhaltigkeit', en: 'sustainability', my: 'ရေရှည်တည်တံ့မှု', category: 'Society, Politics & Environment (Advanced)' },
+    { de: 'der Klimawandel', en: 'climate change', my: 'ရာသီဥတုပြောင်းလဲမှု', category: 'Society, Politics & Environment (Advanced)' },
+    { de: 'die Ressource', en: 'resource', my: 'သယံဇာတ', category: 'Society, Politics & Environment (Advanced)' },
+    { de: 'der Konsum', en: 'consumption', my: 'စားသုံးမှု', category: 'Society, Politics & Environment (Advanced)' },
+    { de: 'die Vorschrift', en: 'regulation, rule', my: 'စည်းမျဉ်း', category: 'Society, Politics & Environment (Advanced)' },
+    { de: 'der Wohlstand', en: 'prosperity, affluence', my: 'ချမ်းသာကြွယ်ဝမှု', category: 'Society, Politics & Environment (Advanced)' },
+    { de: 'die Zivilgesellschaft', en: 'civil society', my: 'အရပ်ဘက်လူ့အဖွဲ့အစည်း', category: 'Society, Politics & Environment (Advanced)' },
+    { de: 'die Migration', en: 'migration', my: 'ပြောင်းရွှေ့နေထိုင်မှု', category: 'Society, Politics & Environment (Advanced)' },
+
+    // 4. Nuanced Verbs & Expressions
+    { de: 'sich auseinandersetzen mit', en: 'to deal with, grapple with', my: '...ကို စေ့စေ့စပ်စပ်လေ့လာသည်', category: 'Nuanced Verbs & Expressions' },
+    { de: 'betonen', en: 'to emphasize, stress', my: 'အလေးပေးပြောဆိုသည်', category: 'Nuanced Verbs & Expressions' },
+    { de: 'bevorzugen', en: 'to prefer', my: 'ပိုမိုနှစ်သက်သည်', category: 'Nuanced Verbs & Expressions' },
+    { de: 'erfassen', en: 'to grasp, comprehend; to record', my: 'သဘောပေါက်သည်၊ မှတ်တမ်းတင်သည်', category: 'Nuanced Verbs & Expressions' },
+    { de: 'hervorheben', en: 'to highlight, accentuate', my: 'မီးမောင်းထိုးပြသည်', category: 'Nuanced Verbs & Expressions' },
+    { de: 'realisieren', en: 'to realize; to implement', my: 'သဘောပေါက်နားလည်သည်၊ အကောင်အထည်ဖော်သည်', category: 'Nuanced Verbs & Expressions' },
+    { de: 'veranschaulichen', en: 'to illustrate, visualize', my: 'ပုံဖော်ရှင်းပြသည်', category: 'Nuanced Verbs & Expressions' },
+    { de: 'wahrnehmen', en: 'to perceive', my: 'အာရုံခံသိမြင်သည်', category: 'Nuanced Verbs & Expressions' },
+    { de: 'sich wandeln', en: 'to change, transform', my: 'ပြောင်းလဲသွားသည်', category: 'Nuanced Verbs & Expressions' },
+    { de: 'verfügen über (+Akk)', en: 'to have at one\'s disposal', my: '...ကို ပိုင်ဆိုင်ထားသည်', category: 'Nuanced Verbs & Expressions' },
+
+    // 5. Sophisticated Adjectives & Adverbs
+    { de: 'ausschließlich', en: 'exclusively', my: 'သီးသန့်သာ', category: 'Sophisticated Adjectives & Adverbs' },
+    { de: 'beachtlich', en: 'considerable, remarkable', my: 'မှတ်သားလောက်သော', category: 'Sophisticated Adjectives & Adverbs' },
+    { de: 'erheblich', en: 'substantial, significant', my: 'သိသာထင်ရှားသော', category: 'Sophisticated Adjectives & Adverbs' },
+    { de: 'fragwürdig', en: 'questionable, dubious', my: 'မေးခွန်းထုတ်ဖွယ်ရာ', category: 'Sophisticated Adjectives & Adverbs' },
+    { de: 'herausragend', en: 'outstanding, prominent', my: 'ထူးချွန်သော၊ ထင်ရှားသော', category: 'Sophisticated Adjectives & Adverbs' },
+    { de: 'kontrovers', en: 'controversial', my: 'အငြင်းပွားဖွယ်', category: 'Sophisticated Adjectives & Adverbs' },
+    { de: 'lediglich', en: 'merely, solely', my: 'သာလျှင်', category: 'Sophisticated Adjectives & Adverbs' },
+    { de: 'nachvollziehbar', en: 'comprehensible, understandable', my: 'နားလည်နိုင်သော၊ လိုက်လံစဉ်းစားနိုင်သော', category: 'Sophisticated Adjectives & Adverbs' },
+    { de: 'tendenziell', en: 'tending to, generally', my: 'ယေဘုယျအားဖြင့် ... လေ့ရှိသော', category: 'Sophisticated Adjectives & Adverbs' },
+    { de: 'unumstritten', en: 'undisputed, uncontroversial', my: 'အငြင်းပွားစရာမရှိသော', category: 'Sophisticated Adjectives & Adverbs' },
+    { de: 'vielfältig', en: 'diverse, varied', my: 'မတူကွဲပြားပြီးစုံလင်သော', category: 'Sophisticated Adjectives & Adverbs' },
+    { de: 'zeitgenössisch', en: 'contemporary', my: 'ခေတ်ပြိုင်', category: 'Sophisticated Adjectives & Adverbs' },
+
+    // 6. Idiomatic Expressions (Redewendungen)
+    { de: 'den Nagel auf den Kopf treffen', en: 'to hit the nail on the head', my: 'ထောက်စရာမလိုအောင် မှန်ကန်သည်', category: 'Idiomatic Expressions' },
+    { de: 'etwas unter die Lupe nehmen', en: 'to examine something closely', my: 'တစ်ခုခုကို အသေးစိတ်စစ်ဆေးသည်', category: 'Idiomatic Expressions' },
+    { de: 'zwei Fliegen mit einer Klappe schlagen', en: 'to kill two birds with one stone', my: 'တစ်ချက်ခုတ် နှစ်ချက်ပြတ်', category: 'Idiomatic Expressions' },
+    { de: 'im Großen und Ganzen', en: 'by and large, on the whole', my: 'ခြုံငုံ၍ပြောရလျှင်', category: 'Idiomatic Expressions' },
+    { de: 'auf dem Laufenden sein/bleiben', en: 'to be up to date / to stay up to date', my: 'နောက်ဆုံးအခြေအနေကို သိရှိနေသည် / နောက်ဆုံးအခြေအနေကို သိရှိနေရန်', category: 'Idiomatic Expressions' },
+    { de: 'eine Rolle spielen', en: 'to play a role, be important', my: 'အခန်းကဏ္ဍမှ ပါဝင်သည်၊ အရေးပါသည်', category: 'Idiomatic Expressions' },
+    { de: 'in Kauf nehmen', en: 'to accept something negative', my: 'မကောင်းတာကို လက်ခံသည်', category: 'Idiomatic Expressions' },
+    ];
+
+    const categoryColors = {
+    'Formal Language for Argumentation & Structuring Text': '#2563eb', // Blue 600
+    'Academic & Professional Language': '#0d9488',                      // Teal 600
+    'Society, Politics & Environment (Advanced)': '#7c3aed',             // Purple 600
+    'Nuanced Verbs & Expressions': '#dc2626',                            // Red 600
+    'Sophisticated Adjectives & Adverbs': '#1d4ed8',                     // Blue 700
+    'Idiomatic Expressions': '#db2777',                                  // Pink 600
+    'Default': '#52525b'                                                 // Zinc 600
+    };
+
+    const categoryIcons = {
+    'Formal Language for Argumentation & Structuring Text': 'fa-solid fa-gavel',       // Gavel for formal/argumentation
+    'Academic & Professional Language': 'fa-solid fa-book-open-reader',                 // Book for academic
+    'Society, Politics & Environment (Advanced)': 'fa-solid fa-globe-europe',           // Globe for society/politics
+    'Nuanced Verbs & Expressions': 'fa-solid fa-comment-dots',                         // Speech bubble with dots for nuance
+    'Sophisticated Adjectives & Adverbs': 'fa-solid fa-wand-magic-sparkles',            // Wand for sophisticated/enhancing words
+    'Idiomatic Expressions': 'fa-solid fa-quote-left',                                 // Quote for idioms
+    'Default': 'fa-solid fa-list-ul'
+    };
+
+
+    const vocabularyWithIds = rawVocabularyData.map((item, index) => ({ ...item, id: index }));
+    const body = document.body, mainTitle = document.getElementById('main-title'), homeBtn = document.getElementById('home-btn'), categoryGrid = document.getElementById('category-grid'), vocabList = document.getElementById('vocabulary-list'), searchInput = document.getElementById('search-input'), toggleEn = document.getElementById('toggle-en'), toggleMy = document.getElementById('toggle-my'), toggleFavorites = document.getElementById('toggle-favorites');
+
+    let favorites = [], currentListData = [];
+
+    function saveFavorites() { localStorage.setItem('germanA1FavoritesList', JSON.stringify(favorites)); }
+    function loadFavorites() { const stored = JSON.parse(localStorage.getItem('germanA1FavoritesList')); if (stored) favorites = stored; }
+
+    function renderCategoryGrid() {
+        categoryGrid.innerHTML = '';
+        const showAllBox = document.createElement('div');
+        showAllBox.className = 'category-box show-all-tip';
+        showAllBox.dataset.category = 'All';
+        showAllBox.innerHTML = `<i class="fas fa-list-ul"></i><span>Show All Vocabulary</span>`;
+        categoryGrid.appendChild(showAllBox);
+        Object.keys(categoryColors).forEach(category => {
+            if (category === 'Default') return;
+            // Ensure there's vocab for the category or it's a defined category before creating a box.
+            // This also ensures that we only show categories that we have colors/icons for if needed.
+            const hasVocabForCategory = vocabularyWithIds.some(item => item.category === category);
+            if (rawVocabularyData.some(v => v.category === category) || categoryIcons[category]) { // Simplified check
+                 const box = document.createElement('div');
+                box.className = 'category-box';
+                box.style.backgroundColor = categoryColors[category] || categoryColors['Default'];
+                box.dataset.category = category;
+                box.innerHTML = `<i class="${categoryIcons[category] || 'fa-solid fa-question'}"></i><span>${category}</span>`;
+                categoryGrid.appendChild(box);
+            }
+        });
+    }
+
+    function displayItemsOnPage(itemsToDisplay) {
+        vocabList.innerHTML = '';
+        itemsToDisplay.forEach(item => {
+            const isFavorited = favorites.includes(item.id);
+            const entry = document.createElement('div');
+            entry.className = `vocab-entry ${isFavorited ? 'is-favorite' : ''}`;
+            entry.dataset.id = item.id;
+
+            const categoryColor = categoryColors[item.category] || categoryColors['Default'];
+
+            entry.innerHTML = `
+                <div class="vocab-main">
+                    <div class="lang-row de">
+                        <span class="lang-label">DE</span><span class="word">${item.de}</span>
+                        <button class="speak-btn" data-lang="de-DE" data-text="${item.de}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div class="lang-row en">
+                        <span class="lang-label">EN</span><span class="word">${item.en}</span>
+                        <button class="speak-btn" data-lang="en-US" data-text="${item.en}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div lang="my" class="lang-row my">
+                        <span class="lang-label">MY</span><span class="word">${item.my}</span>
+                        <button class="speak-btn" data-lang="my-MM" data-text="${item.my}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div class="vocab-meta-row">
+                        <i class="favorite-toggle fas fa-star" title="Toggle Favorite"></i>
+                        <div class="vocab-category-display">
+                            <span class="vocab-category-badge" style="background-color: ${categoryColor};" title="${item.category}">${item.category}</span>
+                        </div>
+                    </div>
+                </div>`;
+            vocabList.appendChild(entry);
+        });
+        updateLanguageColumnVisibility();
+    }
+
+    function filterAndDisplayVocabulary() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const showFavoritesOnly = toggleFavorites.checked;
+        let filteredItems = currentListData;
+        if (showFavoritesOnly) {
+            filteredItems = filteredItems.filter(item => favorites.includes(item.id));
+        }
+        if (searchTerm) {
+            filteredItems = filteredItems.filter(item =>
+                item.de.toLowerCase().includes(searchTerm) ||
+                item.en.toLowerCase().includes(searchTerm) ||
+                item.my.toLowerCase().includes(searchTerm) ||
+                item.category.toLowerCase().includes(searchTerm)
+            );
+        }
+        displayItemsOnPage(filteredItems);
+    }
+
+    function updateLanguageColumnVisibility() {
+        vocabList.classList.toggle('hide-en', !toggleEn.checked);
+        vocabList.classList.toggle('hide-my', !toggleMy.checked);
+    }
+
+    function switchToListView(category) {
+        if (category === 'All') {
+            currentListData = vocabularyWithIds;
+            mainTitle.textContent = 'All Vocabulary';
+        } else {
+            currentListData = vocabularyWithIds.filter(item => item.category === category);
+            mainTitle.textContent = category;
+        }
+        searchInput.value = '';
+        toggleFavorites.checked = false;
+        filterAndDisplayVocabulary();
+        body.classList.remove('grid-view');
+        body.classList.add('list-view');
+    }
+
+    function switchToGridView() {
+        mainTitle.textContent = 'A1 German Vocabulary';
+        body.classList.remove('list-view');
+        body.classList.add('grid-view');
+    }
+
+    function init() {
+        loadFavorites();
+        renderCategoryGrid();
+
+        categoryGrid.addEventListener('click', e => {
+            const categoryBox = e.target.closest('.category-box');
+            if (categoryBox) { switchToListView(categoryBox.dataset.category); }
+        });
+
+        homeBtn.addEventListener('click', switchToGridView);
+        searchInput.addEventListener('input', filterAndDisplayVocabulary);
+        toggleEn.addEventListener('change', updateLanguageColumnVisibility);
+        toggleMy.addEventListener('change', updateLanguageColumnVisibility);
+        toggleFavorites.addEventListener('change', filterAndDisplayVocabulary);
+
+        vocabList.addEventListener('click', e => {
+            const entryElement = e.target.closest('.vocab-entry');
+            if (!entryElement) return;
+
+            if (e.target.closest('.speak-btn')) {
+                const button = e.target.closest('.speak-btn');
+                const textToSpeak = button.dataset.text.split('/')[0].trim();
+                const lang = button.dataset.lang;
+                const synth = window.speechSynthesis;
+                if (synth.speaking) { synth.cancel(); }
+                const utterance = new SpeechSynthesisUtterance(textToSpeak);
+                utterance.lang = lang;
+                synth.speak(utterance);
+                return;
+            }
+
+            if (e.target.closest('.favorite-toggle')) {
+                const entryId = parseInt(entryElement.dataset.id, 10);
+
+                if (favorites.includes(entryId)) {
+                    favorites = favorites.filter(id => id !== entryId);
+                    entryElement.classList.remove('is-favorite');
+                } else {
+                    favorites.push(entryId);
+                    entryElement.classList.add('is-favorite');
+                }
+                saveFavorites();
+                if (toggleFavorites.checked) {
+                    filterAndDisplayVocabulary();
+                }
+                return;
+            }
+        });
+    }
+
+    init();
+});
+</script>
+
+</body>
+</html>

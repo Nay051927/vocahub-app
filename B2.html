@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>German B2 Vocabulary List (DE-EN-MY)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #005f73;
+            --background-color: #f8f9fa;
+            --entry-bg: #ffffff;
+            --text-color: #212529;
+            --muted-text-color: #6c757d;
+            --border-color: #dee2e6;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-right: auto;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            padding: 10px 18px;
+            border-radius: 22px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            white-space: nowrap;
+            color: white;
+            background: linear-gradient(135deg, rgba(0, 95, 115, 0.85) 0%, rgba(0, 75, 95, 0.85) 100%);
+            border: 1px solid rgba(0, 95, 115, 0.9);
+            transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn i {
+            transition: transform 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, rgba(0, 95, 115, 1) 0%, rgba(0, 75, 95, 1) 100%);
+            border-color: rgba(0, 95, 115, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .nav-btn:hover i {
+            transform: scale(1.1);
+        }
+
+        #category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            /* --- MODIFIED for category container styling --- */
+            background-color: #f0f2f5;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .category-box {
+            color: white; padding: 15px; border-radius: 8px; text-align: center;
+            font-weight: 600; font-size: 0.95rem; cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; gap: 10px; height: 140px; overflow: hidden;
+        }
+        .category-box i { font-size: 2rem; margin-bottom: 5px; }
+        .category-box:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+        .show-all-tip { background-color: var(--muted-text-color) !important; }
+
+        body.list-view #category-grid { display: none; }
+        body.grid-view #vocabulary-section { display: none; }
+        body.grid-view #home-btn { display: none; }
+
+        .search-container { margin-bottom: 20px; }
+        #search-input { width: 100%; padding: 12px 15px; font-size: 1rem; border: 1px solid var(--border-color); border-radius: 8px; }
+        .controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin: 30px 0; padding: 15px; background-color: var(--entry-bg); border: 1px solid var(--border-color); border-radius: 12px; }
+        .controls label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 500; }
+        #vocabulary-list { display: flex; flex-direction: column; gap: 12px; }
+
+        .vocab-entry {
+            background-color: var(--entry-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+        }
+        .vocab-entry.is-favorite {
+            border-left: 4px solid #ffc107;
+            padding-left: 11px;
+        }
+
+        .vocab-main {
+            flex-grow: 1;
+        }
+
+        .lang-row { display: flex; align-items: center; justify-content: space-between; padding: 5px 0; }
+        .lang-row:not(:last-child) { border-bottom: 1px solid #f0f0f0; }
+        .lang-label { font-weight: 700; color: var(--primary-color); min-width: 30px; }
+        .word {
+            font-size: 1.1rem;
+            text-align: left;
+            margin: 0 10px;
+            flex-grow: 1;
+            color: var(--text-color);
+        }
+        .lang-my .word { font-family: "Padauk", sans-serif; font-size: 1.2rem; }
+        .de .word { font-weight: 600; }
+        .speak-btn { background: none; border: none; cursor: pointer; color: var(--muted-text-color); font-size: 1.1rem; }
+        .hide-en .lang-row.en, .hide-my .lang-row.my { display: none; }
+
+        .vocab-meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .favorite-toggle {
+            font-size: 1.5rem;
+            color: var(--muted-text-color);
+            cursor: pointer;
+            padding-right: 8px;
+            flex-shrink: 0;
+        }
+        .vocab-entry.is-favorite .favorite-toggle { color: #ffc107; }
+
+        .vocab-category-display {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            flex-grow: 1;
+            min-width: auto;
+        }
+
+        .vocab-category-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: white;
+            border-radius: 12px;
+            background-color: var(--muted-text-color);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+            max-width: 180px;
+            min-width: 70px;
+        }
+
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+            .header-nav {
+                width: 100%;
+                justify-content: center;
+            }
+            .nav-btn {
+                font-size: 0.85rem;
+                padding: 8px 15px;
+            }
+            #category-grid {
+                padding: 15px;
+            }
+            .vocab-entry {
+                padding: 12px;
+            }
+            .vocab-entry.is-favorite {
+                 padding-left: 8px;
+            }
+            .favorite-toggle {
+                font-size: 1.3rem;
+                padding-right: 5px;
+            }
+            .vocab-meta-row {
+                margin-top: 8px;
+                padding-top: 6px;
+            }
+            .vocab-category-badge {
+                font-size: 0.75rem;
+                padding: 3px 8px;
+                max-width: 180px;
+                min-width: 60px;
+            }
+        }
+         @media (max-width: 480px) {
+             #category-grid {
+                padding: 10px;
+                /* --- MODIFIED for 2-column layout on small mobile --- */
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .vocab-category-badge {
+                max-width: 200px;
+                min-width: 100px;
+                font-size: 0.7rem;
+                padding: 3px 6px;
+            }
+         }
+    </style>
+</head>
+<body class="grid-view">
+
+<div class="container">
+    <header>
+        <h1 id="main-title">B2 German Vocabulary</h1>
+        <div class="header-nav">
+            <a href="index.html" id="back-to-levels-btn" class="nav-btn">
+                <i class="fas fa-layer-group"></i> Back to Levels
+            </a>
+            <button id="home-btn" class="nav-btn">
+                <i class="fas fa-home"></i> Back to Categories
+            </button>
+        </div>
+    </header>
+
+    <div id="category-grid"></div>
+    <div id="vocabulary-section">
+        <div class="search-container">
+            <input type="search" id="search-input" placeholder="Search vocabulary...">
+        </div>
+        <div class="controls">
+            <label><input type="checkbox" id="toggle-en" checked> Show English</label>
+            <label><input type="checkbox" id="toggle-my" checked> Show မြန်မာ</label>
+            <label><input type="checkbox" id="toggle-favorites"> Show Favorites Only</label>
+        </div>
+        <div id="vocabulary-list"></div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    const rawVocabularyData = [
+    // 1. Argumentation, Opinion & Discussion
+    { de: 'das Argument', en: 'argument', my: 'အငြင်းအခုံ၊ ကျိုးကြောင်းပြချက်', category: 'Argumentation, Opinion & Discussion' },
+    { de: 'die Behauptung', en: 'claim, assertion', my: 'အဆို၊ ပြောဆိုချက်', category: 'Argumentation, Opinion & Discussion' },
+    { de: 'der Standpunkt', en: 'point of view, standpoint', my: 'ရှုထောင့်၊ ရပ်တည်ချက်', category: 'Argumentation, Opinion & Discussion' },
+    { de: 'der Zweifel', en: 'doubt', my: 'သံသယ', category: 'Argumentation, Opinion & Discussion' },
+    { de: 'begründen', en: 'to justify, give reasons for', my: 'အကြောင်းပြချက်ပေးသည်', category: 'Argumentation, Opinion & Discussion' },
+    { de: 'überzeugen', en: 'to convince, persuade', my: 'စည်းရုံးသည်', category: 'Argumentation, Opinion & Discussion' },
+    { de: 'widersprechen', en: 'to contradict', my: 'ဆန့်ကျင်ပြောဆိုသည်', category: 'Argumentation, Opinion & Discussion' },
+    { de: 'zustimmen', en: 'to agree', my: 'သဘောတူသည်', category: 'Argumentation, Opinion & Discussion' },
+    { de: 'beurteilen', en: 'to judge, assess', my: 'အကဲဖြတ်သည်', category: 'Argumentation, Opinion & Discussion' },
+    { de: 'erörtern', en: 'to debate, discuss in detail', my: 'အသေးစိတ်ဆွေးနွေးသည်', category: 'Argumentation, Opinion & Discussion' },
+    { de: 'die Verhandlung', en: 'negotiation', my: 'ညှိနှိုင်းမှု', category: 'Argumentation, Opinion & Discussion' },
+    { de: 'der Kompromiss', en: 'compromise', my: 'အပေးအယူ', category: 'Argumentation, Opinion & Discussion' },
+    { de: 'verständlich', en: 'understandable', my: 'နားလည်နိုင်သော', category: 'Argumentation, Opinion & Discussion' },
+    { de: 'tatsächlich', en: 'indeed, actually', my: 'အမှန်စင်စစ်', category: 'Argumentation, Opinion & Discussion' },
+
+    // 2. Science, Technology & Progress
+    { de: 'die Forschung', en: 'research', my: 'သုတေသန', category: 'Science, Technology & Progress' },
+    { de: 'der Wissenschaftler', en: 'scientist', my: 'သိပ္ပံပညာရှင်', category: 'Science, Technology & Progress' }, // Assuming only masculine form provided
+    { de: 'die Entdeckung', en: 'discovery', my: 'ရှာဖွေတွေ့ရှိမှု', category: 'Science, Technology & Progress' },
+    { de: 'der Fortschritt', en: 'progress', my: 'တိုးတက်မှု', category: 'Science, Technology & Progress' },
+    { de: 'die künstliche Intelligenz (KI)', en: 'artificial intelligence (AI)', my: 'ဉာဏ်ရည်တု', category: 'Science, Technology & Progress' },
+    { de: 'die Genetik', en: 'genetics', my: 'မျိုးရိုးဗီဇပညာ', category: 'Science, Technology & Progress' },
+    { de: 'analysieren', en: 'to analyze', my: 'ခွဲခြမ်းစိတ်ဖြာသည်', category: 'Science, Technology & Progress' },
+    { de: 'das Experiment', en: 'experiment', my: 'စမ်းသပ်မှု', category: 'Science, Technology & Progress' },
+    { de: 'die Theorie', en: 'theory', my: 'သီအိုရီ', category: 'Science, Technology & Progress' },
+    { de: 'die Methode', en: 'method', my: 'နည်းလမ်း', category: 'Science, Technology & Progress' },
+    { de: 'die Digitalisierung', en: 'digitalization', my: 'ဒီဂျစ်တယ်စနစ်သို့ပြောင်းလဲခြင်း', category: 'Science, Technology & Progress' },
+
+    // 3. Society, Culture & Politics (Advanced)
+    { de: 'die Gerechtigkeit', en: 'justice', my: 'တရားမျှတမှု', category: 'Society, Culture & Politics (Advanced)' },
+    { de: 'die Gleichberechtigung', en: 'equal rights', my: 'တန်းတူညီမျှအခွင့်အရေး', category: 'Society, Culture & Politics (Advanced)' },
+    { de: 'die Integration', en: 'integration', my: 'ပေါင်းစည်းရေး', category: 'Society, Culture & Politics (Advanced)' },
+    { de: 'die Minderheit', en: 'minority', my: 'လူနည်းစု', category: 'Society, Culture & Politics (Advanced)' },
+    { de: 'der Konflikt', en: 'conflict', my: 'ပဋိပက္ခ', category: 'Society, Culture & Politics (Advanced)' },
+    { de: 'die Demonstration', en: 'demonstration, protest', my: 'ဆန္ဒပြပွဲ', category: 'Society, Culture & Politics (Advanced)' },
+    { de: 'der Wahlkampf', en: 'election campaign', my: 'မဲဆွယ်ပွဲ', category: 'Society, Culture & Politics (Advanced)' },
+    { de: 'die Kultur', en: 'culture', my: 'ယဉ်ကျေးမှု', category: 'Society, Culture & Politics (Advanced)' },
+    { de: 'die Tradition', en: 'tradition', my: 'ဓလေ့ထုံးတမ်း', category: 'Society, Culture & Politics (Advanced)' },
+    { de: 'die Veranstaltung', en: 'event, function', my: 'အခမ်းအနား', category: 'Society, Culture & Politics (Advanced)' },
+    { de: 'der Rassismus', en: 'racism', my: 'လူမျိုးရေးခွဲခြားမှု', category: 'Society, Culture & Politics (Advanced)' },
+    { de: 'die Vielfalt', en: 'diversity', my: 'မတူကွဲပြားမှု', category: 'Society, Culture & Politics (Advanced)' },
+
+    // 4. Work & Education (Advanced)
+    { de: 'die Anforderung', en: 'requirement, demand', my: 'လိုအပ်ချက်၊ တောင်းဆိုမှု', category: 'Work & Education (Advanced)' },
+    { de: 'die Kompetenz', en: 'competence, skill', my: 'အရည်အချင်း၊ ကျွမ်းကျင်မှု', category: 'Work & Education (Advanced)' },
+    { de: 'die Herausforderung', en: 'challenge', my: 'စိန်ခေါ်မှု', category: 'Work & Education (Advanced)' },
+    { de: 'sich spezialisieren auf (+Akk)', en: 'to specialize in', my: '...တွင် အထူးပြုသည်', category: 'Work & Education (Advanced)' },
+    { de: 'lebenslanges Lernen', en: 'lifelong learning', my: 'တစ်သက်တာသင်ယူခြင်း', category: 'Work & Education (Advanced)' },
+    { de: 'die Qualifikation', en: 'qualification', my: 'အရည်အချင်းသတ်မှတ်ချက်', category: 'Work & Education (Advanced)' },
+    { de: 'die Teamarbeit', en: 'teamwork', my: 'အဖွဲ့လိုက်လုပ်ဆောင်ခြင်း', category: 'Work & Education (Advanced)' },
+    { de: 'die Arbeitslosigkeit', en: 'unemployment', my: 'အလုပ်လက်မဲ့ဖြစ်မှု', category: 'Work & Education (Advanced)' },
+
+    // 5. Abstract Concepts & Human Experience
+    { de: 'das Bewusstsein', en: 'consciousness, awareness', my: 'အသိစိတ်၊ သတိ', category: 'Abstract Concepts & Human Experience' },
+    { de: 'die Identität', en: 'identity', my: 'อัตลักษณ์', category: 'Abstract Concepts & Human Experience' }, // Myanmar seems to be Thai here, assuming typo or specific loan word. Keeping as is from input.
+    { de: 'die Verantwortung', en: 'responsibility', my: 'တာဝန်', category: 'Abstract Concepts & Human Experience' },
+    { de: 'der Zufall', en: 'coincidence, chance', my: 'တိုက်ဆိုင်မှု', category: 'Abstract Concepts & Human Experience' },
+    { de: 'das Schicksal', en: 'fate, destiny', my: 'ကံကြမ္မာ', category: 'Abstract Concepts & Human Experience' },
+    { de: 'die Vergangenheit', en: 'the past', my: 'အတိတ်', category: 'Abstract Concepts & Human Experience' },
+    { de: 'die Gegenwart', en: 'the present', my: 'ပစ္စုပ္ပန်', category: 'Abstract Concepts & Human Experience' },
+    { de: 'die Zukunft', en: 'the future', my: 'အနာဂတ်', category: 'Abstract Concepts & Human Experience' },
+    { de: 'die Beziehung', en: 'relationship', my: 'ဆက်ဆံရေး', category: 'Abstract Concepts & Human Experience' },
+    { de: 'der Charakter', en: 'character, personality', my: 'စာရိတ္တ၊ ပင်ကိုစရိုက်', category: 'Abstract Concepts & Human Experience' },
+
+    // 6. Advanced Verbs & Expressions
+    { de: 'beeinflussen', en: 'to influence', my: 'လွှမ်းမိုးသည်', category: 'Advanced Verbs & Expressions' },
+    { de: 'ermöglichen', en: 'to make possible, enable', my: 'ဖြစ်နိုင်အောင်လုပ်ပေးသည်', category: 'Advanced Verbs & Expressions' },
+    { de: 'fördern', en: 'to promote, support', my: 'မြှင့်တင်သည်၊ ထောက်ပံ့သည်', category: 'Advanced Verbs & Expressions' },
+    { de: 'fordern', en: 'to demand', my: 'တောင်းဆိုသည်', category: 'Advanced Verbs & Expressions' },
+    { de: 'interpretieren', en: 'to interpret', my: 'အဓိပ္ပာယ်ဖွင့်ဆိုသည်', category: 'Advanced Verbs & Expressions' },
+    { de: 'kritisieren', en: 'to criticize', my: 'ဝေဖန်သည်', category: 'Advanced Verbs & Expressions' },
+    { de: 'lösen', en: 'to solve', my: 'ဖြေရှင်းသည်', category: 'Advanced Verbs & Expressions' },
+    { de: 'schützen', en: 'to protect', my: 'ကာကွယ်သည်', category: 'Advanced Verbs & Expressions' },
+    { de: 'steigern', en: 'to increase, enhance', my: 'တိုးမြှင့်သည်', category: 'Advanced Verbs & Expressions' },
+    { de: 'unterstützen', en: 'to support', my: 'ထောက်ပံ့သည်', category: 'Advanced Verbs & Expressions' },
+    { de: 'verhindern', en: 'to prevent', my: 'တားဆီးသည်', category: 'Advanced Verbs & Expressions' },
+    { de: 'vermeiden', en: 'to avoid', my: 'ရှောင်ကြဉ်သည်', category: 'Advanced Verbs & Expressions' },
+    { de: 'voraussetzen', en: 'to presuppose, require', my: 'ကြိုတင်သတ်မှတ်သည်၊ လိုအပ်သည်', category: 'Advanced Verbs & Expressions' },
+    { de: 'zerstören', en: 'to destroy', my: 'ဖျက်ဆီးသည်', category: 'Advanced Verbs & Expressions' },
+
+    // 7. Key Noun-Verb Phrases (Nomen-Verb-Verbindungen)
+    { de: 'eine Entscheidung treffen', en: 'to make a decision', my: 'ဆုံးဖြတ်ချက်ချသည်', category: 'Key Noun-Verb Phrases' },
+    { de: 'eine Rolle spielen', en: 'to play a role', my: 'အခန်းကဏ္ဍမှပါဝင်သည်', category: 'Key Noun-Verb Phrases' },
+    { de: 'einen Beitrag leisten', en: 'to make a contribution', my: 'အထောက်အကူပြုသည်', category: 'Key Noun-Verb Phrases' },
+    { de: 'in Frage stellen', en: 'to call into question', my: 'မေးခွန်းထုတ်သည်', category: 'Key Noun-Verb Phrases' },
+    { de: 'Kritik üben an (+Dat)', en: 'to criticize', my: '...ကို ဝေဖန်သည်', category: 'Key Noun-Verb Phrases' },
+    { de: 'Rücksicht nehmen auf (+Akk)', en: 'to be considerate of', my: '...ကို ထောက်ထားသည်', category: 'Key Noun-Verb Phrases' },
+    { de: 'zur Verfügung stehen/stellen', en: 'to be available / to make available', my: 'ရရှိနိုင်သည် / ရရှိနိုင်အောင်လုပ်ပေးသည်', category: 'Key Noun-Verb Phrases' },
+    { de: 'in Betracht ziehen', en: 'to take into consideration', my: 'ထည့်သွင်းစဉ်းစားသည်', category: 'Key Noun-Verb Phrases' },
+    { de: 'einen Antrag stellen', en: 'to submit an application', my: 'လျှောက်လွှာတင်သည်', category: 'Key Noun-Verb Phrases' },
+    { de: 'sich Sorgen machen um', en: 'to worry about', my: '...အတွက် စိုးရိမ်သည်', category: 'Key Noun-Verb Phrases' },
+    ];
+
+    const categoryColors = {
+    'Argumentation, Opinion & Discussion': '#2563eb',          // Blue 600
+    'Science, Technology & Progress': '#0d9488',                 // Teal 600
+    'Society, Culture & Politics (Advanced)': '#7c3aed',         // Purple 600
+    'Work & Education (Advanced)': '#4f46e5',                    // Indigo 600
+    'Abstract Concepts & Human Experience': '#ea580c',           // Orange 600
+    'Advanced Verbs & Expressions': '#dc2626',                   // Red 600
+    'Key Noun-Verb Phrases': '#db2777',                          // Pink 600
+    'Default': '#52525b'                                         // Zinc 600
+    };
+
+    const categoryIcons = {
+    'Argumentation, Opinion & Discussion': 'fa-solid fa-comments',         // Speech bubbles for discussion
+    'Science, Technology & Progress': 'fa-solid fa-flask-vial',            // Science flask
+    'Society, Culture & Politics (Advanced)': 'fa-solid fa-landmark',      // Landmark for society/culture
+    'Work & Education (Advanced)': 'fa-solid fa-user-graduate',            // Graduate for education/work
+    'Abstract Concepts & Human Experience': 'fa-solid fa-brain',           // Brain for abstract thought
+    'Advanced Verbs & Expressions': 'fa-solid fa-bolt',                    // Bolt for dynamic verbs
+    'Key Noun-Verb Phrases': 'fa-solid fa-key',                            // Key for key phrases
+    'Default': 'fa-solid fa-list-ul'
+};
+
+    const vocabularyWithIds = rawVocabularyData.map((item, index) => ({ ...item, id: index }));
+    const body = document.body, mainTitle = document.getElementById('main-title'), homeBtn = document.getElementById('home-btn'), categoryGrid = document.getElementById('category-grid'), vocabList = document.getElementById('vocabulary-list'), searchInput = document.getElementById('search-input'), toggleEn = document.getElementById('toggle-en'), toggleMy = document.getElementById('toggle-my'), toggleFavorites = document.getElementById('toggle-favorites');
+
+    let favorites = [], currentListData = [];
+
+    function saveFavorites() { localStorage.setItem('germanA1FavoritesList', JSON.stringify(favorites)); }
+    function loadFavorites() { const stored = JSON.parse(localStorage.getItem('germanA1FavoritesList')); if (stored) favorites = stored; }
+
+    function renderCategoryGrid() {
+        categoryGrid.innerHTML = '';
+        const showAllBox = document.createElement('div');
+        showAllBox.className = 'category-box show-all-tip';
+        showAllBox.dataset.category = 'All';
+        showAllBox.innerHTML = `<i class="fas fa-list-ul"></i><span>Show All Vocabulary</span>`;
+        categoryGrid.appendChild(showAllBox);
+        Object.keys(categoryColors).forEach(category => {
+            if (category === 'Default') return;
+            // Ensure there's vocab for the category or it's a defined category before creating a box.
+            // This also ensures that we only show categories that we have colors/icons for if needed.
+            const hasVocabForCategory = vocabularyWithIds.some(item => item.category === category);
+            if (rawVocabularyData.some(v => v.category === category) || categoryIcons[category]) { // Simplified check
+                 const box = document.createElement('div');
+                box.className = 'category-box';
+                box.style.backgroundColor = categoryColors[category] || categoryColors['Default'];
+                box.dataset.category = category;
+                box.innerHTML = `<i class="${categoryIcons[category] || 'fa-solid fa-question'}"></i><span>${category}</span>`;
+                categoryGrid.appendChild(box);
+            }
+        });
+    }
+
+    function displayItemsOnPage(itemsToDisplay) {
+        vocabList.innerHTML = '';
+        itemsToDisplay.forEach(item => {
+            const isFavorited = favorites.includes(item.id);
+            const entry = document.createElement('div');
+            entry.className = `vocab-entry ${isFavorited ? 'is-favorite' : ''}`;
+            entry.dataset.id = item.id;
+
+            const categoryColor = categoryColors[item.category] || categoryColors['Default'];
+
+            entry.innerHTML = `
+                <div class="vocab-main">
+                    <div class="lang-row de">
+                        <span class="lang-label">DE</span><span class="word">${item.de}</span>
+                        <button class="speak-btn" data-lang="de-DE" data-text="${item.de}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div class="lang-row en">
+                        <span class="lang-label">EN</span><span class="word">${item.en}</span>
+                        <button class="speak-btn" data-lang="en-US" data-text="${item.en}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div lang="my" class="lang-row my">
+                        <span class="lang-label">MY</span><span class="word">${item.my}</span>
+                        <button class="speak-btn" data-lang="my-MM" data-text="${item.my}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div class="vocab-meta-row">
+                        <i class="favorite-toggle fas fa-star" title="Toggle Favorite"></i>
+                        <div class="vocab-category-display">
+                            <span class="vocab-category-badge" style="background-color: ${categoryColor};" title="${item.category}">${item.category}</span>
+                        </div>
+                    </div>
+                </div>`;
+            vocabList.appendChild(entry);
+        });
+        updateLanguageColumnVisibility();
+    }
+
+    function filterAndDisplayVocabulary() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const showFavoritesOnly = toggleFavorites.checked;
+        let filteredItems = currentListData;
+        if (showFavoritesOnly) {
+            filteredItems = filteredItems.filter(item => favorites.includes(item.id));
+        }
+        if (searchTerm) {
+            filteredItems = filteredItems.filter(item =>
+                item.de.toLowerCase().includes(searchTerm) ||
+                item.en.toLowerCase().includes(searchTerm) ||
+                item.my.toLowerCase().includes(searchTerm) ||
+                item.category.toLowerCase().includes(searchTerm)
+            );
+        }
+        displayItemsOnPage(filteredItems);
+    }
+
+    function updateLanguageColumnVisibility() {
+        vocabList.classList.toggle('hide-en', !toggleEn.checked);
+        vocabList.classList.toggle('hide-my', !toggleMy.checked);
+    }
+
+    function switchToListView(category) {
+        if (category === 'All') {
+            currentListData = vocabularyWithIds;
+            mainTitle.textContent = 'All Vocabulary';
+        } else {
+            currentListData = vocabularyWithIds.filter(item => item.category === category);
+            mainTitle.textContent = category;
+        }
+        searchInput.value = '';
+        toggleFavorites.checked = false;
+        filterAndDisplayVocabulary();
+        body.classList.remove('grid-view');
+        body.classList.add('list-view');
+    }
+
+    function switchToGridView() {
+        mainTitle.textContent = 'A1 German Vocabulary';
+        body.classList.remove('list-view');
+        body.classList.add('grid-view');
+    }
+
+    function init() {
+        loadFavorites();
+        renderCategoryGrid();
+
+        categoryGrid.addEventListener('click', e => {
+            const categoryBox = e.target.closest('.category-box');
+            if (categoryBox) { switchToListView(categoryBox.dataset.category); }
+        });
+
+        homeBtn.addEventListener('click', switchToGridView);
+        searchInput.addEventListener('input', filterAndDisplayVocabulary);
+        toggleEn.addEventListener('change', updateLanguageColumnVisibility);
+        toggleMy.addEventListener('change', updateLanguageColumnVisibility);
+        toggleFavorites.addEventListener('change', filterAndDisplayVocabulary);
+
+        vocabList.addEventListener('click', e => {
+            const entryElement = e.target.closest('.vocab-entry');
+            if (!entryElement) return;
+
+            if (e.target.closest('.speak-btn')) {
+                const button = e.target.closest('.speak-btn');
+                const textToSpeak = button.dataset.text.split('/')[0].trim();
+                const lang = button.dataset.lang;
+                const synth = window.speechSynthesis;
+                if (synth.speaking) { synth.cancel(); }
+                const utterance = new SpeechSynthesisUtterance(textToSpeak);
+                utterance.lang = lang;
+                synth.speak(utterance);
+                return;
+            }
+
+            if (e.target.closest('.favorite-toggle')) {
+                const entryId = parseInt(entryElement.dataset.id, 10);
+
+                if (favorites.includes(entryId)) {
+                    favorites = favorites.filter(id => id !== entryId);
+                    entryElement.classList.remove('is-favorite');
+                } else {
+                    favorites.push(entryId);
+                    entryElement.classList.add('is-favorite');
+                }
+                saveFavorites();
+                if (toggleFavorites.checked) {
+                    filterAndDisplayVocabulary();
+                }
+                return;
+            }
+        });
+    }
+
+    init();
+});
+</script>
+
+</body>
+</html>

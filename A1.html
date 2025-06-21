@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>German A1 Vocabulary List (DE-EN-ES-FR-MY)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #005f73;
+            --background-color: #f8f9fa;
+            --entry-bg: #ffffff;
+            --text-color: #212529;
+            --muted-text-color: #6c757d;
+            --border-color: #dee2e6;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-right: auto;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            padding: 10px 18px;
+            border-radius: 22px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            white-space: nowrap;
+            color: white;
+            background: linear-gradient(135deg, rgba(0, 95, 115, 0.85) 0%, rgba(0, 75, 95, 0.85) 100%);
+            border: 1px solid rgba(0, 95, 115, 0.9);
+            transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn i {
+            transition: transform 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, rgba(0, 95, 115, 1) 0%, rgba(0, 75, 95, 1) 100%);
+            border-color: rgba(0, 95, 115, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .nav-btn:hover i {
+            transform: scale(1.1);
+        }
+
+        #category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            background-color: #f0f2f5;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .category-box {
+            color: white; padding: 15px; border-radius: 8px; text-align: center;
+            font-weight: 600; font-size: 0.95rem; cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; gap: 10px; height: 140px; overflow: hidden;
+        }
+        .category-box i { font-size: 2rem; margin-bottom: 5px; }
+        .category-box:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+        .show-all-tip { background-color: var(--muted-text-color) !important; }
+
+        body.list-view #category-grid { display: none; }
+        body.grid-view #vocabulary-section { display: none; }
+        body.grid-view #home-btn { display: none; }
+
+        .search-container { margin-bottom: 20px; }
+        #search-input { width: 100%; padding: 12px 15px; font-size: 1rem; border: 1px solid var(--border-color); border-radius: 8px; }
+        .controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin: 30px 0; padding: 15px; background-color: var(--entry-bg); border: 1px solid var(--border-color); border-radius: 12px; }
+        .controls label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 500; }
+        #vocabulary-list { display: flex; flex-direction: column; gap: 12px; }
+
+        .vocab-entry {
+            background-color: var(--entry-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+        }
+        .vocab-entry.is-favorite {
+            border-left: 4px solid #ffc107;
+            padding-left: 11px;
+        }
+
+        .vocab-main {
+            flex-grow: 1;
+        }
+
+        .lang-row { display: flex; align-items: center; justify-content: space-between; padding: 5px 0; }
+        .lang-row:not(:last-child) { border-bottom: 1px solid #f0f0f0; }
+        .lang-label { font-weight: 700; color: var(--primary-color); min-width: 30px; }
+        .word {
+            font-size: 1.1rem;
+            text-align: left;
+            margin: 0 10px;
+            flex-grow: 1;
+            color: var(--text-color);
+        }
+        .lang-my .word { font-family: "Padauk", sans-serif; font-size: 1.2rem; }
+        .lang-es .word { font-style: italic; }
+        .de .word { font-weight: 600; }
+        .speak-btn { background: none; border: none; cursor: pointer; color: var(--muted-text-color); font-size: 1.1rem; }
+        .hide-en .lang-row.en, .hide-my .lang-row.my, .hide-es .lang-row.es, .hide-fr .lang-row.fr { display: none; }
+
+        .vocab-meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .favorite-toggle {
+            font-size: 1.5rem;
+            color: var(--muted-text-color);
+            cursor: pointer;
+            padding-right: 8px;
+            flex-shrink: 0;
+        }
+        .vocab-entry.is-favorite .favorite-toggle { color: #ffc107; }
+
+        .vocab-category-display {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            flex-grow: 1;
+            min-width: auto;
+        }
+
+        .vocab-category-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: white;
+            border-radius: 12px;
+            background-color: var(--muted-text-color);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+            max-width: 180px;
+            min-width: 70px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+            .header-nav {
+                width: 100%;
+                justify-content: center;
+            }
+            .nav-btn {
+                font-size: 0.85rem;
+                padding: 8px 15px;
+            }
+            #category-grid {
+                padding: 15px;
+            }
+            .vocab-entry {
+                padding: 12px;
+            }
+            .vocab-entry.is-favorite {
+                 padding-left: 8px;
+            }
+            .favorite-toggle {
+                font-size: 1.3rem;
+                padding-right: 5px;
+            }
+            .vocab-meta-row {
+                margin-top: 8px;
+                padding-top: 6px;
+            }
+            .vocab-category-badge {
+                font-size: 0.75rem;
+                padding: 3px 8px;
+                max-width: 180px;
+                min-width: 60px;
+            }
+        }
+         @media (max-width: 480px) {
+             #category-grid {
+                padding: 10px;
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .vocab-category-badge {
+                max-width: 200px;
+                min-width: 100px;
+                font-size: 0.7rem;
+                padding: 3px 6px;
+            }
+         }
+    </style>
+</head>
+<body class="grid-view">
+
+<div class="container">
+    <header>
+        <h1 id="main-title">A1 German Vocabulary</h1>
+        <div class="header-nav">
+            <a href="index.html" id="back-to-levels-btn" class="nav-btn">
+                <i class="fas fa-layer-group"></i> Back to Levels
+            </a>
+            <button id="home-btn" class="nav-btn">
+                <i class="fas fa-home"></i> Back to Categories
+            </button>
+        </div>
+    </header>
+
+    <div id="category-grid"></div>
+    <div id="vocabulary-section">
+        <div class="search-container">
+            <input type="search" id="search-input" placeholder="Search vocabulary...">
+        </div>
+        <div class="controls">
+            <label><input type="checkbox" id="toggle-en" checked> Show English</label>
+            <label><input type="checkbox" id="toggle-es" checked> Show Español</label>
+            <label><input type="checkbox" id="toggle-fr" checked> Show Français</label>
+            <label><input type="checkbox" id="toggle-my" checked> Show မြန်မာ</label>
+            <label><input type="checkbox" id="toggle-favorites"> Show Favorites Only</label>
+        </div>
+        <div id="vocabulary-list"></div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    const rawVocabularyData = [
+        // 1. Greetings & Courtesies
+        { de: 'Hallo', en: 'Hello', es: 'Hola', fr: 'Bonjour', my: 'မင်္ဂလာပါ', category: 'Greetings & Courtesies' },
+        { de: 'Guten Morgen', en: 'Good morning', es: 'Buenos días', fr: 'Bonjour', my: 'မင်္ဂလာနံနက်ခင်းပါ', category: 'Greetings & Courtesies' },
+        { de: 'Guten Tag', en: 'Good day', es: 'Buen día', fr: 'Bonjour', my: 'မင်္ဂလာနေ့လည်ခင်းပါ', category: 'Greetings & Courtesies' },
+        { de: 'Guten Abend', en: 'Good evening', es: 'Buenas tardes', fr: 'Bonsoir', my: 'မင်္ဂလာညနေခင်းပါ', category: 'Greetings & Courtesies' },
+        { de: 'Gute Nacht', en: 'Good night', es: 'Buenas noches', fr: 'Bonne nuit', my: 'ကောင်းသောညပါ', category: 'Greetings & Courtesies' },
+        { de: 'Tschüss', en: 'Bye (informal)', es: 'Adiós', fr: 'Au revoir', my: 'တာ့တာ', category: 'Greetings & Courtesies' },
+        { de: 'Auf Wiedersehen', en: 'Goodbye (formal)', es: 'Hasta luego', fr: 'Au revoir', my: 'ပြန်လည်ဆုံတွေ့ကြပါစို့', category: 'Greetings & Courtesies' },
+        { de: 'Bis bald', en: 'See you soon', es: 'Hasta pronto', fr: 'À bientôt', my: 'မကြာခင်တွေ့မယ်', category: 'Greetings & Courtesies' },
+        { de: 'Bis später', en: 'See you later', es: 'Hasta más tarde', fr: 'À plus tard', my: 'နောက်မှတွေ့မယ်', category: 'Greetings & Courtesies' },
+        { de: 'Bitte', en: 'Please', es: 'Por favor', fr: 'S\'il vous plaît', my: 'ကျေးဇူးပြု၍', category: 'Greetings & Courtesies' },
+        { de: 'Bitte', en: "You're welcome", es: 'De nada', fr: 'De rien', my: 'ရပါတယ်', category: 'Greetings & Courtesies' },
+        { de: 'Danke', en: 'Thank you', es: 'Gracias', fr: 'Merci', my: 'ကျေးဇူးတင်ပါတယ်', category: 'Greetings & Courtesies' },
+        { de: 'Vielen Dank', en: 'Thank you very much', es: 'Muchas gracias', fr: 'Merci beaucoup', my: 'အများကြီးကျေးဇူးတင်ပါတယ်', category: 'Greetings & Courtesies' },
+        { de: 'Entschuldigung', en: 'Excuse me', es: 'Disculpe', fr: 'Excusez-moi', my: 'တစ်ဆိတ်လောက်', category: 'Greetings & Courtesies' },
+        { de: 'Entschuldigung', en: 'Sorry', es: 'Lo siento', fr: 'Désolé', my: 'တောင်းပန်ပါတယ်', category: 'Greetings & Courtesies' },
+        { de: 'Ja', en: 'Yes', es: 'Sí', fr: 'Oui', my: 'ဟုတ်ကဲ့', category: 'Greetings & Courtesies' },
+        { de: 'Nein', en: 'No', es: 'No', fr: 'Non', my: 'ဟင့်အင်း', category: 'Greetings & Courtesies' },
+        { de: 'Vielleicht', en: 'Maybe', es: 'Quizás', fr: 'Peut-être', my: 'ဖြစ်နိုင်တယ်', category: 'Greetings & Courtesies' },
+        { de: 'Genau', en: 'Exactly', es: 'Exactamente', fr: 'Exactement', my: 'အတိအကျ', category: 'Greetings & Courtesies' },
+        { de: 'Willkommen', en: 'Welcome', es: 'Bienvenido', fr: 'Bienvenue', my: 'ကြိုဆိုပါတယ်', category: 'Greetings & Courtesies' },
+        
+        // 2. Personal Information
+        { de: 'ich', en: 'I', es: 'yo', fr: 'je', my: 'ကျွန်တော်/ကျွန်မ', category: 'Personal Information' },
+        { de: 'du', en: 'you (singular, informal)', es: 'tú', fr: 'tu', my: 'သင်', category: 'Personal Information' },
+        { de: 'er', en: 'he', es: 'él', fr: 'il', my: 'သူ (အမျိုးသား)', category: 'Personal Information' },
+        { de: 'sie', en: 'she', es: 'ella', fr: 'elle', my: 'သူ (အမျိုးသမီး)', category: 'Personal Information' },
+        { de: 'es', en: 'it', es: 'eso', fr: 'il/elle', my: 'ဒါ', category: 'Personal Information' },
+        { de: 'wir', en: 'we', es: 'nosotros', fr: 'nous', my: 'ငါတို့', category: 'Personal Information' },
+        { de: 'ihr', en: 'you (plural, informal)', es: 'vosotros', fr: 'vous', my: 'သင်တို့', category: 'Personal Information' },
+        { de: 'sie', en: 'they', es: 'ellos', fr: 'ils/elles', my: 'သူတို့', category: 'Personal Information' },
+        { de: 'Sie', en: 'You (formal)', es: 'usted', fr: 'vous', my: 'ခင်ဗျား', category: 'Personal Information' },
+        { de: 'der Name, -n', en: 'name', es: 'nombre', fr: 'nom', my: 'အမည်', category: 'Personal Information' },
+        { de: 'der Vorname, -n', en: 'first name', es: 'nombre de pila', fr: 'prénom', my: 'အမည်ရှေ့ပိုင်း', category: 'Personal Information' },
+        { de: 'der Nachname, -n', en: 'last name', es: 'apellido', fr: 'nom de famille', my: 'မျိုးရိုးအမည်', category: 'Personal Information' },
+        { de: 'die Adresse, -n', en: 'address', es: 'dirección', fr: 'adresse', my: 'လိပ်စာ', category: 'Personal Information' },
+        { de: 'die Straße, -n', en: 'street', es: 'calle', fr: 'rue', my: 'လမ်း', category: 'Personal Information' },
+        { de: 'die Hausnummer, -n', en: 'house number', es: 'número de casa', fr: 'numéro de maison', my: 'အိမ်နံပါတ်', category: 'Personal Information' },
+        { de: 'die Postleitzahl (PLZ)', en: 'postal code', es: 'código postal', fr: 'code postal', my: 'စာတိုက်သင်္ကေတ', category: 'Personal Information' },
+        { de: 'die Stadt, ¨-e', en: 'city', es: 'ciudad', fr: 'ville', my: 'မြို့', category: 'Personal Information' },
+        { de: 'das Land, ¨-er', en: 'country', es: 'país', fr: 'pays', my: 'နိုင်ငံ', category: 'Personal Information' },
+        { de: 'die Herkunft', en: 'origin', es: 'origen', fr: 'origine', my: 'ဇာစ်မြစ်', category: 'Personal Information' },
+        { de: 'die Telefonnummer, -n', en: 'phone number', es: 'número de teléfono', fr: 'numéro de téléphone', my: 'ဖုန်းနံပါတ်', category: 'Personal Information' },
+        { de: 'die E-Mail, -s', en: 'email', es: 'correo electrónico', fr: 'email', my: 'အီးမေးလ်', category: 'Personal Information' },
+        { de: 'das Alter', en: 'age', es: 'edad', fr: 'âge', my: 'အသက်', category: 'Personal Information' },
+        { de: 'das Geburtsdatum', en: 'date of birth', es: 'fecha de nacimiento', fr: 'date de naissance', my: 'မွေးနေ့', category: 'Personal Information' },
+        { de: 'der Geburtsort', en: 'place of birth', es: 'lugar de nacimiento', fr: 'lieu de naissance', my: 'မွေးရပ်မြေ', category: 'Personal Information' },
+        { de: 'der Familienstand', en: 'marital status', es: 'estado civil', fr: 'situation familiale', my: 'အိမ်ထောင်ရေးအခြေအနေ', category: 'Personal Information' },
+        { de: 'ledig', en: 'single', es: 'soltero', fr: 'célibataire', my: 'လူလွတ်', category: 'Personal Information' },
+        { de: 'verheiratet', en: 'married', es: 'casado', fr: 'marié', my: 'အိမ်ထောင်ရှိ', category: 'Personal Information' },
+        { de: 'geschieden', en: 'divorced', es: 'divorciado', fr: 'divorcé', my: 'ကွာရှင်းထားသော', category: 'Personal Information' },
+        { de: 'verwitwet', en: 'widowed', es: 'viudo', fr: 'veuf/veuve', my: 'မုဆိုးဖို/မ', category: 'Personal Information' },
+        { de: 'das Kind, -er', en: 'child', es: 'niño', fr: 'enfant', my: 'ကလေး', category: 'Personal Information' },
+        { de: 'die Sprache, -n', en: 'language', es: 'idioma', fr: 'langue', my: 'ဘာသာစကား', category: 'Personal Information' },
+
+        // 3. Question Words
+        { de: 'Wer?', en: 'Who?', es: '¿Quién?', fr: 'Qui?', my: 'ဘယ်သူလဲ?', category: 'Question Words' },
+        { de: 'Was?', en: 'What?', es: '¿Qué?', fr: 'Quoi?', my: 'ဘာလဲ?', category: 'Question Words' },
+        { de: 'Wann?', en: 'When?', es: '¿Cuándo?', fr: 'Quand?', my: 'ဘယ်တော့လဲ?', category: 'Question Words' },
+        { de: 'Wo?', en: 'Where?', es: '¿Dónde?', fr: 'Où?', my: 'ဘယ်မှာလဲ?', category: 'Question Words' },
+        { de: 'Woher?', en: 'Where from?', es: '¿De dónde?', fr: 'D\'où?', my: 'ဘယ်ကလဲ?', category: 'Question Words' },
+        { de: 'Wohin?', en: 'Where to?', es: '¿Adónde?', fr: 'Où?', my: 'ဘယ်ကိုလဲ?', category: 'Question Words' },
+        { de: 'Wie?', en: 'How?', es: '¿Cómo?', fr: 'Comment?', my: 'ဘယ်လိုလဲ?', category: 'Question Words' },
+        { de: 'Warum?', en: 'Why?', es: '¿Por qué?', fr: 'Pourquoi?', my: 'ဘာလို့လဲ?', category: 'Question Words' },
+        { de: 'Wie viel?', en: 'How much?', es: '¿Cuánto?', fr: 'Combien?', my: 'ဘယ်လောက်လဲ? (မရေတွက်နိုင်)', category: 'Question Words' },
+        { de: 'Wie viele?', en: 'How many?', es: '¿Cuántos?', fr: 'Combien?', my: 'ဘယ်လောက်များလဲ? (ရေတွက်နိုင်)', category: 'Question Words' },
+        { de: 'Wie alt?', en: 'How old?', es: '¿Cuántos años?', fr: 'Quel âge?', my: 'အသက်ဘယ်လောက်လဲ?', category: 'Question Words' },
+        { de: 'Wie lange?', en: 'How long?', es: '¿Cuánto tiempo?', fr: 'Combien de temps?', my: 'ဘယ်လောက်ကြာလဲ?', category: 'Question Words' },
+        { de: 'Welche(r/s)?', en: 'Which?', es: '¿Cuál?', fr: 'Quel?', my: 'ဘယ်ဟာလဲ?', category: 'Question Words' },
+
+        // 4. Numbers
+        { de: 'null', en: '0', es: 'cero', fr: 'zéro', my: 'သုည', category: 'Numbers' },
+        { de: 'eins', en: '1', es: 'uno', fr: 'un', my: 'တစ်', category: 'Numbers' },
+        { de: 'zwei', en: '2', es: 'dos', fr: 'deux', my: 'နှစ်', category: 'Numbers' },
+        { de: 'drei', en: '3', es: 'tres', fr: 'trois', my: 'သုံး', category: 'Numbers' },
+        { de: 'vier', en: '4', es: 'cuatro', fr: 'quatre', my: 'လေး', category: 'Numbers' },
+        { de: 'fünf', en: '5', es: 'cinco', fr: 'cinq', my: 'ငါး', category: 'Numbers' },
+        { de: 'sechs', en: '6', es: 'seis', fr: 'six', my: 'ခြောက်', category: 'Numbers' },
+        { de: 'sieben', en: '7', es: 'siete', fr: 'sept', my: 'ခုနစ်', category: 'Numbers' },
+        { de: 'acht', en: '8', es: 'ocho', fr: 'huit', my: 'ရှစ်', category: 'Numbers' },
+        { de: 'neun', en: '9', es: 'nueve', fr: 'neuf', my: 'ကိုး', category: 'Numbers' },
+        { de: 'zehn', en: '10', es: 'diez', fr: 'dix', my: 'ဆယ်', category: 'Numbers' },
+        { de: 'elf', en: '11', es: 'once', fr: 'onze', my: 'တစ်ဆယ့်တစ်', category: 'Numbers' },
+        { de: 'zwölf', en: '12', es: 'doce', fr: 'douze', my: 'တစ်ဆယ့်နှစ်', category: 'Numbers' },
+        { de: 'dreizehn', en: '13', es: 'trece', fr: 'treize', my: 'တစ်ဆယ့်သုံး', category: 'Numbers' },
+        { de: 'vierzehn', en: '14', es: 'catorce', fr: 'quatorze', my: 'တစ်ဆယ့်လေး', category: 'Numbers' },
+        { de: 'fünfzehn', en: '15', es: 'quince', fr: 'quinze', my: 'တစ်ဆယ့်ငါး', category: 'Numbers' },
+        { de: 'sechzehn', en: '16', es: 'dieciséis', fr: 'seize', my: 'တစ်ဆယ့်ခြောက်', category: 'Numbers' },
+        { de: 'siebzehn', en: '17', es: 'diecisiete', fr: 'dix-sept', my: 'တစ်ဆယ့်ခုနစ်', category: 'Numbers' },
+        { de: 'achtzehn', en: '18', es: 'dieciocho', fr: 'dix-huit', my: 'တစ်ဆယ့်ရှစ်', category: 'Numbers' },
+        { de: 'neunzehn', en: '19', es: 'diecinueve', fr: 'dix-neuf', my: 'တစ်ဆယ့်ကိုး', category: 'Numbers' },
+        { de: 'zwanzig', en: '20', es: 'veinte', fr: 'vingt', my: 'နှစ်ဆယ်', category: 'Numbers' },
+        { de: 'einundzwanzig', en: '21', es: 'veintiuno', fr: 'vingt et un', my: 'နှစ်ဆယ့်တစ်', category: 'Numbers' },
+        { de: 'dreißig', en: '30', es: 'treinta', fr: 'trente', my: 'သုံးဆယ်', category: 'Numbers' },
+        { de: 'vierzig', en: '40', es: 'cuarenta', fr: 'quarante', my: 'လေးဆယ်', category: 'Numbers' },
+        { de: 'fünfzig', en: '50', es: 'cincuenta', fr: 'cinquante', my: 'ငါးဆယ်', category: 'Numbers' },
+        { de: 'sechzig', en: '60', es: 'sesenta', fr: 'soixante', my: 'ခြောက်ဆယ်', category: 'Numbers' },
+        { de: 'siebzig', en: '70', es: 'setenta', fr: 'soixante-dix', my: 'ခုနစ်ဆယ်', category: 'Numbers' },
+        { de: 'achtzig', en: '80', es: 'ochenta', fr: 'quatre-vingts', my: 'ရှစ်ဆယ်', category: 'Numbers' },
+        { de: 'neunzig', en: '90', es: 'noventa', fr: 'quatre-vingt-dix', my: 'ကိုးဆယ်', category: 'Numbers' },
+        { de: 'hundert', en: '100', es: 'cien', fr: 'cent', my: 'တစ်ရာ', category: 'Numbers' },
+        { de: 'tausend', en: '1000', es: 'mil', fr: 'mille', my: 'တစ်ထောင်', category: 'Numbers' },
+        { de: 'eine Million', en: '1,000,000', es: 'un millón', fr: 'un million', my: 'တစ်သန်း', category: 'Numbers' },
+        { de: 'die Nummer, -n', en: 'number', es: 'número', fr: 'numéro', my: 'နံပါတ်', category: 'Numbers' },
+        { de: 'die Zahl, -en', en: 'numeral', es: 'cifra', fr: 'chiffre', my: 'ကိန်းဂဏန်း', category: 'Numbers' },
+
+        // 5. The Family
+        { de: 'die Familie, -n', en: 'family', es: 'familia', fr: 'famille', my: 'မိသားစု', category: 'The Family' },
+        { de: 'die Eltern (pl.)', en: 'parents', es: 'padres', fr: 'parents', my: 'မိဘများ', category: 'The Family' },
+        { de: 'der Vater, ¨-', en: 'father', es: 'padre', fr: 'père', my: 'အဖေ', category: 'The Family' },
+        { de: 'die Mutter, ¨-', en: 'mother', es: 'madre', fr: 'mère', my: 'အမေ', category: 'The Family' },
+        { de: 'der Sohn, ¨-e', en: 'son', es: 'hijo', fr: 'fils', my: 'သား', category: 'The Family' },
+        { de: 'die Tochter, ¨-', en: 'daughter', es: 'hija', fr: 'fille', my: 'သမီး', category: 'The Family' },
+        { de: 'die Geschwister (pl.)', en: 'siblings', es: 'hermanos', fr: 'frères et sœurs', my: 'မောင်နှမများ', category: 'The Family' },
+        { de: 'der Bruder, ¨-', en: 'brother', es: 'hermano', fr: 'frère', my: 'အစ်ကို / မောင်', category: 'The Family' },
+        { de: 'die Schwester, -n', en: 'sister', es: 'hermana', fr: 'sœur', my: 'အစ်မ / ညီမ', category: 'The Family' },
+        { de: 'die Großeltern (pl.)', en: 'grandparents', es: 'abuelos', fr: 'grands-parents', my: 'အဘိုးအဘွားများ', category: 'The Family' },
+        { de: 'der Großvater / Opa', en: 'grandfather / grandpa', es: 'abuelo', fr: 'grand-père', my: 'အဘိုး', category: 'The Family' },
+        { de: 'die Großmutter / Oma', en: 'grandmother / grandma', es: 'abuela', fr: 'grand-mère', my: 'အဘွား', category: 'The Family' },
+        { de: 'der Enkel', en: 'grandson', es: 'nieto', fr: 'petit-fils', my: 'မြေး', category: 'The Family' },
+        { de: 'die Enkelin', en: 'granddaughter', es: 'nieta', fr: 'petite-fille', my: 'မြေး', category: 'The Family' },
+        { de: 'der Ehemann', en: 'husband', es: 'esposo', fr: 'mari', my: 'ခင်ပွန်း', category: 'The Family' },
+        { de: 'die Ehefrau', en: 'wife', es: 'esposa', fr: 'femme', my: 'ဇနီး', category: 'The Family' },
+        { de: 'der Partner', en: 'partner (male)', es: 'pareja (hombre)', fr: 'partenaire (homme)', my: 'အဖော် (အမျိုးသား)', category: 'The Family' },
+        { de: 'die Partnerin', en: 'partner (female)', es: 'pareja (mujer)', fr: 'partenaire (femme)', my: 'အဖော် (အမျိုးသမီး)', category: 'The Family' },
+        { de: 'das Baby, -s', en: 'baby', es: 'bebé', fr: 'bébé', my: 'ကလေးငယ်', category: 'The Family' },
+
+        // 6. Jobs & Professions
+        { de: 'der Beruf, -e', en: 'profession', es: 'profesión', fr: 'profession', my: 'အလုပ်အကိုင်', category: 'Jobs & Professions' },
+        { de: 'arbeiten als...', en: 'to work as...', es: 'trabajar como...', fr: 'travailler comme...', my: '...အဖြစ်အလုပ်လုပ်သည်', category: 'Jobs & Professions' },
+        { de: 'der Job, -s', en: 'job', es: 'trabajo', fr: 'emploi', my: 'အလုပ်', category: 'Jobs & Professions' },
+        { de: 'die Arbeit', en: 'work', es: 'trabajo', fr: 'travail', my: 'အလုပ်', category: 'Jobs & Professions' },
+        { de: 'der Arzt', en: 'doctor (male)', es: 'médico', fr: 'médecin (homme)', my: 'ဆရာဝန် (အမျိုးသား)', category: 'Jobs & Professions' },
+        { de: 'die Ärztin', en: 'doctor (female)', es: 'médica', fr: 'médecin (femme)', my: 'ဆရာဝန် (အမျိုးသမီး)', category: 'Jobs & Professions' },
+        { de: 'der Lehrer', en: 'teacher (male)', es: 'profesor', fr: 'professeur (homme)', my: 'ဆရာ', category: 'Jobs & Professions' },
+        { de: 'die Lehrerin', en: 'teacher (female)', es: 'profesora', fr: 'professeur (femme)', my: 'ဆရာမ', category: 'Jobs & Professions' },
+        { de: 'der Student', en: 'student (male, university)', es: 'estudiante (hombre)', fr: 'étudiant', my: 'ကျောင်းသား (တက္ကသိုလ်)', category: 'Jobs & Professions' },
+        { de: 'die Studentin', en: 'student (female, university)', es: 'estudiante (mujer)', fr: 'étudiante', my: 'ကျောင်းသူ (တက္ကသိုလ်)', category: 'Jobs & Professions' },
+        { de: 'der Schüler', en: 'pupil (male, school)', es: 'alumno', fr: 'élève (garçon)', my: 'ကျောင်းသား (ကျောင်း)', category: 'Jobs & Professions' },
+        { de: 'die Schülerin', en: 'pupil (female, school)', es: 'alumna', fr: 'élève (fille)', my: 'ကျောင်းသူ (ကျောင်း)', category: 'Jobs & Professions' },
+        { de: 'der Verkäufer', en: 'salesperson (male)', es: 'vendedor', fr: 'vendeur', my: 'အရောင်းဝန်ထမ်း (အမျိုးသား)', category: 'Jobs & Professions' },
+        { de: 'die Verkäuferin', en: 'salesperson (female)', es: 'vendedora', fr: 'vendeuse', my: 'အရောင်းဝန်ထမ်း (အမျိုးသမီး)', category: 'Jobs & Professions' },
+        { de: 'der Kellner', en: 'waiter', es: 'camarero', fr: 'serveur', my: 'စားပွဲထိုး (အမျိုးသား)', category: 'Jobs & Professions' },
+        { de: 'die Kellnerin', en: 'waitress', es: 'camarera', fr: 'serveuse', my: 'စားပွဲထိုး (အမျိုးသမီး)', category: 'Jobs & Professions' },
+        { de: 'der Koch', en: 'cook / chef (male)', es: 'cocinero', fr: 'cuisinier', my: 'စားဖိုမှူး (အမျိုးသား)', category: 'Jobs & Professions' },
+        { de: 'die Köchin', en: 'cook / chef (female)', es: 'cocinera', fr: 'cuisinière', my: 'စားဖိုမှူး (အမျိုးသမီး)', category: 'Jobs & Professions' },
+        { de: 'der Ingenieur', en: 'engineer (male)', es: 'ingeniero', fr: 'ingénieur', my: 'အင်ဂျင်နီယာ (အမျိုးသား)', category: 'Jobs & Professions' },
+        { de: 'die Ingenieurin', en: 'engineer (female)', es: 'ingeniera', fr: 'ingénieure', my: 'အင်ဂျင်နီယာ (အမျိုးသမီး)', category: 'Jobs & Professions' },
+        { de: 'der Friseur', en: 'hairdresser (male)', es: 'peluquero', fr: 'coiffeur', my: 'ဆံပင်ညှပ်ဆရာ (အမျိုးသား)', category: 'Jobs & Professions' },
+        { de: 'die Friseurin', en: 'hairdresser (female)', es: 'peluquera', fr: 'coiffeuse', my: 'ဆံပင်ညှပ်ဆရာ (အမျိုးသမီး)', category: 'Jobs & Professions' },
+        { de: 'der Sekretär', en: 'secretary (male)', es: 'secretario', fr: 'secrétaire (homme)', my: 'အတွင်းရေးမှူး (အမျိုးသား)', category: 'Jobs & Professions' },
+        { de: 'die Sekretärin', en: 'secretary (female)', es: 'secretaria', fr: 'secrétaire (femme)', my: 'အတွင်းရေးမှူး (အမျိုးသမီး)', category: 'Jobs & Professions' },
+        { de: 'der Fahrer', en: 'driver (male)', es: 'conductor', fr: 'conducteur', my: 'ယာဉ်မောင်း (အမျိုးသား)', category: 'Jobs & Professions' },
+        { de: 'die Fahrerin', en: 'driver (female)', es: 'conductora', fr: 'conductrice', my: 'ယာဉ်မောင်း (အမျိုးသမီး)', category: 'Jobs & Professions' },
+
+        // 7. Time, Days, Months & Seasons
+        { de: 'die Zeit, -en', en: 'time', es: 'tiempo', fr: 'temps', my: 'အချိန်', category: 'Time, Days, Months & Seasons' },
+        { de: 'die Uhr, -en', en: 'clock', es: 'reloj', fr: 'horloge', my: 'နာရီ', category: 'Time, Days, Months & Seasons' },
+        { de: 'Uhr', en: "o'clock", es: 'en punto', fr: 'heure', my: 'နာရီ', category: 'Time, Days, Months & Seasons' },
+        { de: 'die Stunde, -n', en: 'hour', es: 'hora', fr: 'heure', my: 'နာရီ (ကြာချိန်)', category: 'Time, Days, Months & Seasons' },
+        { de: 'die Minute, -n', en: 'minute', es: 'minuto', fr: 'minute', my: 'မိနစ်', category: 'Time, Days, Months & Seasons' },
+        { de: 'die Sekunde, -n', en: 'second', es: 'segundo', fr: 'seconde', my: 'စက္ကန့်', category: 'Time, Days, Months & Seasons' },
+        { de: 'der Morgen', en: 'morning', es: 'mañana', fr: 'matin', my: 'မနက်ခင်း', category: 'Time, Days, Months & Seasons' },
+        { de: 'am Morgen', en: 'in the morning', es: 'por la mañana', fr: 'le matin', my: 'မနက်ခင်းမှာ', category: 'Time, Days, Months & Seasons' },
+        { de: 'der Mittag', en: 'midday', es: 'mediodía', fr: 'midi', my: 'နေ့လည်', category: 'Time, Days, Months & Seasons' },
+        { de: 'am Mittag', en: 'at noon', es: 'al mediodía', fr: 'à midi', my: 'နေ့လည်မှာ', category: 'Time, Days, Months & Seasons' },
+        { de: 'der Abend', en: 'evening', es: 'tarde', fr: 'soir', my: 'ညနေ', category: 'Time, Days, Months & Seasons' },
+        { de: 'am Abend', en: 'in the evening', es: 'por la tarde', fr: 'le soir', my: 'ညနေမှာ', category: 'Time, Days, Months & Seasons' },
+        { de: 'die Nacht', en: 'night', es: 'noche', fr: 'nuit', my: 'ည', category: 'Time, Days, Months & Seasons' },
+        { de: 'in der Nacht', en: 'at night', es: 'por la noche', fr: 'la nuit', my: 'ညမှာ', category: 'Time, Days, Months & Seasons' },
+        { de: 'heute', en: 'today', es: 'hoy', fr: 'aujourd\'hui', my: 'ဒီနေ့', category: 'Time, Days, Months & Seasons' },
+        { de: 'gestern', en: 'yesterday', es: 'ayer', fr: 'hier', my: 'မနေ့က', category: 'Time, Days, Months & Seasons' },
+        { de: 'morgen', en: 'tomorrow', es: 'mañana', fr: 'demain', my: 'မနက်ဖြန်', category: 'Time, Days, Months & Seasons' },
+        { de: 'jetzt', en: 'now', es: 'ahora', fr: 'maintenant', my: 'အခု', category: 'Time, Days, Months & Seasons' },
+        { de: 'sofort', en: 'immediately', es: 'inmediatamente', fr: 'immédiatement', my: 'ချက်ချင်း', category: 'Time, Days, Months & Seasons' },
+        { de: 'der Tag, -e', en: 'day', es: 'día', fr: 'jour', my: 'နေ့', category: 'Time, Days, Months & Seasons' },
+        { de: 'die Woche, -n', en: 'week', es: 'semana', fr: 'semaine', my: 'အပတ်', category: 'Time, Days, Months & Seasons' },
+        { de: 'das Wochenende', en: 'weekend', es: 'fin de semana', fr: 'week-end', my: 'စနေ၊ တနင်္ဂနွေ', category: 'Time, Days, Months & Seasons' },
+        { de: 'der Monat, -e', en: 'month', es: 'mes', fr: 'mois', my: 'လ', category: 'Time, Days, Months & Seasons' },
+        { de: 'das Jahr, -e', en: 'year', es: 'año', fr: 'année', my: 'နှစ်', category: 'Time, Days, Months & Seasons' },
+        { de: 'Montag', en: 'Monday', es: 'lunes', fr: 'lundi', my: 'တနင်္လာ', category: 'Time, Days, Months & Seasons' },
+        { de: 'Dienstag', en: 'Tuesday', es: 'martes', fr: 'mardi', my: 'အင်္ဂါ', category: 'Time, Days, Months & Seasons' },
+        { de: 'Mittwoch', en: 'Wednesday', es: 'miércoles', fr: 'mercredi', my: 'ဗုဒ္ဓဟူး', category: 'Time, Days, Months & Seasons' },
+        { de: 'Donnerstag', en: 'Thursday', es: 'jueves', fr: 'jeudi', my: 'ကြာသပတေး', category: 'Time, Days, Months & Seasons' },
+        { de: 'Freitag', en: 'Friday', es: 'viernes', fr: 'vendredi', my: 'သောကြာ', category: 'Time, Days, Months & Seasons' },
+        { de: 'Samstag', en: 'Saturday', es: 'sábado', fr: 'samedi', my: 'စနေ', category: 'Time, Days, Months & Seasons' },
+        { de: 'Sonntag', en: 'Sunday', es: 'domingo', fr: 'dimanche', my: 'တနင်္ဂနွေ', category: 'Time, Days, Months & Seasons' },
+        { de: 'Januar', en: 'January', es: 'enero', fr: 'janvier', my: 'ဇန်နဝါရီ', category: 'Time, Days, Months & Seasons' },
+        { de: 'Februar', en: 'February', es: 'febrero', fr: 'février', my: 'ဖေဖော်ဝါရီ', category: 'Time, Days, Months & Seasons' },
+        { de: 'März', en: 'March', es: 'marzo', fr: 'mars', my: 'မတ်', category: 'Time, Days, Months & Seasons' },
+        { de: 'April', en: 'April', es: 'abril', fr: 'avril', my: 'ဧပြီ', category: 'Time, Days, Months & Seasons' },
+        { de: 'Mai', en: 'May', es: 'mayo', fr: 'mai', my: 'မေ', category: 'Time, Days, Months & Seasons' },
+        { de: 'Juni', en: 'June', es: 'junio', fr: 'juin', my: 'ဇွန်', category: 'Time, Days, Months & Seasons' },
+        { de: 'Juli', en: 'July', es: 'julio', fr: 'juillet', my: 'ဇူလိုင်', category: 'Time, Days, Months & Seasons' },
+        { de: 'August', en: 'August', es: 'agosto', fr: 'août', my: 'ဩဂုတ်', category: 'Time, Days, Months & Seasons' },
+        { de: 'September', en: 'September', es: 'septiembre', fr: 'septembre', my: 'စက်တင်ဘာ', category: 'Time, Days, Months & Seasons' },
+        { de: 'Oktober', en: 'October', es: 'octubre', fr: 'octobre', my: 'အောက်တိုဘာ', category: 'Time, Days, Months & Seasons' },
+        { de: 'November', en: 'November', es: 'noviembre', fr: 'novembre', my: 'နိုဝင်ဘာ', category: 'Time, Days, Months & Seasons' },
+        { de: 'Dezember', en: 'December', es: 'diciembre', fr: 'décembre', my: 'ဒီဇင်ဘာ', category: 'Time, Days, Months & Seasons' },
+        { de: 'der Frühling', en: 'Spring', es: 'primavera', fr: 'printemps', my: 'နွေဦးရာသီ', category: 'Time, Days, Months & Seasons' },
+        { de: 'der Sommer', en: 'Summer', es: 'verano', fr: 'été', my: 'နွေရာသီ', category: 'Time, Days, Months & Seasons' },
+        { de: 'der Herbst', en: 'Autumn', es: 'otoño', fr: 'automne', my: 'ဆောင်းဦးရာသီ', category: 'Time, Days, Months & Seasons' },
+        { de: 'der Winter', en: 'Winter', es: 'invierno', fr: 'hiver', my: 'ဆောင်းရာသီ', category: 'Time, Days, Months & Seasons' },
+
+        // 8. Food & Drink
+        { de: 'das Essen', en: 'food', es: 'comida', fr: 'nourriture', my: 'အစားအစာ', category: 'Food & Drink' },
+        { de: 'die Mahlzeit', en: 'meal', es: 'comida', fr: 'repas', my: 'အစာ', category: 'Food & Drink' },
+        { de: 'das Frühstück', en: 'breakfast', es: 'desayuno', fr: 'petit-déjeuner', my: 'မနက်စာ', category: 'Food & Drink' },
+        { de: 'das Mittagessen', en: 'lunch', es: 'almuerzo', fr: 'déjeuner', my: 'နေ့လည်စာ', category: 'Food & Drink' },
+        { de: 'das Abendessen', en: 'dinner', es: 'cena', fr: 'dîner', my: 'ညစာ', category: 'Food & Drink' },
+        { de: 'der Hunger', en: 'hunger', es: 'hambre', fr: 'faim', my: 'ဆာလောင်ခြင်း', category: 'Food & Drink' },
+        { de: 'der Durst', en: 'thirst', es: 'sed', fr: 'soif', my: 'ရေငတ်ခြင်း', category: 'Food & Drink' },
+        { de: 'das Getränk, -e', en: 'beverage', es: 'bebida', fr: 'boisson', my: 'ဖျော်ရည် / သောက်စရာ', category: 'Food & Drink' },
+        { de: 'das Brot, -e', en: 'bread', es: 'pan', fr: 'pain', my: 'ပေါင်မုန့်', category: 'Food & Drink' },
+        { de: 'das Brötchen, -', en: 'bread roll', es: 'panecillo', fr: 'petit pain', my: 'ပေါင်မုန့်လုံး', category: 'Food & Drink' },
+        { de: 'die Butter', en: 'butter', es: 'mantequilla', fr: 'beurre', my: 'ထောပတ်', category: 'Food & Drink' },
+        { de: 'der Käse', en: 'cheese', es: 'queso', fr: 'fromage', my: 'ဒိန်ခဲ', category: 'Food & Drink' },
+        { de: 'das Ei, -er', en: 'egg', es: 'huevo', fr: 'œuf', my: 'ဥ', category: 'Food & Drink' },
+        { de: 'der Reis', en: 'rice', es: 'arroz', fr: 'riz', my: 'ထမင်း', category: 'Food & Drink' },
+        { de: 'die Nudeln (pl.)', en: 'pasta, noodles', es: 'pasta', fr: 'pâtes', my: 'ခေါက်ဆွဲ', category: 'Food & Drink' },
+        { de: 'die Kartoffel, -n', en: 'potato', es: 'patata', fr: 'pomme de terre', my: 'အာလူး', category: 'Food & Drink' },
+        { de: 'die Pommes (pl.)', en: 'fries', es: 'patatas fritas', fr: 'frites', my: 'အာလူးကြော်', category: 'Food & Drink' },
+        { de: 'das Gemüse', en: 'vegetables', es: 'verduras', fr: 'légumes', my: 'ဟင်းသီးဟင်းရွက်', category: 'Food & Drink' },
+        { de: 'der Salat', en: 'salad', es: 'ensalada', fr: 'salade', my: 'ဆလတ်', category: 'Food & Drink' },
+        { de: 'die Tomate, -n', en: 'tomato', es: 'tomate', fr: 'tomate', my: 'ခရမ်းချဉ်သီး', category: 'Food & Drink' },
+        { de: 'die Gurke, -n', en: 'cucumber', es: 'pepino', fr: 'concombre', my: 'သခွားသီး', category: 'Food & Drink' },
+        { de: 'das Obst', en: 'fruit', es: 'fruta', fr: 'fruit', my: 'အသီးအနှံ', category: 'Food & Drink' },
+        { de: 'der Apfel, ¨-', en: 'apple', es: 'manzana', fr: 'pomme', my: 'ပန်းသီး', category: 'Food & Drink' },
+        { de: 'die Banane, -n', en: 'banana', es: 'plátano', fr: 'banane', my: 'ငှက်ပျောသီး', category: 'Food & Drink' },
+        { de: 'die Orange, -n', en: 'orange', es: 'naranja', fr: 'orange', my: 'လိမ္မော်သီး', category: 'Food & Drink' },
+        { de: 'das Fleisch', en: 'meat', es: 'carne', fr: 'viande', my: 'အသား', category: 'Food & Drink' },
+        { de: 'das Hähnchen', en: 'chicken', es: 'pollo', fr: 'poulet', my: 'ကြက်သား', category: 'Food & Drink' },
+        { de: 'die Wurst, ¨-e', en: 'sausage', es: 'salchicha', fr: 'saucisse', my: 'ဝက်အူချောင်း', category: 'Food & Drink' },
+        { de: 'der Schinken', en: 'ham', es: 'jamón', fr: 'jambon', my: 'ဝက်ပေါင်ခြောက်', category: 'Food & Drink' },
+        { de: 'der Fisch, -e', en: 'fish', es: 'pescado', fr: 'poisson', my: 'ငါး', category: 'Food & Drink' },
+        { de: 'der Kuchen, -', en: 'cake', es: 'pastel', fr: 'gâteau', my: 'ကိတ်မုန့်', category: 'Food & Drink' },
+        { de: 'das Eis', en: 'ice cream', es: 'helado', fr: 'glace', my: 'ရေခဲမုန့်', category: 'Food & Drink' },
+        { de: 'das Salz', en: 'salt', es: 'sal', fr: 'sel', my: 'ဆား', category: 'Food & Drink' },
+        { de: 'der Pfeffer', en: 'pepper', es: 'pimienta', fr: 'poivre', my: 'ငရုတ်ကောင်း', category: 'Food & Drink' },
+        { de: 'der Zucker', en: 'sugar', es: 'azúcar', fr: 'sucre', my: 'သကြား', category: 'Food & Drink' },
+        { de: 'das Wasser', en: 'water', es: 'agua', fr: 'eau', my: 'ရေ', category: 'Food & Drink' },
+        { de: 'der Saft, ¨-e', en: 'juice', es: 'jugo', fr: 'jus', my: 'ဖျော်ရည်', category: 'Food & Drink' },
+        { de: 'die Milch', en: 'milk', es: 'leche', fr: 'lait', my: 'နို့', category: 'Food & Drink' },
+        { de: 'der Kaffee', en: 'coffee', es: 'café', fr: 'café', my: 'ကော်ဖီ', category: 'Food & Drink' },
+        { de: 'der Tee', en: 'tea', es: 'té', fr: 'thé', my: 'လက်ဖက်ရည်', category: 'Food & Drink' },
+        { de: 'das Bier', en: 'beer', es: 'cerveza', fr: 'bière', my: 'ဘီယာ', category: 'Food & Drink' },
+        { de: 'der Wein', en: 'wine', es: 'vino', fr: 'vin', my: 'ဝိုင်', category: 'Food & Drink' },
+        { de: 'das Glas, ¨-er', en: 'glass', es: 'vaso', fr: 'verre', my: 'ဖန်ခွက်', category: 'Food & Drink' },
+        { de: 'die Tasse, -n', en: 'cup', es: 'taza', fr: 'tasse', my: 'ခွက်', category: 'Food & Drink' },
+        { de: 'die Flasche, -n', en: 'bottle', es: 'botella', fr: 'bouteille', my: 'ပုလင်း', category: 'Food & Drink' },
+
+        // 9. In the City & Transportation
+        { de: 'der Bahnhof, ¨-e', en: 'train station', es: 'estación de tren', fr: 'gare', my: 'ဘူတာရုံ', category: 'In the City & Transportation' },
+        { de: 'der Flughafen, ¨-', en: 'airport', es: 'aeropuerto', fr: 'aéroport', my: 'လေဆိပ်', category: 'In the City & Transportation' },
+        { de: 'die Haltestelle, -n', en: '(bus/tram) stop', es: 'parada', fr: 'arrêt', my: 'ဘတ်စ်ကားမှတ်တိုင်', category: 'In the City & Transportation' },
+        { de: 'das Hotel, -s', en: 'hotel', es: 'hotel', fr: 'hôtel', my: 'ဟိုတယ်', category: 'In the City & Transportation' },
+        { de: 'das Restaurant, -s', en: 'restaurant', es: 'restaurante', fr: 'restaurant', my: 'စားသောက်ဆိုင်', category: 'In the City & Transportation' },
+        { de: 'der Supermarkt, ¨-e', en: 'supermarket', es: 'supermercado', fr: 'supermarché', my: 'စူပါမားကတ်', category: 'In the City & Transportation' },
+        { de: 'der Markt, ¨-e', en: 'market', es: 'mercado', fr: 'marché', my: 'ဈေး', category: 'In the City & Transportation' },
+        { de: 'die Bank, -en', en: 'bank', es: 'banco', fr: 'banque', my: 'ဘဏ်', category: 'In the City & Transportation' },
+        { de: 'die Post', en: 'post office', es: 'correos', fr: 'poste', my: 'စာတိုက်', category: 'In the City & Transportation' },
+        { de: 'das Krankenhaus, ¨-er', en: 'hospital', es: 'hospital', fr: 'hôpital', my: 'ဆေးရုံ', category: 'In the City & Transportation' },
+        { de: 'die Schule, -n', en: 'school', es: 'escuela', fr: 'école', my: 'ကျောင်း', category: 'In the City & Transportation' },
+        { de: 'die Universität, -en', en: 'university', es: 'universidad', fr: 'université', my: 'တက္ကသိုလ်', category: 'In the City & Transportation' },
+        { de: 'das Kino, -s', en: 'cinema', es: 'cine', fr: 'cinéma', my: 'ရုပ်ရှင်ရုံ', category: 'In the City & Transportation' },
+        { de: 'das Museum, Museen', en: 'museum', es: 'museo', fr: 'musée', my: 'ပြတိုက်', category: 'In the City & Transportation' },
+        { de: 'der Park, -s', en: 'park', es: 'parque', fr: 'parc', my: 'ပန်းခြံ', category: 'In the City & Transportation' },
+        { de: 'der Platz, ¨-e', en: 'square, plaza', es: 'plaza', fr: 'place', my: 'ရင်ပြင်', category: 'In the City & Transportation' },
+        { de: 'links', en: 'left', es: 'izquierda', fr: 'gauche', my: 'ဘယ်', category: 'In the City & Transportation' },
+        { de: 'rechts', en: 'right', es: 'derecha', fr: 'droite', my: 'ညာ', category: 'In the City & Transportation' },
+        { de: 'geradeaus', en: 'straight ahead', es: 'recto', fr: 'tout droit', my: 'တည့်တည့်', category: 'In the City & Transportation' },
+        { de: 'das Verkehrsmittel, -', en: 'means of transport', es: 'medio de transporte', fr: 'moyen de transport', my: 'သယ်ယူပို့ဆောင်ရေးယာဉ်', category: 'In the City & Transportation' },
+        { de: 'das Auto, -s', en: 'car', es: 'coche', fr: 'voiture', my: 'ကား', category: 'In the City & Transportation' },
+        { de: 'das Fahrrad, ¨-er', en: 'bicycle', es: 'bicicleta', fr: 'vélo', my: 'စက်ဘီး', category: 'In the City & Transportation' },
+        { de: 'der Bus, -se', en: 'bus', es: 'autobús', fr: 'bus', my: 'ဘတ်စ်ကား', category: 'In the City & Transportation' },
+        { de: 'der Zug, ¨-e', en: 'train', es: 'tren', fr: 'train', my: 'ရထား', category: 'In the City & Transportation' },
+        { de: 'die U-Bahn', en: 'subway', es: 'metro', fr: 'métro', my: 'မြေအောက်ရထား', category: 'In the City & Transportation' },
+        { de: 'die S-Bahn', en: 'suburban train', es: 'tren suburbano', fr: 'train de banlieue', my: 'မြို့ပတ်ရထား', category: 'In the City & Transportation' },
+        { de: 'die Straßenbahn', en: 'tram', es: 'tranvía', fr: 'tramway', my: 'ဓာတ်ရထား', category: 'In the City & Transportation' },
+        { de: 'das Flugzeug, -e', en: 'airplane', es: 'avión', fr: 'avion', my: 'လေယာဉ်ပျံ', category: 'In the City & Transportation' },
+        { de: 'das Taxi, -s', en: 'taxi', es: 'taxi', fr: 'taxi', my: 'တက္ကစီ', category: 'In the City & Transportation' },
+        { de: 'die Fahrkarte, -n', en: 'ticket', es: 'billete', fr: 'ticket', my: 'လက်မှတ်', category: 'In the City & Transportation' },
+        { de: 'das Ticket, -s', en: 'ticket', es: 'boleto', fr: 'billet', my: 'လက်မှတ်', category: 'In the City & Transportation' },
+        { de: 'der Schalter', en: 'counter, ticket window', es: 'ventanilla', fr: 'guichet', my: 'လက်မှတ်ကောင်တာ', category: 'In the City & Transportation' },
+        { de: 'die Abfahrt', en: 'departure', es: 'salida', fr: 'départ', my: 'ထွက်ခွာချိန်', category: 'In the City & Transportation' },
+        { de: 'die Ankunft', en: 'arrival', es: 'llegada', fr: 'arrivée', my: 'ရောက်ရှိချိန်', category: 'In the City & Transportation' },
+        { de: 'das Gleis, -e', en: 'platform track', es: 'andén', fr: 'voie', my: 'ရထားလမ်း', category: 'In the City & Transportation' },
+
+        // 10. At Home
+        { de: 'das Haus, ¨-er', en: 'house', es: 'casa', fr: 'maison', my: 'အိမ်', category: 'At Home' },
+        { de: 'die Wohnung, -en', en: 'apartment', es: 'apartamento', fr: 'appartement', my: 'တိုက်ခန်း', category: 'At Home' },
+        { de: 'das Zimmer, -', en: 'room', es: 'habitación', fr: 'pièce', my: 'အခန်း', category: 'At Home' },
+        { de: 'die Küche, -n', en: 'kitchen', es: 'cocina', fr: 'cuisine', my: 'မီးဖိုချောင်', category: 'At Home' },
+        { de: 'das Bad, ¨-er', en: 'bathroom', es: 'baño', fr: 'salle de bain', my: 'ရေချိုးခန်း', category: 'At Home' },
+        { de: 'das Wohnzimmer', en: 'living room', es: 'sala de estar', fr: 'salon', my: 'ဧည့်ခန်း', category: 'At Home' },
+        { de: 'das Schlafzimmer', en: 'bedroom', es: 'dormitorio', fr: 'chambre', my: 'အိပ်ခန်း', category: 'At Home' },
+        { de: 'der Flur', en: 'hallway', es: 'pasillo', fr: 'couloir', my: 'စင်္ကြံ', category: 'At Home' },
+        { de: 'der Keller', en: 'basement', es: 'sótano', fr: 'sous-sol', my: 'မြေအောက်ခန်း', category: 'At Home' },
+        { de: 'der Balkon, -e', en: 'balcony', es: 'balcón', fr: 'balcon', my: 'ဝရန်တာ', category: 'At Home' },
+        { de: 'der Garten, ¨-', en: 'garden', es: 'jardín', fr: 'jardin', my: 'ဥယျာဉ်', category: 'At Home' },
+        { de: 'die Tür, -en', en: 'door', es: 'puerta', fr: 'porte', my: 'တံခါး', category: 'At Home' },
+        { de: 'das Fenster, -', en: 'window', es: 'ventana', fr: 'fenêtre', my: 'ပြတင်းပေါက်', category: 'At Home' },
+        { de: 'das Möbel (pl. Möbel)', en: 'furniture', es: 'mueble', fr: 'meuble', my: 'ပရိဘောဂ', category: 'At Home' },
+        { de: 'der Tisch, -e', en: 'table', es: 'mesa', fr: 'table', my: 'စားပွဲ', category: 'At Home' },
+        { de: 'der Stuhl, ¨-e', en: 'chair', es: 'silla', fr: 'chaise', my: 'ကုလားထိုင်', category: 'At Home' },
+        { de: 'das Bett, -en', en: 'bed', es: 'cama', fr: 'lit', my: 'ကုတင်', category: 'At Home' },
+        { de: 'der Schrank, ¨-e', en: 'closet, cupboard', es: 'armario', fr: 'armoire', my: 'ဗီရို', category: 'At Home' },
+        { de: 'das Sofa, -s', en: 'sofa', es: 'sofá', fr: 'canapé', my: 'ဆိုဖာ', category: 'At Home' },
+        { de: 'der Sessel, -', en: 'armchair', es: 'sillón', fr: 'fauteuil', my: 'လက်တင်ကုလားထိုင်', category: 'At Home' },
+        { de: 'die Lampe, -n', en: 'lamp', es: 'lámpara', fr: 'lampe', my: 'မီးအိမ်', category: 'At Home' },
+        { de: 'das Licht, -er', en: 'light', es: 'luz', fr: 'lumière', my: 'အလင်း', category: 'At Home' },
+        { de: 'der Kühlschrank, ¨-e', en: 'refrigerator', es: 'refrigerador', fr: 'réfrigérateur', my: 'ရေခဲသေတ္တာ', category: 'At Home' },
+        { de: 'der Herd, -e', en: 'stove', es: 'estufa', fr: 'cuisinière', my: 'မီးဖို', category: 'At Home' },
+        { de: 'die Dusche, -n', en: 'shower', es: 'ducha', fr: 'douche', my: 'ရေပန်း', category: 'At Home' },
+        { de: 'die Toilette, -n', en: 'toilet', es: 'inodoro', fr: 'toilettes', my: 'အိမ်သာ', category: 'At Home' },
+
+        // 11. Hobbies & Free Time
+        { de: 'das Hobby, -s', en: 'hobby', es: 'pasatiempo', fr: 'passe-temps', my: 'ဝါသနာ', category: 'Hobbies & Free Time' },
+        { de: 'die Freizeit', en: 'free time', es: 'tiempo libre', fr: 'temps libre', my: 'အားလပ်ချိန်', category: 'Hobbies & Free Time' },
+        { de: 'lesen', en: 'to read', es: 'leer', fr: 'lire', my: 'စာဖတ်သည်', category: 'Hobbies & Free Time' },
+        { de: 'schreiben', en: 'to write', es: 'escribir', fr: 'écrire', my: 'စာရေးသည်', category: 'Hobbies & Free Time' },
+        { de: 'hören', en: 'to hear, listen', es: 'escuchar', fr: 'écouter', my: 'နားထောင်သည်', category: 'Hobbies & Free Time' },
+        { de: 'sehen', en: 'to see, watch', es: 'ver', fr: 'voir', my: 'ကြည့်သည်', category: 'Hobbies & Free Time' },
+        { de: 'kochen', en: 'to cook', es: 'cocinar', fr: 'cuisiner', my: 'ချက်ပြုတ်သည်', category: 'Hobbies & Free Time' },
+        { de: 'backen', en: 'to bake', es: 'hornear', fr: 'cuire au four', my: 'ဖုတ်သည်', category: 'Hobbies & Free Time' },
+        { de: 'schwimmen', en: 'to swim', es: 'nadar', fr: 'nager', my: 'ရေကူးသည်', category: 'Hobbies & Free Time' },
+        { de: 'tanzen', en: 'to dance', es: 'bailar', fr: 'danser', my: 'ကသည်', category: 'Hobbies & Free Time' },
+        { de: 'singen', en: 'to sing', es: 'cantar', fr: 'chanter', my: 'သီချင်းဆိုသည်', category: 'Hobbies & Free Time' },
+        { de: 'spielen (Fußball, Karten...)', en: 'to play (soccer, cards...)', es: 'jugar (fútbol, cartas...)', fr: 'jouer (football, cartes...)', my: 'ကစားသည် (ဘောလုံး, ဖဲ...)', category: 'Hobbies & Free Time' },
+        { de: 'reisen', en: 'to travel', es: 'viajar', fr: 'voyager', my: 'ခရီးသွားသည်', category: 'Hobbies & Free Time' },
+        { de: 'wandern', en: 'to hike', es: 'caminar', fr: 'randonner', my: 'တောင်တက်သည်', category: 'Hobbies & Free Time' },
+        { de: 'Freunde treffen', en: 'to meet friends', es: 'encontrar amigos', fr: 'rencontrer des amis', my: 'သူငယ်ချင်းများနှင့်တွေ့သည်', category: 'Hobbies & Free Time' },
+        { de: 'fotografieren', en: 'to take pictures', es: 'fotografiar', fr: 'photographier', my: 'ဓာတ်ပုံရိုက်သည်', category: 'Hobbies & Free Time' },
+        { de: 'ins Kino gehen', en: 'to go to the cinema', es: 'ir al cine', fr: 'aller au cinéma', my: 'ရုပ်ရှင်ရုံသို့သွားသည်', category: 'Hobbies & Free Time' },
+        { de: 'die Musik', en: 'music', es: 'música', fr: 'musique', my: 'ဂီတ', category: 'Hobbies & Free Time' },
+        { de: 'das Lied, -er', en: 'song', es: 'canción', fr: 'chanson', my: 'သီချင်း', category: 'Hobbies & Free Time' },
+        { de: 'das Buch, ¨-er', en: 'book', es: 'libro', fr: 'livre', my: 'စာအုပ်', category: 'Hobbies & Free Time' },
+        { de: 'die Zeitung, -en', en: 'newspaper', es: 'periódico', fr: 'journal', my: 'သတင်းစာ', category: 'Hobbies & Free Time' },
+        { de: 'der Film, -e', en: 'movie', es: 'película', fr: 'film', my: 'ရုပ်ရှင်', category: 'Hobbies & Free Time' },
+        { de: 'der Sport', en: 'sport', es: 'deporte', fr: 'sport', my: 'အားကစား', category: 'Hobbies & Free Time' },
+
+        // 12. Clothing
+        { de: 'die Kleidung', en: 'clothing', es: 'ropa', fr: 'vêtements', my: 'အဝတ်အစား', category: 'Clothing' },
+        { de: 'die Jacke, -n', en: 'jacket', es: 'chaqueta', fr: 'veste', my: 'ဂျာကင်', category: 'Clothing' },
+        { de: 'der Mantel, ¨-', en: 'coat', es: 'abrigo', fr: 'manteau', my: 'ကုတ်အင်္ကျီ', category: 'Clothing' },
+        { de: 'der Pullover, -', en: 'sweater, pullover', es: 'suéter', fr: 'pull-over', my: 'ဆွယ်တာ', category: 'Clothing' },
+        { de: 'das T-Shirt, -s', en: 't-shirt', es: 'camiseta', fr: 't-shirt', my: 'တီရှပ်', category: 'Clothing' },
+        { de: 'das Hemd, -en', en: 'shirt', es: 'camisa', fr: 'chemise', my: 'ရှပ်အင်္ကျီ', category: 'Clothing' },
+        { de: 'die Hose, -n', en: 'pants, trousers', es: 'pantalones', fr: 'pantalon', my: 'ဘောင်းဘီ', category: 'Clothing' },
+        { de: 'die Jeans (pl.)', en: 'jeans', es: 'vaqueros', fr: 'jeans', my: 'ဂျင်းဘောင်းဘီ', category: 'Clothing' },
+        { de: 'der Rock, ¨-e', en: 'skirt', es: 'falda', fr: 'jupe', my: 'စကတ်', category: 'Clothing' },
+        { de: 'das Kleid, -er', en: 'dress', es: 'vestido', fr: 'robe', my: 'ဂါဝန်', category: 'Clothing' },
+        { de: 'der Schuh, -e', en: 'shoe', es: 'zapato', fr: 'chaussure', my: 'ဖိနပ်', category: 'Clothing' },
+        { de: 'der Stiefel, -', en: 'boot', es: 'bota', fr: 'botte', my: 'ဘွတ်ဖိနပ်', category: 'Clothing' },
+        { de: 'die Socke, -n', en: 'sock', es: 'calcetín', fr: 'chaussette', my: 'ခြေအိတ်', category: 'Clothing' },
+        { de: 'der Hut, ¨-e', en: 'hat', es: 'sombrero', fr: 'chapeau', my: 'ဦးထုပ်', category: 'Clothing' },
+
+        // 13. Body & Health
+        { de: 'der Körper, -', en: 'body', es: 'cuerpo', fr: 'corps', my: 'ခန္ဓာကိုယ်', category: 'Body & Health' },
+        { de: 'der Kopf', en: 'head', es: 'cabeza', fr: 'tête', my: 'ခေါင်း', category: 'Body & Health' },
+        { de: 'das Haar, -e', en: 'hair', es: 'pelo', fr: 'cheveux', my: 'ဆံပင်', category: 'Body & Health' },
+        { de: 'das Gesicht, -er', en: 'face', es: 'cara', fr: 'visage', my: 'မျက်နှာ', category: 'Body & Health' },
+        { de: 'das Auge, -n', en: 'eye', es: 'ojo', fr: 'œil', my: 'မျက်လုံး', category: 'Body & Health' },
+        { de: 'das Ohr, -en', en: 'ear', es: 'oreja', fr: 'oreille', my: 'နား', category: 'Body & Health' },
+        { de: 'die Nase, -n', en: 'nose', es: 'nariz', fr: 'nez', my: 'နှာခေါင်း', category: 'Body & Health' },
+        { de: 'der Mund, ¨-er', en: 'mouth', es: 'boca', fr: 'bouche', my: 'ပါးစပ်', category: 'Body & Health' },
+        { de: 'der Zahn, ¨-e', en: 'tooth', es: 'diente', fr: 'dent', my: 'သွား', category: 'Body & Health' },
+        { de: 'der Arm, -e', en: 'arm', es: 'brazo', fr: 'bras', my: 'လက်မောင်း', category: 'Body & Health' },
+        { de: 'die Hand, ¨-e', en: 'hand', es: 'mano', fr: 'main', my: 'လက်', category: 'Body & Health' },
+        { de: 'der Finger, -', en: 'finger', es: 'dedo', fr: 'doigt', my: 'လက်ချောင်း', category: 'Body & Health' },
+        { de: 'das Bein, -e', en: 'leg', es: 'pierna', fr: 'jambe', my: 'ခြေထောက်', category: 'Body & Health' },
+        { de: 'der Fuß, ¨-e', en: 'foot', es: 'pie', fr: 'pied', my: 'ခြေဖဝါး', category: 'Body & Health' },
+        { de: 'der Bauch', en: 'stomach, belly', es: 'barriga', fr: 'ventre', my: 'ဗိုက်', category: 'Body & Health' },
+        { de: 'der Rücken', en: 'back', es: 'espalda', fr: 'dos', my: 'ကျော', category: 'Body & Health' },
+        { de: 'gesund', en: 'healthy', es: 'saludable', fr: 'en bonne santé', my: 'ကျန်းမာသော', category: 'Body & Health' },
+        { de: 'krank', en: 'sick', es: 'enfermo', fr: 'malade', my: 'နေမကောင်း', category: 'Body & Health' },
+        { de: 'der Schmerz, -en', en: 'pain', es: 'dolor', fr: 'douleur', my: 'နာကျင်မှု', category: 'Body & Health' },
+        { de: 'das Fieber', en: 'fever', es: 'fiebre', fr: 'fièvre', my: 'အဖျား', category: 'Body & Health' },
+        { de: 'die Apotheke, -n', en: 'pharmacy', es: 'farmacia', fr: 'pharmacie', my: 'ဆေးဆိုင်', category: 'Body & Health' },
+
+        // 14. Important Adjectives & Adverbs
+        { de: 'gut', en: 'good', es: 'bueno', fr: 'bon', my: 'ကောင်းသော', category: 'Important Adjectives & Adverbs' },
+        { de: 'schlecht', en: 'bad', es: 'malo', fr: 'mauvais', my: 'မကောင်းသော', category: 'Important Adjectives & Adverbs' },
+        { de: 'groß', en: 'big, tall', es: 'grande', fr: 'grand', my: 'ကြီးသော', category: 'Important Adjectives & Adverbs' },
+        { de: 'klein', en: 'small, short', es: 'pequeño', fr: 'petit', my: 'သေးသော', category: 'Important Adjectives & Adverbs' },
+        { de: 'neu', en: 'new', es: 'nuevo', fr: 'nouveau', my: 'အသစ်', category: 'Important Adjectives & Adverbs' },
+        { de: 'alt', en: 'old', es: 'viejo', fr: 'vieux', my: 'အဟောင်း', category: 'Important Adjectives & Adverbs' },
+        { de: 'schön', en: 'beautiful', es: 'hermoso', fr: 'beau', my: 'လှပသော', category: 'Important Adjectives & Adverbs' },
+        { de: 'hässlich', en: 'ugly', es: 'feo', fr: 'laid', my: 'အရုပ်ဆိုးသော', category: 'Important Adjectives & Adverbs' },
+        { de: 'billig', en: 'cheap', es: 'barato', fr: 'bon marché', my: 'ဈေးပေါသော', category: 'Important Adjectives & Adverbs' },
+        { de: 'teuer', en: 'expensive', es: 'caro', fr: 'cher', my: 'ဈေးကြီးသော', category: 'Important Adjectives & Adverbs' },
+        { de: 'schnell', en: 'fast', es: 'rápido', fr: 'rapide', my: 'မြန်သော', category: 'Important Adjectives & Adverbs' },
+        { de: 'langsam', en: 'slow', es: 'lento', fr: 'lent', my: 'နှေးသော', category: 'Important Adjectives & Adverbs' },
+        { de: 'richtig', en: 'correct', es: 'correcto', fr: 'correct', my: 'မှန်ကန်သော', category: 'Important Adjectives & Adverbs' },
+        { de: 'falsch', en: 'wrong', es: 'incorrecto', fr: 'faux', my: 'မှားယွင်းသော', category: 'Important Adjectives & Adverbs' },
+        { de: 'viel', en: 'much, a lot', es: 'mucho', fr: 'beaucoup', my: 'များသော', category: 'Important Adjectives & Adverbs' },
+        { de: 'wenig', en: 'little, few', es: 'poco', fr: 'peu', my: 'နည်းသော', category: 'Important Adjectives & Adverbs' },
+        { de: 'kalt', en: 'cold', es: 'frío', fr: 'froid', my: 'အေးသော', category: 'Important Adjectives & Adverbs' },
+        { de: 'warm', en: 'warm', es: 'cálido', fr: 'chaud', my: 'နွေးသော', category: 'Important Adjectives & Adverbs' },
+        { de: 'heiß', en: 'hot', es: 'caliente', fr: 'chaud', my: 'ပူသော', category: 'Important Adjectives & Adverbs' },
+        { de: 'frei', en: 'free', es: 'libre', fr: 'libre', my: 'အားသော', category: 'Important Adjectives & Adverbs' },
+        { de: 'besetzt', en: 'occupied', es: 'ocupado', fr: 'occupé', my: 'မအားသော', category: 'Important Adjectives & Adverbs' },
+        { de: 'offen', en: 'open', es: 'abierto', fr: 'ouvert', my: 'ဖွင့်ထားသော', category: 'Important Adjectives & Adverbs' },
+        { de: 'geschlossen', en: 'closed', es: 'cerrado', fr: 'fermé', my: 'ပိတ်ထားသော', category: 'Important Adjectives & Adverbs' },
+        { de: 'hell', en: 'bright, light', es: 'brillante', fr: 'lumineux', my: 'လင်းသော', category: 'Important Adjectives & Adverbs' },
+        { de: 'dunkel', en: 'dark', es: 'oscuro', fr: 'sombre', my: 'မှောင်သော', category: 'Important Adjectives & Adverbs' },
+        { de: 'laut', en: 'loud', es: 'ruidoso', fr: 'bruyant', my: 'ကျယ်လောင်သော', category: 'Important Adjectives & Adverbs' },
+        { de: 'leise', en: 'quiet', es: 'tranquilo', fr: 'silencieux', my: 'တိတ်ဆိတ်သော', category: 'Important Adjectives & Adverbs' },
+        { de: 'müde', en: 'tired', es: 'cansado', fr: 'fatigué', my: 'ပင်ပန်းသော', category: 'Important Adjectives & Adverbs' },
+        { de: 'gern(e)', en: 'gladly (like to do something)', es: 'con gusto', fr: 'volontiers', my: 'နှစ်သက်စွာ', category: 'Important Adjectives & Adverbs' },
+        { de: 'hier', en: 'here', es: 'aquí', fr: 'ici', my: 'ဒီမှာ', category: 'Important Adjectives & Adverbs' },
+        { de: 'dort', en: 'there', es: 'allí', fr: 'là', my: 'ဟိုမှာ', category: 'Important Adjectives & Adverbs' },
+
+        // 15. Important Verbs
+        { de: 'sein', en: 'to be', es: 'ser', fr: 'être', my: 'ဖြစ်သည်', category: 'Important Verbs' },
+        { de: 'haben', en: 'to have', es: 'tener', fr: 'avoir', my: 'ရှိသည်', category: 'Important Verbs' },
+        { de: 'werden', en: 'to become', es: 'llegar a ser', fr: 'devenir', my: 'ဖြစ်လာသည်', category: 'Important Verbs' },
+        { de: 'machen', en: 'to make, do', es: 'hacer', fr: 'faire', my: 'ပြုလုပ်သည်', category: 'Important Verbs' },
+        { de: 'tun', en: 'to do', es: 'hacer', fr: 'faire', my: 'လုပ်သည်', category: 'Important Verbs' },
+        { de: 'gehen', en: 'to go, walk', es: 'ir', fr: 'aller', my: 'သွားသည်', category: 'Important Verbs' },
+        { de: 'kommen', en: 'to come', es: 'venir', fr: 'venir', my: 'လာသည်', category: 'Important Verbs' },
+        { de: 'fahren', en: 'to drive, go', es: 'conducir', fr: 'conduire', my: 'မောင်းသည်', category: 'Important Verbs' },
+        { de: 'geben', en: 'to give', es: 'dar', fr: 'donner', my: 'ပေးသည်', category: 'Important Verbs' },
+        { de: 'nehmen', en: 'to take', es: 'tomar', fr: 'prendre', my: 'ယူသည်', category: 'Important Verbs' },
+        { de: 'sprechen', en: 'to speak', es: 'hablar', fr: 'parler', my: 'စကားပြောသည်', category: 'Important Verbs' },
+        { de: 'sagen', en: 'to say', es: 'decir', fr: 'dire', my: 'ပြောသည်', category: 'Important Verbs' },
+        { de: 'verstehen', en: 'to understand', es: 'entender', fr: 'comprendre', my: 'နားလည်သည်', category: 'Important Verbs' },
+        { de: 'wissen', en: 'to know (fact)', es: 'saber', fr: 'savoir', my: 'သိသည် (အချက်)', category: 'Important Verbs' },
+        { de: 'kennen', en: 'to know (person)', es: 'conocer', fr: 'connaître', my: 'သိသည် (လူ)', category: 'Important Verbs' },
+        { de: 'brauchen', en: 'to need', es: 'necesitar', fr: 'avoir besoin', my: 'လိုအပ်သည်', category: 'Important Verbs' },
+        { de: 'möchten', en: 'would like', es: 'gustaría', fr: 'aimerais', my: '...ချင်သည်', category: 'Important Verbs' },
+        { de: 'können', en: 'can', es: 'poder', fr: 'pouvoir', my: '...နိုင်သည်', category: 'Important Verbs' },
+        { de: 'müssen', en: 'must', es: 'deber', fr: 'devoir', my: '...ရမည်', category: 'Important Verbs' },
+        { de: 'wollen', en: 'want', es: 'querer', fr: 'vouloir', my: '...ချင်သည်', category: 'Important Verbs' },
+        { de: 'dürfen', en: 'may', es: 'poder', fr: 'pouvoir', my: '...ခွင့်ပြုသည်', category: 'Important Verbs' },
+        { de: 'kaufen', en: 'to buy', es: 'comprar', fr: 'acheter', my: 'ဝယ်သည်', category: 'Important Verbs' },
+        { de: 'verkaufen', en: 'to sell', es: 'vender', fr: 'vendre', my: 'ရောင်းသည်', category: 'Important Verbs' },
+        { de: 'bezahlen', en: 'to pay', es: 'pagar', fr: 'payer', my: 'ငွေရှင်းသည်', category: 'Important Verbs' },
+        { de: 'kosten', en: 'to cost', es: 'costar', fr: 'coûter', my: 'ကုန်ကျသည်', category: 'Important Verbs' },
+        { de: 'suchen', en: 'to look for', es: 'buscar', fr: 'chercher', my: 'ရှာသည်', category: 'Important Verbs' },
+        { de: 'finden', en: 'to find', es: 'encontrar', fr: 'trouver', my: 'တွေ့သည်', category: 'Important Verbs' },
+        { de: 'fragen', en: 'to ask', es: 'preguntar', fr: 'demander', my: 'မေးသည်', category: 'Important Verbs' },
+        { de: 'antworten', en: 'to answer', es: 'responder', fr: 'répondre', my: 'ဖြေသည်', category: 'Important Verbs' },
+        { de: 'helfen', en: 'to help', es: 'ayudar', fr: 'aider', my: 'ကူညီသည်', category: 'Important Verbs' },
+        { de: 'anrufen', en: 'to call (on the phone)', es: 'llamar', fr: 'appeler', my: 'ဖုန်းခေါ်သည်', category: 'Important Verbs' },
+        { de: 'aufstehen', en: 'to get up', es: 'levantarse', fr: 'se lever', my: 'အိပ်ရာထသည်', category: 'Important Verbs' },
+        { de: 'schlafen', en: 'to sleep', es: 'dormir', fr: 'dormir', my: 'အိပ်သည်', category: 'Important Verbs' },
+        { de: 'beginnen', en: 'to begin', es: 'comenzar', fr: 'commencer', my: 'စတင်သည်', category: 'Important Verbs' },
+        { de: 'anfangen', en: 'to start', es: 'empezar', fr: 'commencer', my: 'စတင်သည်', category: 'Important Verbs' },
+        { de: 'öffnen', en: 'to open', es: 'abrir', fr: 'ouvrir', my: 'ဖွင့်သည်', category: 'Important Verbs' },
+        { de: 'schließen', en: 'to close', es: 'cerrar', fr: 'fermer', my: 'ပိတ်သည်', category: 'Important Verbs' },
+        { de: 'wiederholen', en: 'to repeat', es: 'repetir', fr: 'répéter', my: 'ပြန်လုပ်သည်', category: 'Important Verbs' },
+
+        // 16. Prepositions & Conjunctions
+        { de: 'in', en: 'in', es: 'en', fr: 'dans', my: 'ထဲမှာ', category: 'Prepositions & Conjunctions' },
+        { de: 'an', en: 'on (vertical)', es: 'en', fr: 'à', my: 'ပေါ်မှာ (ဒေါင်လိုက်)', category: 'Prepositions & Conjunctions' },
+        { de: 'auf', en: 'on (horizontal)', es: 'sobre', fr: 'sur', my: 'ပေါ်မှာ (ရေပြင်ညီ)', category: 'Prepositions & Conjunctions' },
+        { de: 'für', en: 'for', es: 'para', fr: 'pour', my: 'အတွက်', category: 'Prepositions & Conjunctions' },
+        { de: 'mit', en: 'with', es: 'con', fr: 'avec', my: 'နှင့်အတူ', category: 'Prepositions & Conjunctions' },
+        { de: 'ohne', en: 'without', es: 'sin', fr: 'sans', my: 'မပါဘဲ', category: 'Prepositions & Conjunctions' },
+        { de: 'aus', en: 'from (origin)', es: 'de', fr: 'de', my: '...မှ', category: 'Prepositions & Conjunctions' },
+        { de: 'von', en: 'from, of', es: 'de', fr: 'de', my: '...၏', category: 'Prepositions & Conjunctions' },
+        { de: 'zu', en: 'to (people)', es: 'a', fr: 'à', my: '...ဆီသို့', category: 'Prepositions & Conjunctions' },
+        { de: 'über', en: 'over, about', es: 'sobre', fr: 'sur', my: 'အပေါ်', category: 'Prepositions & Conjunctions' },
+        { de: 'unter', en: 'under', es: 'bajo', fr: 'sous', my: 'အောက်', category: 'Prepositions & Conjunctions' },
+        { de: 'vor', en: 'in front of, before', es: 'antes', fr: 'avant', my: 'ရှေ့မှာ', category: 'Prepositions & Conjunctions' },
+        { de: 'hinter', en: 'behind', es: 'detrás', fr: 'derrière', my: 'နောက်မှာ', category: 'Prepositions & Conjunctions' },
+        { de: 'neben', en: 'next to', es: 'junto a', fr: 'à côté de', my: 'ဘေးမှာ', category: 'Prepositions & Conjunctions' },
+        { de: 'zwischen', en: 'between', es: 'entre', fr: 'entre', my: 'ကြားမှာ', category: 'Prepositions & Conjunctions' },
+        { de: 'und', en: 'and', es: 'y', fr: 'et', my: 'နှင့်', category: 'Prepositions & Conjunctions' },
+        { de: 'aber', en: 'but', es: 'pero', fr: 'mais', my: 'သို့သော်', category: 'Prepositions & Conjunctions' },
+        { de: 'oder', en: 'or', es: 'o', fr: 'ou', my: 'သို့မဟုတ်', category: 'Prepositions & Conjunctions' },
+        { de: 'denn', en: 'because (no word order change)', es: 'porque', fr: 'car', my: 'ဘာဖြစ်လို့လဲဆိုတော့', category: 'Prepositions & Conjunctions' },
+        { de: 'weil', en: 'because (verb to end)', es: 'porque', fr: 'parce que', my: 'ဘာဖြစ်လို့လဲဆိုတော့', category: 'Prepositions & Conjunctions' }
+    ];
+
+    const categoryColors = {
+        'Greetings & Courtesies': '#2563eb',      // Blue 600
+        'Personal Information': '#7c3aed',        // Purple 600
+        'Question Words': '#0d9488',              // Teal 600
+        'Numbers': '#16a34a',                     // Green 600
+        'The Family': '#ea580c',                  // Orange 600
+        'Important Verbs': '#dc2626',             // Red 600
+        'Jobs & Professions': '#4f46e5',          // Indigo 600
+        'Time, Days, Months & Seasons': '#0891b2',// Cyan 600
+        'Food & Drink': '#e11d48',                // Rose 600
+        'In the City & Transportation': '#4b5563',// Gray 600
+        'At Home': '#b45309',                     // Amber 700
+        'Hobbies & Free Time': '#db2777',         // Pink 600
+        'Clothing': '#86198f',                    // Fuchsia 700
+        'Body & Health': '#059669',               // Emerald 600
+        'Important Adjectives & Adverbs': '#1d4ed8', // Blue 700
+        'Prepositions & Conjunctions': '#374151', // Gray 700
+        'Default': '#52525b'                      // Zinc 600
+    };
+    const categoryIcons = { 
+        'Greetings & Courtesies': 'fa-solid fa-handshake-simple', 
+        'Personal Information': 'fa-solid fa-id-card', 
+        'Question Words': 'fa-solid fa-circle-question', 
+        'Numbers': 'fa-solid fa-arrow-down-1-9', 
+        'The Family': 'fa-solid fa-users', 
+        'Jobs & Professions': 'fa-solid fa-briefcase', 
+        'Time, Days, Months & Seasons': 'fa-solid fa-calendar-days', 
+        'Food & Drink': 'fa-solid fa-utensils', 
+        'In the City & Transportation': 'fa-solid fa-bus-simple', 
+        'At Home': 'fa-solid fa-house-chimney', 
+        'Hobbies & Free Time': 'fa-solid fa-futbol', 
+        'Clothing': 'fa-solid fa-shirt', 
+        'Body & Health': 'fa-solid fa-heart-pulse', 
+        'Important Adjectives & Adverbs': 'fa-solid fa-wand-magic-sparkles', 
+        'Important Verbs': 'fa-solid fa-person-running', 
+        'Prepositions & Conjunctions': 'fa-solid fa-link' 
+    };
+
+    const vocabularyWithIds = rawVocabularyData.map((item, index) => ({ ...item, id: index }));
+    const body = document.body, mainTitle = document.getElementById('main-title'), homeBtn = document.getElementById('home-btn'), categoryGrid = document.getElementById('category-grid'), vocabList = document.getElementById('vocabulary-list'), searchInput = document.getElementById('search-input'), toggleEn = document.getElementById('toggle-en'), toggleEs = document.getElementById('toggle-es'), toggleFr = document.getElementById('toggle-fr'), toggleMy = document.getElementById('toggle-my'), toggleFavorites = document.getElementById('toggle-favorites');
+
+    let favorites = [], currentListData = [];
+
+    function saveFavorites() { localStorage.setItem('germanA1FavoritesList', JSON.stringify(favorites)); }
+    function loadFavorites() { const stored = JSON.parse(localStorage.getItem('germanA1FavoritesList')); if (stored) favorites = stored; }
+
+    function renderCategoryGrid() {
+        categoryGrid.innerHTML = '';
+        const showAllBox = document.createElement('div');
+        showAllBox.className = 'category-box show-all-tip';
+        showAllBox.dataset.category = 'All';
+        showAllBox.innerHTML = `<i class="fas fa-list-ul"></i><span>Show All Vocabulary</span>`;
+        categoryGrid.appendChild(showAllBox);
+        Object.keys(categoryColors).forEach(category => {
+            if (category === 'Default') return;
+            const hasVocabForCategory = vocabularyWithIds.some(item => item.category === category);
+            if (rawVocabularyData.some(v => v.category === category) || categoryIcons[category]) {
+                 const box = document.createElement('div');
+                box.className = 'category-box';
+                box.style.backgroundColor = categoryColors[category] || categoryColors['Default'];
+                box.dataset.category = category;
+                box.innerHTML = `<i class="${categoryIcons[category] || 'fa-solid fa-question'}"></i><span>${category}</span>`;
+                categoryGrid.appendChild(box);
+            }
+        });
+    }
+
+    function displayItemsOnPage(itemsToDisplay) {
+        vocabList.innerHTML = '';
+        itemsToDisplay.forEach(item => {
+            const isFavorited = favorites.includes(item.id);
+            const entry = document.createElement('div');
+            entry.className = `vocab-entry ${isFavorited ? 'is-favorite' : ''}`;
+            entry.dataset.id = item.id;
+
+            const categoryColor = categoryColors[item.category] || categoryColors['Default'];
+
+            entry.innerHTML = `
+                <div class="vocab-main">
+                    <div class="lang-row de">
+                        <span class="lang-label">DE</span><span class="word">${item.de}</span>
+                        <button class="speak-btn" data-lang="de-DE" data-text="${item.de}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div class="lang-row en">
+                        <span class="lang-label">EN</span><span class="word">${item.en}</span>
+                        <button class="speak-btn" data-lang="en-US" data-text="${item.en}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div class="lang-row es">
+                        <span class="lang-label">ES</span><span class="word">${item.es}</span>
+                        <button class="speak-btn" data-lang="es-ES" data-text="${item.es}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div class="lang-row fr">
+                        <span class="lang-label">FR</span><span class="word">${item.fr}</span>
+                        <button class="speak-btn" data-lang="fr-FR" data-text="${item.fr}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div lang="my" class="lang-row my">
+                        <span class="lang-label">MY</span><span class="word">${item.my}</span>
+                        <button class="speak-btn" data-lang="my-MM" data-text="${item.my}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div class="vocab-meta-row">
+                        <i class="favorite-toggle fas fa-star" title="Toggle Favorite"></i>
+                        <div class="vocab-category-display">
+                            <span class="vocab-category-badge" style="background-color: ${categoryColor};" title="${item.category}">${item.category}</span>
+                        </div>
+                    </div>
+                </div>`;
+            vocabList.appendChild(entry);
+        });
+        updateLanguageColumnVisibility();
+    }
+
+    function filterAndDisplayVocabulary() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const showFavoritesOnly = toggleFavorites.checked;
+        let filteredItems = currentListData;
+        if (showFavoritesOnly) {
+            filteredItems = filteredItems.filter(item => favorites.includes(item.id));
+        }
+        if (searchTerm) {
+            filteredItems = filteredItems.filter(item =>
+                item.de.toLowerCase().includes(searchTerm) ||
+                item.en.toLowerCase().includes(searchTerm) ||
+                item.es.toLowerCase().includes(searchTerm) ||
+                item.fr.toLowerCase().includes(searchTerm) ||
+                item.my.toLowerCase().includes(searchTerm) ||
+                item.category.toLowerCase().includes(searchTerm)
+            );
+        }
+        displayItemsOnPage(filteredItems);
+    }
+
+    function updateLanguageColumnVisibility() {
+        vocabList.classList.toggle('hide-en', !toggleEn.checked);
+        vocabList.classList.toggle('hide-es', !toggleEs.checked);
+        vocabList.classList.toggle('hide-fr', !toggleFr.checked);
+        vocabList.classList.toggle('hide-my', !toggleMy.checked);
+    }
+
+    function switchToListView(category) {
+        if (category === 'All') {
+            currentListData = vocabularyWithIds;
+            mainTitle.textContent = 'All Vocabulary';
+        } else {
+            currentListData = vocabularyWithIds.filter(item => item.category === category);
+            mainTitle.textContent = category;
+        }
+        searchInput.value = '';
+        toggleFavorites.checked = false;
+        filterAndDisplayVocabulary();
+        body.classList.remove('grid-view');
+        body.classList.add('list-view');
+    }
+
+    function switchToGridView() {
+        mainTitle.textContent = 'A1 German Vocabulary';
+        body.classList.remove('list-view');
+        body.classList.add('grid-view');
+    }
+
+    function init() {
+        loadFavorites();
+        renderCategoryGrid();
+
+        categoryGrid.addEventListener('click', e => {
+            const categoryBox = e.target.closest('.category-box');
+            if (categoryBox) { switchToListView(categoryBox.dataset.category); }
+        });
+
+        homeBtn.addEventListener('click', switchToGridView);
+        searchInput.addEventListener('input', filterAndDisplayVocabulary);
+        toggleEn.addEventListener('change', updateLanguageColumnVisibility);
+        toggleEs.addEventListener('change', updateLanguageColumnVisibility);
+        toggleFr.addEventListener('change', updateLanguageColumnVisibility);
+        toggleMy.addEventListener('change', updateLanguageColumnVisibility);
+        toggleFavorites.addEventListener('change', filterAndDisplayVocabulary);
+
+        vocabList.addEventListener('click', e => {
+            const entryElement = e.target.closest('.vocab-entry');
+            if (!entryElement) return;
+
+            if (e.target.closest('.speak-btn')) {
+                const button = e.target.closest('.speak-btn');
+                const textToSpeak = button.dataset.text.split('/')[0].trim();
+                const lang = button.dataset.lang;
+                const synth = window.speechSynthesis;
+                if (synth.speaking) { synth.cancel(); }
+                const utterance = new SpeechSynthesisUtterance(textToSpeak);
+                utterance.lang = lang;
+                synth.speak(utterance);
+                return;
+            }
+
+            if (e.target.closest('.favorite-toggle')) {
+                const entryId = parseInt(entryElement.dataset.id, 10);
+
+                if (favorites.includes(entryId)) {
+                    favorites = favorites.filter(id => id !== entryId);
+                    entryElement.classList.remove('is-favorite');
+                } else {
+                    favorites.push(entryId);
+                    entryElement.classList.add('is-favorite');
+                }
+                saveFavorites();
+                if (toggleFavorites.checked) {
+                    filterAndDisplayVocabulary();
+                }
+                return;
+            }
+        });
+    }
+
+    init();
+});
+</script>
+
+</body>
+</html>

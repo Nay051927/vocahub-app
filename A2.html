@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>German A2 Vocabulary List (DE-EN-ES-FR-MY)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #005f73;
+            --background-color: #f8f9fa;
+            --entry-bg: #ffffff;
+            --text-color: #212529;
+            --muted-text-color: #6c757d;
+            --border-color: #dee2e6;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-right: auto;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            padding: 10px 18px;
+            border-radius: 22px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            white-space: nowrap;
+            color: white;
+            background: linear-gradient(135deg, rgba(0, 95, 115, 0.85) 0%, rgba(0, 75, 95, 0.85) 100%);
+            border: 1px solid rgba(0, 95, 115, 0.9);
+            transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn i {
+            transition: transform 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, rgba(0, 95, 115, 1) 0%, rgba(0, 75, 95, 1) 100%);
+            border-color: rgba(0, 95, 115, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .nav-btn:hover i {
+            transform: scale(1.1);
+        }
+
+        #category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            background-color: #f0f2f5;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .category-box {
+            color: white; padding: 15px; border-radius: 8px; text-align: center;
+            font-weight: 600; font-size: 0.95rem; cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; gap: 10px; height: 140px; overflow: hidden;
+        }
+        .category-box i { font-size: 2rem; margin-bottom: 5px; }
+        .category-box:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+        .show-all-tip { background-color: var(--muted-text-color) !important; }
+
+        body.list-view #category-grid { display: none; }
+        body.grid-view #vocabulary-section { display: none; }
+        body.grid-view #home-btn { display: none; }
+
+        .search-container { margin-bottom: 20px; }
+        #search-input { width: 100%; padding: 12px 15px; font-size: 1rem; border: 1px solid var(--border-color); border-radius: 8px; }
+        .controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin: 30px 0; padding: 15px; background-color: var(--entry-bg); border: 1px solid var(--border-color); border-radius: 12px; }
+        .controls label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 500; }
+        #vocabulary-list { display: flex; flex-direction: column; gap: 12px; }
+
+        .vocab-entry {
+            background-color: var(--entry-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+        }
+        .vocab-entry.is-favorite {
+            border-left: 4px solid #ffc107;
+            padding-left: 11px;
+        }
+
+        .vocab-main {
+            flex-grow: 1;
+        }
+
+        .lang-row { display: flex; align-items: center; justify-content: space-between; padding: 5px 0; }
+        .lang-row:not(:last-child) { border-bottom: 1px solid #f0f0f0; }
+        .lang-label { font-weight: 700; color: var(--primary-color); min-width: 30px; }
+        .word {
+            font-size: 1.1rem;
+            text-align: left;
+            margin: 0 10px;
+            flex-grow: 1;
+            color: var(--text-color);
+        }
+        .lang-my .word { font-family: "Padauk", sans-serif; font-size: 1.2rem; }
+        .lang-es .word { font-style: italic; }
+        .de .word { font-weight: 600; }
+        .speak-btn { background: none; border: none; cursor: pointer; color: var(--muted-text-color); font-size: 1.1rem; }
+        .hide-en .lang-row.en, .hide-my .lang-row.my, .hide-es .lang-row.es, .hide-fr .lang-row.fr { display: none; }
+
+        .vocab-meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .favorite-toggle {
+            font-size: 1.5rem;
+            color: var(--muted-text-color);
+            cursor: pointer;
+            padding-right: 8px;
+            flex-shrink: 0;
+        }
+        .vocab-entry.is-favorite .favorite-toggle { color: #ffc107; }
+
+        .vocab-category-display {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            flex-grow: 1;
+            min-width: auto;
+        }
+
+        .vocab-category-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: white;
+            border-radius: 12px;
+            background-color: var(--muted-text-color);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+            max-width: 180px;
+            min-width: 70px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+            .header-nav {
+                width: 100%;
+                justify-content: center;
+            }
+            .nav-btn {
+                font-size: 0.85rem;
+                padding: 8px 15px;
+            }
+            #category-grid {
+                padding: 15px;
+            }
+            .vocab-entry {
+                padding: 12px;
+            }
+            .vocab-entry.is-favorite {
+                 padding-left: 8px;
+            }
+            .favorite-toggle {
+                font-size: 1.3rem;
+                padding-right: 5px;
+            }
+            .vocab-meta-row {
+                margin-top: 8px;
+                padding-top: 6px;
+            }
+            .vocab-category-badge {
+                font-size: 0.75rem;
+                padding: 3px 8px;
+                max-width: 180px;
+                min-width: 60px;
+            }
+        }
+         @media (max-width: 480px) {
+             #category-grid {
+                padding: 10px;
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .vocab-category-badge {
+                max-width: 200px;
+                min-width: 100px;
+                font-size: 0.7rem;
+                padding: 3px 6px;
+            }
+         }
+    </style>
+</head>
+<body class="grid-view">
+
+<div class="container">
+    <header>
+        <h1 id="main-title">A1 German Vocabulary</h1>
+        <div class="header-nav">
+            <a href="index.html" id="back-to-levels-btn" class="nav-btn">
+                <i class="fas fa-layer-group"></i> Back to Levels
+            </a>
+            <button id="home-btn" class="nav-btn">
+                <i class="fas fa-home"></i> Back to Categories
+            </button>
+        </div>
+    </header>
+
+    <div id="category-grid"></div>
+    <div id="vocabulary-section">
+        <div class="search-container">
+            <input type="search" id="search-input" placeholder="Search vocabulary...">
+        </div>
+        <div class="controls">
+            <label><input type="checkbox" id="toggle-en" checked> Show English</label>
+            <label><input type="checkbox" id="toggle-es" checked> Show Español</label>
+            <label><input type="checkbox" id="toggle-fr" checked> Show Français</label>
+            <label><input type="checkbox" id="toggle-my" checked> Show မြန်မာ</label>
+            <label><input type="checkbox" id="toggle-favorites"> Show Favorites Only</label>
+        </div>
+        <div id="vocabulary-list"></div>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    const rawVocabularyData = [
+        // 1. Daily Life & Routine
+        { de: 'der Alltag', en: 'daily routine', es: 'rutina diaria', fr: 'routine quotidienne', my: 'နေ့စဉ်လုပ်ငန်းဆောင်တာ', category: 'Daily Life & Routine' },
+        { de: 'aufstehen', en: 'to get up', es: 'levantarse', fr: 'se lever', my: 'အိပ်ရာထသည်', category: 'Daily Life & Routine' },
+        { de: 'sich anziehen', en: 'to get dressed', es: 'vestirse', fr: 's\'habiller', my: 'အဝတ်လဲသည်', category: 'Daily Life & Routine' },
+        { de: 'frühstücken', en: 'to have breakfast', es: 'desayunar', fr: 'prendre le petit déjeuner', my: 'မနက်စာစားသည်', category: 'Daily Life & Routine' },
+        { de: 'zur Arbeit gehen', en: 'to go to work', es: 'ir al trabajo', fr: 'aller au travail', my: 'အလုပ်သွားသည်', category: 'Daily Life & Routine' },
+        { de: 'zu Mittag essen', en: 'to have lunch', es: 'almorzar', fr: 'déjeuner', my: 'နေ့လည်စာစားသည်', category: 'Daily Life & Routine' },
+        { de: 'nach Hause kommen', en: 'to come home', es: 'volver a casa', fr: 'rentrer à la maison', my: 'အိမ်ပြန်သည်', category: 'Daily Life & Routine' },
+        { de: 'zu Abend essen', en: 'to have dinner', es: 'cenar', fr: 'dîner', my: 'ညစာစားသည်', category: 'Daily Life & Routine' },
+        { de: 'fernsehen', en: 'to watch TV', es: 'ver la televisión', fr: 'regarder la télévision', my: 'တီဗီကြည့်သည်', category: 'Daily Life & Routine' },
+        { de: 'schlafen gehen', en: 'to go to bed', es: 'ir a dormir', fr: 'aller se coucher', my: 'အိပ်ရာဝင်သည်', category: 'Daily Life & Routine' },
+
+        // 2. Shopping
+        { de: 'der Supermarkt', en: 'supermarket', es: 'supermercado', fr: 'supermarché', my: 'စူပါမားကတ်', category: 'Shopping' },
+        { de: 'der Markt', en: 'market', es: 'mercado', fr: 'marché', my: 'ဈေး', category: 'Shopping' },
+        { de: 'das Geschäft', en: 'shop', es: 'tienda', fr: 'magasin', my: 'ဆိုင်', category: 'Shopping' },
+        { de: 'der Preis', en: 'price', es: 'precio', fr: 'prix', my: 'ဈေးနှုန်း', category: 'Shopping' },
+        { de: 'teuer', en: 'expensive', es: 'caro', fr: 'cher', my: 'ဈေးကြီးသော', category: 'Shopping' },
+        { de: 'billig', en: 'cheap', es: 'barato', fr: 'bon marché', my: 'ဈေးပေါသော', category: 'Shopping' },
+        { de: 'der Rabatt', en: 'discount', es: 'descuento', fr: 'réduction', my: 'လျှော့ဈေး', category: 'Shopping' },
+        { de: 'das Angebot', en: 'offer', es: 'oferta', fr: 'offre', my: 'အထူးလျှော့ဈေး', category: 'Shopping' },
+        { de: 'die Kasse', en: 'checkout', es: 'caja', fr: 'caisse', my: 'ငွေရှင်းကောင်တာ', category: 'Shopping' },
+        { de: 'die Einkaufstasche', en: 'shopping bag', es: 'bolsa de compras', fr: 'sac de courses', my: 'ဈေးအိတ်', category: 'Shopping' },
+
+        // 3. Travel & Directions
+        { de: 'die Reise', en: 'trip', es: 'viaje', fr: 'voyage', my: 'ခရီး', category: 'Travel & Directions' },
+        { de: 'der Urlaub', en: 'vacation', es: 'vacaciones', fr: 'vacances', my: 'အားလပ်ရက်', category: 'Travel & Directions' },
+        { de: 'das Hotel', en: 'hotel', es: 'hotel', fr: 'hôtel', my: 'ဟိုတယ်', category: 'Travel & Directions' },
+        { de: 'die Unterkunft', en: 'accommodation', es: 'alojamiento', fr: 'hébergement', my: 'နေထိုင်ရာနေရာ', category: 'Travel & Directions' },
+        { de: 'die Landkarte', en: 'map', es: 'mapa', fr: 'carte', my: 'မြေပုံ', category: 'Travel & Directions' },
+        { de: 'der Weg', en: 'way', es: 'camino', fr: 'chemin', my: 'လမ်း', category: 'Travel & Directions' },
+        { de: 'die Richtung', en: 'direction', es: 'dirección', fr: 'direction', my: '�းတည်ရာ', category: 'Travel & Directions' },
+        { de: 'geradeaus', en: 'straight ahead', es: 'recto', fr: 'tout droit', my: 'တည့်တည့်', category: 'Travel & Directions' },
+        { de: 'um die Ecke', en: 'around the corner', es: 'a la vuelta de la esquina', fr: 'au coin de la rue', my: 'လမ်းထောင့်မှာ', category: 'Travel & Directions' },
+        { de: 'die Kreuzung', en: 'crossing', es: 'cruce', fr: 'carrefour', my: 'လမ်းဆုံ', category: 'Travel & Directions' },
+
+        // 4. Weather
+        { de: 'das Wetter', en: 'weather', es: 'tiempo', fr: 'temps', my: 'ရာသီဥတု', category: 'Weather' },
+        { de: 'sonnig', en: 'sunny', es: 'soleado', fr: 'ensoleillé', my: 'နေသာသော', category: 'Weather' },
+        { de: 'bewölkt', en: 'cloudy', es: 'nublado', fr: 'nuageux', my: 'မိုးတိမ်ရှိသော', category: 'Weather' },
+        { de: 'regnerisch', en: 'rainy', es: 'lluvioso', fr: 'pluvieux', my: 'မိုးရွာသော', category: 'Weather' },
+        { de: 'der Regen', en: 'rain', es: 'lluvia', fr: 'pluie', my: 'မိုး', category: 'Weather' },
+        { de: 'der Schnee', en: 'snow', es: 'nieve', fr: 'neige', my: 'နှင်း', category: 'Weather' },
+        { de: 'der Wind', en: 'wind', es: 'viento', fr: 'vent', my: 'လေ', category: 'Weather' },
+        { de: 'der Sturm', en: 'storm', es: 'tormenta', fr: 'tempête', my: 'မုန်တိုင်း', category: 'Weather' },
+        { de: 'die Temperatur', en: 'temperature', es: 'temperatura', fr: 'température', my: 'အပူချိန်', category: 'Weather' },
+        { de: 'der Grad', en: 'degree', es: 'grado', fr: 'degré', my: 'ဒီဂရီ', category: 'Weather' },
+
+        // 5. Health & Body
+        { de: 'gesund', en: 'healthy', es: 'saludable', fr: 'en bonne santé', my: 'ကျန်းမာသော', category: 'Health & Body' },
+        { de: 'krank', en: 'sick', es: 'enfermo', fr: 'malade', my: 'နေမကောင်း', category: 'Health & Body' },
+        { de: 'der Schmerz', en: 'pain', es: 'dolor', fr: 'douleur', my: 'နာကျင်မှု', category: 'Health & Body' },
+        { de: 'die Krankheit', en: 'illness', es: 'enfermedad', fr: 'maladie', my: 'ရောဂါ', category: 'Health & Body' },
+        { de: 'das Fieber', en: 'fever', es: 'fiebre', fr: 'fièvre', my: 'အဖျား', category: 'Health & Body' },
+        { de: 'der Husten', en: 'cough', es: 'tos', fr: 'toux', my: 'ချောင်းဆိုး', category: 'Health & Body' },
+        { de: 'die Erkältung', en: 'cold', es: 'resfriado', fr: 'rhume', my: 'အအေးမိ', category: 'Health & Body' },
+        { de: 'der Arztbesuch', en: 'doctor\'s visit', es: 'visita al médico', fr: 'visite chez le médecin', my: 'ဆရာဝန်ပြခြင်း', category: 'Health & Body' },
+        { de: 'das Rezept', en: 'prescription', es: 'receta', fr: 'ordonnance', my: 'ဆေးညွှန်း', category: 'Health & Body' },
+        { de: 'die Apotheke', en: 'pharmacy', es: 'farmacia', fr: 'pharmacie', my: 'ဆေးဆိုင်', category: 'Health & Body' },
+
+        // 6. Education
+        { de: 'die Schule', en: 'school', es: 'escuela', fr: 'école', my: 'ကျောင်း', category: 'Education' },
+        { de: 'die Universität', en: 'university', es: 'universidad', fr: 'université', my: 'တက္ကသိုလ်', category: 'Education' },
+        { de: 'der Lehrer', en: 'teacher', es: 'profesor', fr: 'professeur', my: 'ဆရာ', category: 'Education' },
+        { de: 'der Schüler', en: 'student', es: 'alumno', fr: 'élève', my: 'ကျောင်းသား', category: 'Education' },
+        { de: 'die Klasse', en: 'class', es: 'clase', fr: 'classe', my: 'အတန်း', category: 'Education' },
+        { de: 'der Unterricht', en: 'lesson', es: 'lección', fr: 'cours', my: 'သင်ခန်းစာ', category: 'Education' },
+        { de: 'die Prüfung', en: 'exam', es: 'examen', fr: 'examen', my: 'စာမေးပွဲ', category: 'Education' },
+        { de: 'die Note', en: 'grade', es: 'nota', fr: 'note', my: 'အမှတ်', category: 'Education' },
+        { de: 'lernen', en: 'to learn', es: 'aprender', fr: 'apprendre', my: 'သင်ယူသည်', category: 'Education' },
+        { de: 'studieren', en: 'to study', es: 'estudiar', fr: 'étudier', my: 'လေ့လာသည်', category: 'Education' },
+
+        // 7. Work & Jobs
+        { de: 'der Beruf', en: 'profession', es: 'profesión', fr: 'profession', my: 'အလုပ်အကိုင်', category: 'Work & Jobs' },
+        { de: 'die Arbeit', en: 'work', es: 'trabajo', fr: 'travail', my: 'အလုပ်', category: 'Work & Jobs' },
+        { de: 'der Kollege', en: 'colleague', es: 'colega', fr: 'collègue', my: 'လုပ်ဖော်ကိုင်ဖက်', category: 'Work & Jobs' },
+        { de: 'der Chef', en: 'boss', es: 'jefe', fr: 'patron', my: 'သူဌေး', category: 'Work & Jobs' },
+        { de: 'das Büro', en: 'office', es: 'oficina', fr: 'bureau', my: 'ရုံး', category: 'Work & Jobs' },
+        { de: 'die Pause', en: 'break', es: 'pausa', fr: 'pause', my: 'နားချိန်', category: 'Work & Jobs' },
+        { de: 'der Lohn', en: 'salary', es: 'salario', fr: 'salaire', my: 'လစာ', category: 'Work & Jobs' },
+        { de: 'die Arbeitszeit', en: 'working hours', es: 'horario de trabajo', fr: 'heures de travail', my: 'အလုပ်ချိန်', category: 'Work & Jobs' },
+        { de: 'der Arbeitsplatz', en: 'workplace', es: 'lugar de trabajo', fr: 'lieu de travail', my: 'အလုပ်ခွင်', category: 'Work & Jobs' },
+        { de: 'kündigen', en: 'to quit', es: 'renunciar', fr: 'démissionner', my: 'အလုပ်ထွက်သည်', category: 'Work & Jobs' },
+
+        // 8. Emotions & Feelings
+        { de: 'glücklich', en: 'happy', es: 'feliz', fr: 'heureux', my: 'ပျော်ရွှင်သော', category: 'Emotions & Feelings' },
+        { de: 'traurig', en: 'sad', es: 'triste', fr: 'triste', my: 'ဝမ်းနည်းသော', category: 'Emotions & Feelings' },
+        { de: 'wütend', en: 'angry', es: 'enojado', fr: 'en colère', my: 'ဒေါသထွက်သော', category: 'Emotions & Feelings' },
+        { de: 'ängstlich', en: 'afraid', es: 'asustado', fr: 'effrayé', my: 'ကြောက်ရွံ့သော', category: 'Emotions & Feelings' },
+        { de: 'überrascht', en: 'surprised', es: 'sorprendido', fr: 'surpris', my: 'အံ့သြသော', category: 'Emotions & Feelings' },
+        { de: 'müde', en: 'tired', es: 'cansado', fr: 'fatigué', my: 'ပင်ပန်းသော', category: 'Emotions & Feelings' },
+        { de: 'aufgeregt', en: 'excited', es: 'emocionado', fr: 'excité', my: 'စိတ်လှုပ်ရှားသော', category: 'Emotions & Feelings' },
+        { de: 'gelangweilt', en: 'bored', es: 'aburrido', fr: 'ennuyé', my: 'ငြီးငွေ့သော', category: 'Emotions & Feelings' },
+        { de: 'nervös', en: 'nervous', es: 'nervioso', fr: 'nerveux', my: 'ကြောက်ရွံ့သော', category: 'Emotions & Feelings' },
+        { de: 'entspannt', en: 'relaxed', es: 'relajado', fr: 'détendu', my: 'အေးဆေးသော', category: 'Emotions & Feelings' },
+
+        // 9. Technology
+        { de: 'der Computer', en: 'computer', es: 'computadora', fr: 'ordinateur', my: 'ကွန်ပျူတာ', category: 'Technology' },
+        { de: 'das Handy', en: 'mobile phone', es: 'teléfono móvil', fr: 'téléphone portable', my: 'မိုဘိုင်းဖုန်း', category: 'Technology' },
+        { de: 'das Internet', en: 'internet', es: 'internet', fr: 'internet', my: 'အင်တာနက်', category: 'Technology' },
+        { de: 'die Website', en: 'website', es: 'sitio web', fr: 'site web', my: 'ဝက်ဘ်ဆိုဒ်', category: 'Technology' },
+        { de: 'die E-Mail', en: 'email', es: 'correo electrónico', fr: 'email', my: 'အီးမေးလ်', category: 'Technology' },
+        { de: 'das Passwort', en: 'password', es: 'contraseña', fr: 'mot de passe', my: 'စကားဝှက်', category: 'Technology' },
+        { de: 'herunterladen', en: 'to download', es: 'descargar', fr: 'télécharger', my: 'ဒေါင်းလုဒ်လုပ်သည်', category: 'Technology' },
+        { de: 'hochladen', en: 'to upload', es: 'subir', fr: 'téléverser', my: 'အပ်လုဒ်လုပ်သည်', category: 'Technology' },
+        { de: 'die App', en: 'app', es: 'aplicación', fr: 'application', my: 'အက်ပလီကေးရှင်း', category: 'Technology' },
+        { de: 'das Netzwerk', en: 'network', es: 'red', fr: 'réseau', my: 'ကွန်ရက်', category: 'Technology' },
+
+        // 10. Environment
+        { de: 'die Umwelt', en: 'environment', es: 'medio ambiente', fr: 'environnement', my: 'ပတ်ဝန်းကျင်', category: 'Environment' },
+        { de: 'die Natur', en: 'nature', es: 'naturaleza', fr: 'nature', my: 'သဘာဝ', category: 'Environment' },
+        { de: 'die Luft', en: 'air', es: 'aire', fr: 'air', my: 'လေ', category: 'Environment' },
+        { de: 'die Verschmutzung', en: 'pollution', es: 'contaminación', fr: 'pollution', my: 'ညစ်ညမ်းမှု', category: 'Environment' },
+        { de: 'der Müll', en: 'trash', es: 'basura', fr: 'déchets', my: 'အမှိုက်', category: 'Environment' },
+        { de: 'recyceln', en: 'to recycle', es: 'reciclar', fr: 'recycler', my: 'ပြန်လည်အသုံးပြုသည်', category: 'Environment' },
+        { de: 'die Energie', en: 'energy', es: 'energía', fr: 'énergie', my: 'စွမ်းအင်', category: 'Environment' },
+        { de: 'sparen', en: 'to save', es: 'ahorrar', fr: 'économiser', my: 'ချွေတာသည်', category: 'Environment' },
+        { de: 'der Baum', en: 'tree', es: 'árbol', fr: 'arbre', my: 'သစ်ပင်', category: 'Environment' },
+        { de: 'die Pflanze', en: 'plant', es: 'planta', fr: 'plante', my: 'အပင်', category: 'Environment' }
+    ];
+
+    // (Rest of the JavaScript code remains the same as in the A1 version)
+    
+    // Category colors and icons would be updated to include any new categories
+    const categoryColors = {
+        'Daily Life & Routine': '#2563eb',
+        'Shopping': '#7c3aed',
+        'Travel & Directions': '#0d9488',
+        'Weather': '#16a34a',
+        'Health & Body': '#ea580c',
+        'Education': '#dc2626',
+        'Work & Jobs': '#4f46e5',
+        'Emotions & Feelings': '#0891b2',
+        'Technology': '#e11d48',
+        'Environment': '#4b5563',
+        'Default': '#52525b'
+    };
+
+    const categoryIcons = {
+        'Daily Life & Routine': 'fa-solid fa-calendar-day',
+        'Shopping': 'fa-solid fa-shopping-cart',
+        'Travel & Directions': 'fa-solid fa-map-location-dot',
+        'Weather': 'fa-solid fa-cloud-sun',
+        'Health & Body': 'fa-solid fa-heart-pulse',
+        'Education': 'fa-solid fa-graduation-cap',
+        'Work & Jobs': 'fa-solid fa-briefcase',
+        'Emotions & Feelings': 'fa-solid fa-face-smile',
+        'Technology': 'fa-solid fa-laptop',
+        'Environment': 'fa-solid fa-leaf'
+    };
+
+    const vocabularyWithIds = rawVocabularyData.map((item, index) => ({ ...item, id: index }));
+    const body = document.body, mainTitle = document.getElementById('main-title'), homeBtn = document.getElementById('home-btn'), categoryGrid = document.getElementById('category-grid'), vocabList = document.getElementById('vocabulary-list'), searchInput = document.getElementById('search-input'), toggleEn = document.getElementById('toggle-en'), toggleEs = document.getElementById('toggle-es'), toggleFr = document.getElementById('toggle-fr'), toggleMy = document.getElementById('toggle-my'), toggleFavorites = document.getElementById('toggle-favorites');
+
+    let favorites = [], currentListData = [];
+
+    function saveFavorites() { localStorage.setItem('germanA1FavoritesList', JSON.stringify(favorites)); }
+    function loadFavorites() { const stored = JSON.parse(localStorage.getItem('germanA1FavoritesList')); if (stored) favorites = stored; }
+
+    function renderCategoryGrid() {
+        categoryGrid.innerHTML = '';
+        const showAllBox = document.createElement('div');
+        showAllBox.className = 'category-box show-all-tip';
+        showAllBox.dataset.category = 'All';
+        showAllBox.innerHTML = `<i class="fas fa-list-ul"></i><span>Show All Vocabulary</span>`;
+        categoryGrid.appendChild(showAllBox);
+        Object.keys(categoryColors).forEach(category => {
+            if (category === 'Default') return;
+            const hasVocabForCategory = vocabularyWithIds.some(item => item.category === category);
+            if (rawVocabularyData.some(v => v.category === category) || categoryIcons[category]) {
+                 const box = document.createElement('div');
+                box.className = 'category-box';
+                box.style.backgroundColor = categoryColors[category] || categoryColors['Default'];
+                box.dataset.category = category;
+                box.innerHTML = `<i class="${categoryIcons[category] || 'fa-solid fa-question'}"></i><span>${category}</span>`;
+                categoryGrid.appendChild(box);
+            }
+        });
+    }
+
+    function displayItemsOnPage(itemsToDisplay) {
+        vocabList.innerHTML = '';
+        itemsToDisplay.forEach(item => {
+            const isFavorited = favorites.includes(item.id);
+            const entry = document.createElement('div');
+            entry.className = `vocab-entry ${isFavorited ? 'is-favorite' : ''}`;
+            entry.dataset.id = item.id;
+
+            const categoryColor = categoryColors[item.category] || categoryColors['Default'];
+
+            entry.innerHTML = `
+                <div class="vocab-main">
+                    <div class="lang-row de">
+                        <span class="lang-label">DE</span><span class="word">${item.de}</span>
+                        <button class="speak-btn" data-lang="de-DE" data-text="${item.de}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div class="lang-row en">
+                        <span class="lang-label">EN</span><span class="word">${item.en}</span>
+                        <button class="speak-btn" data-lang="en-US" data-text="${item.en}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div class="lang-row es">
+                        <span class="lang-label">ES</span><span class="word">${item.es}</span>
+                        <button class="speak-btn" data-lang="es-ES" data-text="${item.es}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div class="lang-row fr">
+                        <span class="lang-label">FR</span><span class="word">${item.fr}</span>
+                        <button class="speak-btn" data-lang="fr-FR" data-text="${item.fr}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div lang="my" class="lang-row my">
+                        <span class="lang-label">MY</span><span class="word">${item.my}</span>
+                        <button class="speak-btn" data-lang="my-MM" data-text="${item.my}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div class="vocab-meta-row">
+                        <i class="favorite-toggle fas fa-star" title="Toggle Favorite"></i>
+                        <div class="vocab-category-display">
+                            <span class="vocab-category-badge" style="background-color: ${categoryColor};" title="${item.category}">${item.category}</span>
+                        </div>
+                    </div>
+                </div>`;
+            vocabList.appendChild(entry);
+        });
+        updateLanguageColumnVisibility();
+    }
+
+    function filterAndDisplayVocabulary() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const showFavoritesOnly = toggleFavorites.checked;
+        let filteredItems = currentListData;
+        if (showFavoritesOnly) {
+            filteredItems = filteredItems.filter(item => favorites.includes(item.id));
+        }
+        if (searchTerm) {
+            filteredItems = filteredItems.filter(item =>
+                item.de.toLowerCase().includes(searchTerm) ||
+                item.en.toLowerCase().includes(searchTerm) ||
+                item.es.toLowerCase().includes(searchTerm) ||
+                item.fr.toLowerCase().includes(searchTerm) ||
+                item.my.toLowerCase().includes(searchTerm) ||
+                item.category.toLowerCase().includes(searchTerm)
+            );
+        }
+        displayItemsOnPage(filteredItems);
+    }
+
+    function updateLanguageColumnVisibility() {
+        vocabList.classList.toggle('hide-en', !toggleEn.checked);
+        vocabList.classList.toggle('hide-es', !toggleEs.checked);
+        vocabList.classList.toggle('hide-fr', !toggleFr.checked);
+        vocabList.classList.toggle('hide-my', !toggleMy.checked);
+    }
+
+    function switchToListView(category) {
+        if (category === 'All') {
+            currentListData = vocabularyWithIds;
+            mainTitle.textContent = 'All Vocabulary';
+        } else {
+            currentListData = vocabularyWithIds.filter(item => item.category === category);
+            mainTitle.textContent = category;
+        }
+        searchInput.value = '';
+        toggleFavorites.checked = false;
+        filterAndDisplayVocabulary();
+        body.classList.remove('grid-view');
+        body.classList.add('list-view');
+    }
+
+    function switchToGridView() {
+        mainTitle.textContent = 'A1 German Vocabulary';
+        body.classList.remove('list-view');
+        body.classList.add('grid-view');
+    }
+
+    function init() {
+        loadFavorites();
+        renderCategoryGrid();
+
+        categoryGrid.addEventListener('click', e => {
+            const categoryBox = e.target.closest('.category-box');
+            if (categoryBox) { switchToListView(categoryBox.dataset.category); }
+        });
+
+        homeBtn.addEventListener('click', switchToGridView);
+        searchInput.addEventListener('input', filterAndDisplayVocabulary);
+        toggleEn.addEventListener('change', updateLanguageColumnVisibility);
+        toggleEs.addEventListener('change', updateLanguageColumnVisibility);
+        toggleFr.addEventListener('change', updateLanguageColumnVisibility);
+        toggleMy.addEventListener('change', updateLanguageColumnVisibility);
+        toggleFavorites.addEventListener('change', filterAndDisplayVocabulary);
+
+        vocabList.addEventListener('click', e => {
+            const entryElement = e.target.closest('.vocab-entry');
+            if (!entryElement) return;
+
+            if (e.target.closest('.speak-btn')) {
+                const button = e.target.closest('.speak-btn');
+                const textToSpeak = button.dataset.text.split('/')[0].trim();
+                const lang = button.dataset.lang;
+                const synth = window.speechSynthesis;
+                if (synth.speaking) { synth.cancel(); }
+                const utterance = new SpeechSynthesisUtterance(textToSpeak);
+                utterance.lang = lang;
+                synth.speak(utterance);
+                return;
+            }
+
+            if (e.target.closest('.favorite-toggle')) {
+                const entryId = parseInt(entryElement.dataset.id, 10);
+
+                if (favorites.includes(entryId)) {
+                    favorites = favorites.filter(id => id !== entryId);
+                    entryElement.classList.remove('is-favorite');
+                } else {
+                    favorites.push(entryId);
+                    entryElement.classList.add('is-favorite');
+                }
+                saveFavorites();
+                if (toggleFavorites.checked) {
+                    filterAndDisplayVocabulary();
+                }
+                return;
+            }
+        });
+    }
+
+    init();
+});
+</script>
+
+</body>
+</html>

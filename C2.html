@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>German C2 Vocabulary List (DE-EN-MY)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #005f73;
+            --background-color: #f8f9fa;
+            --entry-bg: #ffffff;
+            --text-color: #212529;
+            --muted-text-color: #6c757d;
+            --border-color: #dee2e6;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-right: auto;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            padding: 10px 18px;
+            border-radius: 22px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            white-space: nowrap;
+            color: white;
+            background: linear-gradient(135deg, rgba(0, 95, 115, 0.85) 0%, rgba(0, 75, 95, 0.85) 100%);
+            border: 1px solid rgba(0, 95, 115, 0.9);
+            transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn i {
+            transition: transform 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, rgba(0, 95, 115, 1) 0%, rgba(0, 75, 95, 1) 100%);
+            border-color: rgba(0, 95, 115, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .nav-btn:hover i {
+            transform: scale(1.1);
+        }
+
+        #category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            background-color: #f0f2f5;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .category-box {
+            color: white; padding: 15px; border-radius: 8px; text-align: center;
+            font-weight: 600; font-size: 0.95rem; cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; gap: 10px; height: 140px; overflow: hidden;
+        }
+        .category-box i { font-size: 2rem; margin-bottom: 5px; }
+        .category-box:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+        .show-all-tip { background-color: var(--muted-text-color) !important; }
+
+        body.list-view #category-grid { display: none; }
+        body.grid-view #vocabulary-section { display: none; }
+        body.grid-view #home-btn { display: none; }
+
+        .search-container { margin-bottom: 20px; }
+        #search-input { width: 100%; padding: 12px 15px; font-size: 1rem; border: 1px solid var(--border-color); border-radius: 8px; }
+        .controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin: 30px 0; padding: 15px; background-color: var(--entry-bg); border: 1px solid var(--border-color); border-radius: 12px; }
+        .controls label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 500; }
+        #vocabulary-list { display: flex; flex-direction: column; gap: 12px; }
+
+        .vocab-entry {
+            background-color: var(--entry-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+        }
+        .vocab-entry.is-favorite {
+            border-left: 4px solid #ffc107;
+            padding-left: 11px;
+        }
+
+        .vocab-main {
+            flex-grow: 1;
+        }
+
+        .lang-row { display: flex; align-items: center; justify-content: space-between; padding: 5px 0; }
+        .lang-row:not(:last-child) { border-bottom: 1px solid #f0f0f0; }
+        .lang-label { font-weight: 700; color: var(--primary-color); min-width: 30px; }
+        .word {
+            font-size: 1.1rem;
+            text-align: left;
+            margin: 0 10px;
+            flex-grow: 1;
+            color: var(--text-color);
+        }
+        .lang-my .word { font-family: "Padauk", sans-serif; font-size: 1.2rem; }
+        .de .word { font-weight: 600; }
+        .speak-btn { background: none; border: none; cursor: pointer; color: var(--muted-text-color); font-size: 1.1rem; }
+        .hide-en .lang-row.en, .hide-my .lang-row.my { display: none; }
+
+        .vocab-meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .favorite-toggle {
+            font-size: 1.5rem;
+            color: var(--muted-text-color);
+            cursor: pointer;
+            padding-right: 8px;
+            flex-shrink: 0;
+        }
+        .vocab-entry.is-favorite .favorite-toggle { color: #ffc107; }
+
+        .vocab-category-display {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            flex-grow: 1;
+            min-width: auto;
+        }
+
+        .vocab-category-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: white;
+            border-radius: 12px;
+            background-color: var(--muted-text-color);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+            max-width: 180px;
+            min-width: 70px;
+        }
+
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+            .header-nav {
+                width: 100%;
+                justify-content: center;
+            }
+            .nav-btn {
+                font-size: 0.85rem;
+                padding: 8px 15px;
+            }
+            #category-grid {
+                padding: 15px;
+            }
+            .vocab-entry {
+                padding: 12px;
+            }
+            .vocab-entry.is-favorite {
+                 padding-left: 8px;
+            }
+            .favorite-toggle {
+                font-size: 1.3rem;
+                padding-right: 5px;
+            }
+            .vocab-meta-row {
+                margin-top: 8px;
+                padding-top: 6px;
+            }
+            .vocab-category-badge {
+                font-size: 0.75rem;
+                padding: 3px 8px;
+                max-width: 180px;
+                min-width: 60px;
+            }
+        }
+         @media (max-width: 480px) {
+             #category-grid {
+                padding: 10px;
+                /* --- MODIFIED for 2-column layout on small mobile --- */
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .vocab-category-badge {
+                max-width: 200px;
+                min-width: 100px;
+                font-size: 0.7rem;
+                padding: 3px 6px;
+            }
+         }
+    </style>
+</head>
+<body class="grid-view">
+
+<div class="container">
+    <header>
+        <h1 id="main-title">C2 German Vocabulary</h1>
+        <div class="header-nav">
+            <a href="index.html" id="back-to-levels-btn" class="nav-btn">
+                <i class="fas fa-layer-group"></i> Back to Levels
+            </a>
+            <button id="home-btn" class="nav-btn">
+                <i class="fas fa-home"></i> Back to Categories
+            </button>
+        </div>
+    </header>
+
+    <div id="category-grid"></div>
+    <div id="vocabulary-section">
+        <div class="search-container">
+            <input type="search" id="search-input" placeholder="Search vocabulary...">
+        </div>
+        <div class="controls">
+            <label><input type="checkbox" id="toggle-en" checked> Show English</label>
+            <label><input type="checkbox" id="toggle-my" checked> Show မြန်မာ</label>
+            <label><input type="checkbox" id="toggle-favorites"> Show Favorites Only</label>
+        </div>
+        <div id="vocabulary-list"></div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+const rawVocabularyData = [
+    // 1. Nuance & Precision in Expression (Synonym-Differenzierung)
+    { de: 'unabdingbar', en: 'indispensable, essential (non-negotiable)', my: 'မရှိမဖြစ်၊ အလျှော့အတင်းလုပ်၍မရသော', category: 'Nuance & Precision in Expression' },
+    { de: 'eloquent', en: 'eloquent', my: 'စကားအရာကြွယ်ဝသော', category: 'Nuance & Precision in Expression' },
+    { de: 'ambivalent', en: 'ambivalent (having mixed feelings)', my: 'နှစ်ခွဖြစ်သော၊ ဆန့်ကျင်ဘက်ခံစားချက်ရှိသော', category: 'Nuance & Precision in Expression' },
+    { de: 'subtil', en: 'subtle', my: 'သိမ်မွေ့သော', category: 'Nuance & Precision in Expression' },
+    { de: 'profund', en: 'profound, deep', my: 'နက်ရှိုင်းသော', category: 'Nuance & Precision in Expression' },
+    { de: 'banal', en: 'banal, trivial', my: 'သာမန်၊ အရေးမပါသော', category: 'Nuance & Precision in Expression' },
+    { de: 'prägnant', en: 'concise, succinct', my: 'တိကျပြတ်သားသော', category: 'Nuance & Precision in Expression' },
+    { de: 'rudimentär', en: 'rudimentary, basic', my: 'အခြေခံမျှသာ', category: 'Nuance & Precision in Expression' },
+    { de: 'adäquat', en: 'adequate', my: 'လုံလောက်သော၊ သင့်လျော်သော', category: 'Nuance & Precision in Expression' },
+    { de: 'exemplarisch', en: 'exemplary', my: 'စံပြဖြစ်သော', category: 'Nuance & Precision in Expression' },
+
+    // 2. Academic & Formal Language (Bildungssprache)
+    { de: 'der Diskurs', en: 'discourse', my: 'အပြန်အလှန်ပြောဆိုဆွေးနွေးမှု', category: 'Academic & Formal Language' },
+    { de: 'das Paradigma', en: 'paradigm', my: 'စံနမူနာ၊ အတွေးအခေါ်ဘောင်', category: 'Academic & Formal Language' },
+    { de: 'die Quintessenz', en: 'quintessence, the core of the matter', my: 'အနှစ်သာရ၊ အဓိကအချက်', category: 'Academic & Formal Language' },
+    { de: 'die Prämisse', en: 'premise', my: 'အခြေခံယူဆချက်', category: 'Academic & Formal Language' },
+    { de: 'die Dichotomie', en: 'dichotomy', my: 'နှစ်ခွကွဲပြားမှု', category: 'Academic & Formal Language' },
+    { de: 'postulieren', en: 'to postulate, posit', my: 'အဆိုပြုတင်ပြသည်', category: 'Academic & Formal Language' },
+    { de: 'konstatieren', en: 'to state, ascertain', my: 'အတည်ပြုပြောဆိုသည်', category: 'Academic & Formal Language' },
+    { de: 'implementieren', en: 'to implement', my: 'အကောင်အထည်ဖော်သည်', category: 'Academic & Formal Language' },
+    { de: 'reflektieren', en: 'to reflect (on)', my: 'ပြန်လည်သုံးသပ်ဆင်ခြင်သည်', category: 'Academic & Formal Language' },
+    { de: 'verifizieren', en: 'to verify', my: 'စစ်ဆေးအတည်ပြုသည်', category: 'Academic & Formal Language' },
+    { de: 'antizipieren', en: 'to anticipate', my: 'ကြိုတင်မျှော်မှန်းသည်', category: 'Academic & Formal Language' },
+
+    // 3. Abstract Concepts & Philosophy
+    { de: 'die Ästhetik', en: 'aesthetics', my: 'အလှအပပညာ', category: 'Abstract Concepts & Philosophy' },
+    { de: 'die Ethik', en: 'ethics', my: 'ကျင့်ဝတ်', category: 'Abstract Concepts & Philosophy' },
+    { de: 'die Metaphysik', en: 'metaphysics', my: 'တက္ကိတဗေဒ', category: 'Abstract Concepts & Philosophy' },
+    { de: 'die Existenz', en: 'existence', my: 'တည်ရှိမှု', category: 'Abstract Concepts & Philosophy' },
+    { de: 'die Kausalität', en: 'causality', my: 'အကြောင်းအကျိုးဆက်', category: 'Abstract Concepts & Philosophy' },
+    { de: 'der Determinismus', en: 'determinism', my: 'ကြမ္မာယုံကြည်မှု', category: 'Abstract Concepts & Philosophy' },
+    { de: 'die Empathie', en: 'empathy', my: 'ကိုယ်ချင်းစာတရား', category: 'Abstract Concepts & Philosophy' },
+    { de: 'die Nostalgie', en: 'nostalgia', my: 'အတိတ်ကိုတမ်းတခြင်း', category: 'Abstract Concepts & Philosophy' },
+    { de: 'die Vergänglichkeit', en: 'transience, impermanence', my: 'မတည်မြဲခြင်း (အနိစ္စ)', category: 'Abstract Concepts & Philosophy' },
+
+    // 4. Idioms & Advanced Expressions (Redewendungen)
+    { de: 'etwas auf die lange Bank schieben', en: 'to procrastinate, put something off', my: 'တစ်ခုခုကို ရွှေ့ဆိုင်းသည်', category: 'Idioms & Advanced Expressions' },
+    { de: 'den Teufel an die Wand malen', en: 'to be pessimistic, imagine the worst', my: 'အဆိုးမြင်သည်', category: 'Idioms & Advanced Expressions' },
+    { de: 'jemandem ein Dorn im Auge sein', en: 'to be a thorn in someone\'s side', my: 'တစ်စုံတစ်ယောက်အတွက် မျက်စိထဲကစူးလိုဖြစ်နေသည်', category: 'Idioms & Advanced Expressions' },
+    { de: 'Perlen vor die Säue werfen', en: 'to cast pearls before swine', my: 'တန်ဖိုးမသိသူအား တန်ဖိုးရှိသောအရာပေးခြင်း', category: 'Idioms & Advanced Expressions' },
+    { de: 'das Kind mit dem Bade ausschütten', en: 'to throw the baby out with the bathwater', my: 'မကောင်းတာကို စွန့်ပစ်ရင်း ကောင်းတာပါ ပါသွားစေခြင်း', category: 'Idioms & Advanced Expressions' },
+    { de: 'über den eigenen Schatten springen', en: 'to overcome one\'s own reservations', my: 'မိမိ၏တွန့်ဆုတ်မှုကို ကျော်လွှားသည်', category: 'Idioms & Advanced Expressions' },
+    { de: 'das Zünglein an der Waage sein', en: 'to be the deciding factor', my: 'အဆုံးအဖြတ်ပေးသောအချက်ဖြစ်သည်', category: 'Idioms & Advanced Expressions' },
+
+    // 5. Literary & Archaic Language (Literarische & archaische Sprache)
+    { de: 'bisweilen', en: 'occasionally, at times (literary)', my: 'အခါအားလျော်စွာ (စာပေသုံး)', category: 'Literary & Archaic Language' },
+    { de: 'des Weiteren', en: 'furthermore, additionally (formal)', my: 'ထို့အပြင် (တရားဝင်သုံး)', category: 'Literary & Archaic Language' },
+    { de: 'ehedem', en: 'formerly, in former times (archaic)', my: 'ယခင်က (ရှေးသုံး)', category: 'Literary & Archaic Language' },
+    { de: 'indes', en: 'however, meanwhile (literary)', my: 'သို့သော်၊ ထိုစဉ် (စာပေသုံး)', category: 'Literary & Archaic Language' },
+    { de: 'mitnichten', en: 'by no means, not at all (emphatic, archaic)', my: 'လုံးဝမဟုတ် (ရှေးသုံး)', category: 'Literary & Archaic Language' },
+    { de: 'obgleich', en: 'although (more formal than obwohl)', my: '...သော်လည်း (obwohl ထက်ပို၍တရားဝင်)', category: 'Literary & Archaic Language' },
+    { de: 'der Odem', en: 'breath (poetic)', my: 'ထွက်သက်ဝင်သက် (ကဗျာသုံး)', category: 'Literary & Archaic Language' },
+    { de: 'das Antlitz', en: 'face, countenance (poetic)', my: 'မျက်နှာ (ကဗျာသုံး)', category: 'Literary & Archaic Language' },
+
+    // 6. Economic & Legal Language
+    { de: 'die Bilanz', en: 'balance sheet; overall result', my: 'လက်ကျန်ရှင်းတမ်း၊ အားလုံးခြုံရလဒ်', category: 'Economic & Legal Language' },
+    { de: 'das Bruttoinlandsprodukt (BIP)', en: 'Gross Domestic Product (GDP)', my: 'ပြည်တွင်းအသားတင်ထုတ်ကုန် (GDP)', category: 'Economic & Legal Language' },
+    { de: 'die Insolvenz', en: 'insolvency, bankruptcy', my: 'ဒေဝါလီခံခြင်း', category: 'Economic & Legal Language' },
+    { de: 'die Konjunktur', en: 'economic cycle, economic situation', my: 'စီးပွားရေးလည်ပတ်မှု', category: 'Economic & Legal Language' },
+    { de: 'die Rechtslage', en: 'legal situation', my: 'ဥပဒေရေးရာအခြေအနေ', category: 'Economic & Legal Language' },
+    { de: 'der Sachverhalt', en: 'facts of the case, circumstances', my: 'အဖြစ်မှန်အခြေအနေ', category: 'Economic & Legal Language' },
+    { de: 'das Urheberrecht', en: 'copyright', my: 'မူပိုင်ခွင့်', category: 'Economic & Legal Language' },
+    { de: 'der Vertrag', en: 'contract', my: 'စာချုပ်', category: 'Economic & Legal Language' },
+    ];
+
+    const categoryColors = {
+    'Nuance & Precision in Expression': '#2563eb',     // Blue 600
+    'Academic & Formal Language': '#0d9488',           // Teal 600
+    'Abstract Concepts & Philosophy': '#7c3aed',       // Purple 600
+    'Idioms & Advanced Expressions': '#db2777',         // Pink 600
+    'Literary & Archaic Language': '#b45309',          // Amber 700
+    'Economic & Legal Language': '#4f46e5',            // Indigo 600
+    'Default': '#52525b'                                // Zinc 600
+    };
+
+    const categoryIcons = {
+    'Nuance & Precision in Expression': 'fa-solid fa-magnifying-glass-chart', // Magnifying glass for precision
+    'Academic & Formal Language': 'fa-solid fa-scroll',                     // Scroll for formal/academic text
+    'Abstract Concepts & Philosophy': 'fa-solid fa-head-side-virus',        // Abstract thought/philosophy
+    'Idioms & Advanced Expressions': 'fa-solid fa-comments-dollar',         // Creative/value expressions (idioms can be tricky)
+    'Literary & Archaic Language': 'fa-solid fa-feather-pointed',           // Feather for literary/archaic
+    'Economic & Legal Language': 'fa-solid fa-scale-balanced',              // Scales for legal/economic balance
+    'Default': 'fa-solid fa-list-ul'
+    };
+
+
+    const vocabularyWithIds = rawVocabularyData.map((item, index) => ({ ...item, id: index }));
+    const body = document.body, mainTitle = document.getElementById('main-title'), homeBtn = document.getElementById('home-btn'), categoryGrid = document.getElementById('category-grid'), vocabList = document.getElementById('vocabulary-list'), searchInput = document.getElementById('search-input'), toggleEn = document.getElementById('toggle-en'), toggleMy = document.getElementById('toggle-my'), toggleFavorites = document.getElementById('toggle-favorites');
+
+    let favorites = [], currentListData = [];
+
+    function saveFavorites() { localStorage.setItem('germanA1FavoritesList', JSON.stringify(favorites)); }
+    function loadFavorites() { const stored = JSON.parse(localStorage.getItem('germanA1FavoritesList')); if (stored) favorites = stored; }
+
+    function renderCategoryGrid() {
+        categoryGrid.innerHTML = '';
+        const showAllBox = document.createElement('div');
+        showAllBox.className = 'category-box show-all-tip';
+        showAllBox.dataset.category = 'All';
+        showAllBox.innerHTML = `<i class="fas fa-list-ul"></i><span>Show All Vocabulary</span>`;
+        categoryGrid.appendChild(showAllBox);
+        Object.keys(categoryColors).forEach(category => {
+            if (category === 'Default') return;
+            // Ensure there's vocab for the category or it's a defined category before creating a box.
+            // This also ensures that we only show categories that we have colors/icons for if needed.
+            const hasVocabForCategory = vocabularyWithIds.some(item => item.category === category);
+            if (rawVocabularyData.some(v => v.category === category) || categoryIcons[category]) { // Simplified check
+                 const box = document.createElement('div');
+                box.className = 'category-box';
+                box.style.backgroundColor = categoryColors[category] || categoryColors['Default'];
+                box.dataset.category = category;
+                box.innerHTML = `<i class="${categoryIcons[category] || 'fa-solid fa-question'}"></i><span>${category}</span>`;
+                categoryGrid.appendChild(box);
+            }
+        });
+    }
+
+    function displayItemsOnPage(itemsToDisplay) {
+        vocabList.innerHTML = '';
+        itemsToDisplay.forEach(item => {
+            const isFavorited = favorites.includes(item.id);
+            const entry = document.createElement('div');
+            entry.className = `vocab-entry ${isFavorited ? 'is-favorite' : ''}`;
+            entry.dataset.id = item.id;
+
+            const categoryColor = categoryColors[item.category] || categoryColors['Default'];
+
+            entry.innerHTML = `
+                <div class="vocab-main">
+                    <div class="lang-row de">
+                        <span class="lang-label">DE</span><span class="word">${item.de}</span>
+                        <button class="speak-btn" data-lang="de-DE" data-text="${item.de}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div class="lang-row en">
+                        <span class="lang-label">EN</span><span class="word">${item.en}</span>
+                        <button class="speak-btn" data-lang="en-US" data-text="${item.en}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div lang="my" class="lang-row my">
+                        <span class="lang-label">MY</span><span class="word">${item.my}</span>
+                        <button class="speak-btn" data-lang="my-MM" data-text="${item.my}"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <div class="vocab-meta-row">
+                        <i class="favorite-toggle fas fa-star" title="Toggle Favorite"></i>
+                        <div class="vocab-category-display">
+                            <span class="vocab-category-badge" style="background-color: ${categoryColor};" title="${item.category}">${item.category}</span>
+                        </div>
+                    </div>
+                </div>`;
+            vocabList.appendChild(entry);
+        });
+        updateLanguageColumnVisibility();
+    }
+
+    function filterAndDisplayVocabulary() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const showFavoritesOnly = toggleFavorites.checked;
+        let filteredItems = currentListData;
+        if (showFavoritesOnly) {
+            filteredItems = filteredItems.filter(item => favorites.includes(item.id));
+        }
+        if (searchTerm) {
+            filteredItems = filteredItems.filter(item =>
+                item.de.toLowerCase().includes(searchTerm) ||
+                item.en.toLowerCase().includes(searchTerm) ||
+                item.my.toLowerCase().includes(searchTerm) ||
+                item.category.toLowerCase().includes(searchTerm)
+            );
+        }
+        displayItemsOnPage(filteredItems);
+    }
+
+    function updateLanguageColumnVisibility() {
+        vocabList.classList.toggle('hide-en', !toggleEn.checked);
+        vocabList.classList.toggle('hide-my', !toggleMy.checked);
+    }
+
+    function switchToListView(category) {
+        if (category === 'All') {
+            currentListData = vocabularyWithIds;
+            mainTitle.textContent = 'All Vocabulary';
+        } else {
+            currentListData = vocabularyWithIds.filter(item => item.category === category);
+            mainTitle.textContent = category;
+        }
+        searchInput.value = '';
+        toggleFavorites.checked = false;
+        filterAndDisplayVocabulary();
+        body.classList.remove('grid-view');
+        body.classList.add('list-view');
+    }
+
+    function switchToGridView() {
+        mainTitle.textContent = 'A1 German Vocabulary';
+        body.classList.remove('list-view');
+        body.classList.add('grid-view');
+    }
+
+    function init() {
+        loadFavorites();
+        renderCategoryGrid();
+
+        categoryGrid.addEventListener('click', e => {
+            const categoryBox = e.target.closest('.category-box');
+            if (categoryBox) { switchToListView(categoryBox.dataset.category); }
+        });
+
+        homeBtn.addEventListener('click', switchToGridView);
+        searchInput.addEventListener('input', filterAndDisplayVocabulary);
+        toggleEn.addEventListener('change', updateLanguageColumnVisibility);
+        toggleMy.addEventListener('change', updateLanguageColumnVisibility);
+        toggleFavorites.addEventListener('change', filterAndDisplayVocabulary);
+
+        vocabList.addEventListener('click', e => {
+            const entryElement = e.target.closest('.vocab-entry');
+            if (!entryElement) return;
+
+            if (e.target.closest('.speak-btn')) {
+                const button = e.target.closest('.speak-btn');
+                const textToSpeak = button.dataset.text.split('/')[0].trim();
+                const lang = button.dataset.lang;
+                const synth = window.speechSynthesis;
+                if (synth.speaking) { synth.cancel(); }
+                const utterance = new SpeechSynthesisUtterance(textToSpeak);
+                utterance.lang = lang;
+                synth.speak(utterance);
+                return;
+            }
+
+            if (e.target.closest('.favorite-toggle')) {
+                const entryId = parseInt(entryElement.dataset.id, 10);
+
+                if (favorites.includes(entryId)) {
+                    favorites = favorites.filter(id => id !== entryId);
+                    entryElement.classList.remove('is-favorite');
+                } else {
+                    favorites.push(entryId);
+                    entryElement.classList.add('is-favorite');
+                }
+                saveFavorites();
+                if (toggleFavorites.checked) {
+                    filterAndDisplayVocabulary();
+                }
+                return;
+            }
+        });
+    }
+
+    init();
+});
+</script>
+
+</body>
+</html>
