@@ -302,12 +302,9 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // --- Configuration ---
         const FREE_LEVEL_IDS = ['A1', 'A2', 'B1'];
-        // IMPORTANT: Replace with your actual deployed backend URL
-        const API_BASE_URL = 'https://vocahub-backend.onrender.com'; 
+        const API_BASE_URL = 'https://vocahub-backend.onrender.com';
 
-        // --- DOM Element Selectors ---
         const authModal = document.getElementById('modal-auth');
         const premiumModal = document.getElementById('modal-premium');
         const manualPaymentModal = document.getElementById('modal-manual-payment');
@@ -342,21 +339,18 @@
         let isSignInMode = true;
         let levelToUnlock = null;
 
-        // --- Local Storage Utilities ---
         const storage = {
             getItem: (key) => { try { return localStorage.getItem(key); } catch (e) { console.error("LS read error:", e); return null; } },
             setItem: (key, value) => { try { localStorage.setItem(key, value); } catch (e) { console.error("LS write error:", e); } },
             removeItem: (key) => { try { localStorage.removeItem(key); } catch(e) { console.error("LS remove error:", e); } }
         };
 
-        // --- State Management ---
         const state = {
             isLoggedIn: !!storage.getItem('authToken'),
             username: storage.getItem('username') || '',
             profilePicture: storage.getItem('profilePicture') || '',
         };
         
-        // --- API Service Helper ---
         const api = {
             async request(endpoint, options = {}) {
                 const token = storage.getItem('authToken');
@@ -381,7 +375,6 @@
             }
         };
 
-        // --- Modal Management ---
         const openModal = (modal) => modal && (modal.style.display = 'flex');
         const closeModal = () => allModals.forEach(modal => modal.style.display = 'none');
         allModals.forEach(modal => {
@@ -389,7 +382,6 @@
             modal.querySelector('.modal-close').addEventListener('click', closeModal);
         });
 
-        // --- Authentication ---
         const toggleAuthMode = () => {
             isSignInMode = !isSignInMode;
             authForm.reset();
@@ -417,7 +409,7 @@
                 }
                 
                 try {
-                    const { unlockedLevels } = await api.request('/user/status');
+                    const { unlockedLevels } = await api.request('/api/user/status');
                     refreshAllLevelCardsUI(unlockedLevels);
                 } catch (error) {
                     console.error("Failed to fetch user status. Logging out as token might be invalid.");
@@ -436,7 +428,10 @@
 
         authForm.addEventListener('submit', async e => {
             e.preventDefault();
-            const endpoint = isSignInMode ? '/auth/login' : '/auth/register';
+            
+            // --- FIX: Added '/api' prefix to match the backend routes ---
+            const endpoint = isSignInMode ? '/api/auth/login' : '/api/auth/register';
+            
             const payload = { email: authEmailInput.value, password: authPasswordInput.value };
             if (!isSignInMode) payload.username = authUsernameInput.value;
 
@@ -488,6 +483,10 @@
                     }
                 } else {
                     if (isProHTML) card.classList.add('locked');
+                    if(FREE_LEVEL_IDS.includes(levelId)){
+                         card.classList.remove('locked');
+                         card.href = `${levelId}.html`;
+                    }
                 }
             });
         }
@@ -507,10 +506,9 @@
             });
         });
 
-        // --- Payment Button Event Listeners ---
         payWithPayoneerBtn.addEventListener('click', async () => {
             try {
-                const { checkoutUrl } = await api.request('/payments/create-payoneer-session', {
+                const { checkoutUrl } = await api.request('/api/payments/create-payoneer-session', {
                     method: 'POST',
                     body: JSON.stringify({ levelId: levelToUnlock })
                 });
@@ -520,7 +518,7 @@
 
         payWithSolBtn.addEventListener('click', async () => {
             try {
-                const { paymentAddress, amount } = await api.request('/payments/create-sol-payment', {
+                const { paymentAddress, amount } = await api.request('/api/payments/create-sol-payment', {
                     method: 'POST',
                     body: JSON.stringify({ levelId: levelToUnlock })
                 });
@@ -531,7 +529,7 @@
 
         payWithAyaBtn.addEventListener('click', async () => {
             try {
-                const { referenceCode } = await api.request('/payments/create-manual-payment', {
+                const { referenceCode } = await api.request('/api/payments/create-manual-payment', {
                     method: 'POST',
                     body: JSON.stringify({ levelId: levelToUnlock })
                 });
@@ -557,7 +555,7 @@
 
             try {
                 const token = storage.getItem('authToken');
-                const response = await fetch(`${API_BASE_URL}/payments/submit-manual-proof`, {
+                const response = await fetch(`${API_BASE_URL}/api/payments/submit-manual-proof`, {
                     method: 'POST',
                     headers: { 'Authorization': `Bearer ${token}` },
                     body: formData,
@@ -575,7 +573,6 @@
             }
         });
 
-        // --- Initial Load ---
         updateUIForAuthState();
     });
     </script>
